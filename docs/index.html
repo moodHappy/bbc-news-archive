@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>我的 BBC 新闻库</title>
     <style>
-        :root { --bg: #f5f5f7; --text: #1d1d1f; --muted: #86868b; --primary: #0066cc; --border: #e5e5ea; --card: #ffffff; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; background: var(--bg); margin: 0; padding: 0; color: var(--text); text-align: left; }
+        :root { --bg: #f5f5f7; --text: #333; --muted: #888; --primary: #4a88f7; --border: #e0e0e0; --card: #fff; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; background: var(--bg); margin: 0; padding: 0; color: var(--text); }
         
         .container { max-width: 600px; margin: 0 auto; background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; }
         
         .controls { background: var(--card); padding: 15px 20px; display: flex; justify-content: center; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
-        .control-btn { background: #f0f7ff; color: var(--primary); border: 1px solid #dcebfa; border-radius: 6px; padding: 8px 14px; font-size: 14px; font-weight: 500; cursor: pointer; transition: 0.2s; }
-        .control-btn:active { background: #e1efff; }
-        .select-box { padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 15px; background: #fff; outline: none; font-weight: 500; color: var(--text); }
+        .control-btn { background: var(--primary); color: #fff; border: none; border-radius: 4px; padding: 8px 12px; font-size: 14px; cursor: pointer; }
+        .control-btn:active { opacity: 0.8; }
+        .select-box { padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 15px; background: #fff; outline: none; }
         
         .calendar-wrapper { background: var(--card); padding: 10px 15px 20px 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-        .weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: 600; font-size: 13px; color: var(--muted); margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+        .weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; font-size: 14px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
         .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
         
         .day-cell { aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 16px; font-weight: 500; border-radius: 8px; cursor: pointer; position: relative; transition: all 0.2s; }
@@ -24,23 +24,22 @@
         .day-cell.has-news { color: var(--text); }
         .day-cell.no-news { color: #ccc; }
         
-        .day-cell.selected { background: #f0f7ff; border: 1px solid var(--primary); color: var(--primary); font-weight: bold; }
-        .day-cell.today { background: #f9f9f9; color: var(--text); font-weight: 600; }
-        .day-cell.today::after { content: ''; position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; background-color: #ff3b30; border-radius: 50%; }
-        
+        .day-cell.selected { background: #fff0db; border: 1px solid #f5a623; color: #d0021b; font-weight: bold; }
+        .day-cell.today { background: #eef5ff; color: var(--primary); }
         .dot { width: 4px; height: 4px; background-color: var(--primary); border-radius: 50%; position: absolute; bottom: 8px; display: none; }
         .day-cell.has-news .dot { display: block; }
+        .day-cell.selected .dot { background-color: #d0021b; }
         
         .news-section { flex: 1; padding: 0 15px 30px 15px; }
-        .date-header { font-size: 18px; font-weight: bold; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; color: var(--text); }
+        .date-header { font-size: 18px; font-weight: bold; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .news-item { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.04); overflow: hidden; }
+        .news-item:active { transform: scale(0.98); }
+        .news-time { font-size: 16px; font-weight: 600; flex-shrink: 0; }
         
-        /* 真实新闻卡片 UI */
-        .news-item { background: var(--card); border-radius: 12px; padding: 18px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; text-decoration: none; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.04); border: 1px solid transparent; transition: all 0.2s; }
-        .news-item:active { transform: scale(0.98); background: #fafafa; border-color: #eee; }
-        .news-title { font-size: 16px; font-weight: 600; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .news-time { font-size: 13px; color: var(--muted); }
+        /* 真实新闻标题的单行省略样式 */
+        .news-title { font-size: 14px; color: var(--muted); margin-left: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right; flex: 1; }
         
-        .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 14px; }
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
     </style>
 </head>
 <body>
@@ -72,7 +71,7 @@
     </div>
 
     <script>
-        const archiveData = {"2026": {"6": {"26": [{"time": "00:00", "path": "2026/6/2026_6_26_0000.html", "title": "Supreme Court allows Trump to end protected status for Haitian and Syrian immigrants"}]}}};
+        const archiveData = {"2026": {"6": {"26": [{"time": "00:08", "path": "2026/6/2026_6_26_0008.html", "title": "Supreme Court allows Trump to end protected status for Haitian and Syrian immigrants"}]}}};
         
         const today = new Date();
         let currentYear = today.getFullYear();
@@ -102,6 +101,7 @@
 
         function renderCalendar(year, month) {
             daysGrid.innerHTML = '';
+            
             const firstDay = new Date(year, month - 1, 1).getDay();
             const startDay = firstDay === 0 ? 7 : firstDay;
             const daysInMonth = new Date(year, month, 0).getDate();
@@ -161,7 +161,7 @@
                     const a = document.createElement('a');
                     a.href = news.path;
                     a.className = 'news-item';
-                    a.innerHTML = `<div class="news-title">${news.title}</div><div class="news-time">${news.time} 抓取</div>`;
+                    a.innerHTML = `<span class="news-time">${day}日 ${news.time}</span><span class="news-title">${news.title} ➔</span>`;
                     newsList.appendChild(a);
                 });
             } else {
