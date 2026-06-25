@@ -5,127 +5,222 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>我的 BBC 新闻库</title>
     <style>
-        :root { --bg: #f5f5f7; --text: #1d1d1f; --muted: #86868b; --accent: #0066cc; --card: #ffffff; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; background: var(--bg); color: var(--text); margin: 0; padding: 0; text-align: left; }
+        :root { --bg: #f5f5f7; --text: #333; --muted: #888; --primary: #4a88f7; --border: #e0e0e0; --card: #fff; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; background: var(--bg); margin: 0; padding: 0; color: var(--text); }
         
-        /* 顶部导航区 */
-        .header { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); padding: 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 0 rgba(0,0,0,0.05); }
-        .header h1 { margin: 0; font-size: 1.5rem; font-weight: 700; }
+        .container { max-width: 600px; margin: 0 auto; background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; }
         
-        /* 年份横向滚动栏 (隐藏滚动条) */
-        .year-tabs { display: flex; overflow-x: auto; gap: 12px; margin-top: 15px; padding-bottom: 5px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-        .year-tabs::-webkit-scrollbar { display: none; }
-        .tab-btn { flex-shrink: 0; background: #e5e5ea; color: var(--text); border: none; padding: 8px 18px; border-radius: 20px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        .tab-btn.active { background: var(--text); color: #fff; }
+        /* 顶部控制区 */
+        .controls { background: var(--card); padding: 15px 20px; display: flex; justify-content: center; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .control-btn { background: var(--primary); color: #fff; border: none; border-radius: 4px; padding: 8px 12px; font-size: 14px; cursor: pointer; }
+        .control-btn:active { opacity: 0.8; }
+        .select-box { padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 15px; background: #fff; outline: none; }
         
-        .container { max-width: 600px; margin: 15px auto; padding: 0 15px; padding-bottom: 50px; }
+        /* 日历区 */
+        .calendar-wrapper { background: var(--card); padding: 10px 15px 20px 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        .weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; font-size: 14px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+        .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
         
-        /* 月份九宫格 */
-        .month-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 25px; }
-        .month-btn { background: var(--card); border: 1px solid #e5e5ea; color: var(--text); padding: 12px 0; border-radius: 12px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: 0.2s; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
-        .month-btn.active { background: #f0f7ff; border-color: var(--accent); color: var(--accent); font-weight: 600; }
+        .day-cell { aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 16px; font-weight: 500; border-radius: 8px; cursor: pointer; position: relative; transition: all 0.2s; }
+        .day-cell.empty { visibility: hidden; }
+        .day-cell.has-news { color: var(--text); }
+        .day-cell.no-news { color: #ccc; }
         
-        /* 新闻列表 */
-        .news-list { display: flex; flex-direction: column; gap: 10px; }
-        .news-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--card); border: 1px solid #e5e5ea; border-radius: 14px; text-decoration: none; transition: 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        /* 选中状态和指示灯 */
+        .day-cell.selected { background: #fff0db; border: 1px solid #f5a623; color: #d0021b; font-weight: bold; }
+        .day-cell.today { background: #eef5ff; color: var(--primary); }
+        .dot { width: 4px; height: 4px; background-color: var(--primary); border-radius: 50%; position: absolute; bottom: 8px; display: none; }
+        .day-cell.has-news .dot { display: block; }
+        .day-cell.selected .dot { background-color: #d0021b; }
+        
+        /* 新闻列表区 */
+        .news-section { flex: 1; padding: 0 15px 30px 15px; }
+        .date-header { font-size: 18px; font-weight: bold; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .news-item { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
         .news-item:active { transform: scale(0.98); }
-        .news-time { font-size: 1rem; font-weight: 600; color: var(--text); }
-        .news-title { font-size: 0.9rem; color: var(--muted); }
+        .news-time { font-size: 16px; font-weight: 600; }
+        .news-title { font-size: 14px; color: var(--muted); }
         
-        /* 列表为空时的提示 */
-        #empty-state { display: none; text-align: center; padding: 40px 20px; color: var(--muted); font-size: 1rem; }
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>📰 我的 BBC 新闻库</h1>
-        <div class="year-tabs">
-            <button class="tab-btn active" data-year="2026">2026 年</button>
-        </div>
-    </div>
-    
     <div class="container">
-        <div class="month-grid" id="grid-2026" style="display: grid;"><button class="month-btn active" data-target-year="2026" data-target-month="6">6月</button></div>
-        
-        <div class="news-list" id="news-container">
-            
-                    <a href="2026/6/2026_6_25_2337.html" class="news-item" data-item-year="2026" data-item-month="6" style="display: flex;">
-                        <span class="news-time">25日 23:37</span>
-                        <span class="news-title">BBC 突发新闻存档 ➔</span>
-                    </a>
-                
-                    <a href="2026/6/2026_6_25_2314.html" class="news-item" data-item-year="2026" data-item-month="6" style="display: flex;">
-                        <span class="news-time">25日 23:14</span>
-                        <span class="news-title">BBC 突发新闻存档 ➔</span>
-                    </a>
-                
-                    <a href="2026/6/2026_6_25_1441.html" class="news-item" data-item-year="2026" data-item-month="6" style="display: flex;">
-                        <span class="news-time">25日 14:41</span>
-                        <span class="news-title">BBC 突发新闻存档 ➔</span>
-                    </a>
-                
-            <div id="empty-state">该月份暂无新闻存档</div>
+        <div class="controls">
+            <button class="control-btn" id="prevBtn">&lt;</button>
+            <select class="select-box" id="yearSelect"></select>
+            <select class="select-box" id="monthSelect">
+                <option value="1">01月</option><option value="2">02月</option><option value="3">03月</option>
+                <option value="4">04月</option><option value="5">05月</option><option value="6">06月</option>
+                <option value="7">07月</option><option value="8">08月</option><option value="9">09月</option>
+                <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+            </select>
+            <button class="control-btn" id="nextBtn">&gt;</button>
+            <button class="control-btn" id="todayBtn">回到今天</button>
+        </div>
+
+        <div class="calendar-wrapper">
+            <div class="weekdays">
+                <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+            </div>
+            <div class="days-grid" id="daysGrid"></div>
+        </div>
+
+        <div class="news-section">
+            <div class="date-header" id="selectedDateDisplay">选中日期</div>
+            <div id="newsList"></div>
         </div>
     </div>
 
     <script>
-        const yearBtns = document.querySelectorAll('.tab-btn');
-        const monthGrids = document.querySelectorAll('.month-grid');
-        const monthBtns = document.querySelectorAll('.month-btn');
-        const newsItems = document.querySelectorAll('.news-item');
-        const emptyState = document.getElementById('empty-state');
+        const archiveData = {"2026": {"6": {"25": [{"time": "23:49", "path": "2026/6/2026_6_25_2349.html"}, {"time": "23:37", "path": "2026/6/2026_6_25_2337.html"}, {"time": "23:14", "path": "2026/6/2026_6_25_2314.html"}, {"time": "14:41", "path": "2026/6/2026_6_25_1441.html"}]}}};
+        
+        // 获取当前真实时间作为基准
+        const today = new Date();
+        let currentYear = today.getFullYear();
+        let currentMonth = today.getMonth() + 1;
+        let selectedDay = today.getDate();
+        let selectedYear = currentYear;
+        let selectedMonth = currentMonth;
 
-        // 切换年份逻辑
-        yearBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                yearBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                const targetYear = btn.getAttribute('data-year');
-                
-                // 显示对应的月份面板
-                monthGrids.forEach(grid => grid.style.display = 'none');
-                const targetGrid = document.getElementById('grid-' + targetYear);
-                targetGrid.style.display = 'grid';
-                
-                // 自动选中该年份下的第一个可用月份
-                const firstMonthBtn = targetGrid.querySelector('.month-btn');
-                if (firstMonthBtn) {
-                    firstMonthBtn.click();
-                } else {
-                    filterNews(targetYear, 'none'); // 清空列表
-                }
-            });
-        });
+        const yearSelect = document.getElementById('yearSelect');
+        const monthSelect = document.getElementById('monthSelect');
+        const daysGrid = document.getElementById('daysGrid');
+        const newsList = document.getElementById('newsList');
+        const selectedDateDisplay = document.getElementById('selectedDateDisplay');
 
-        // 切换月份逻辑
-        monthBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // 移除当前面板下所有月份的激活状态
-                const parentGrid = btn.closest('.month-grid');
-                parentGrid.querySelectorAll('.month-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                const targetYear = btn.getAttribute('data-target-year');
-                const targetMonth = btn.getAttribute('data-target-month');
-                filterNews(targetYear, targetMonth);
-            });
-        });
-
-        // 过滤新闻列表
-        function filterNews(year, month) {
-            let hasVisible = false;
-            newsItems.forEach(item => {
-                if (item.getAttribute('data-item-year') === year && item.getAttribute('data-item-month') === month) {
-                    item.style.display = 'flex';
-                    hasVisible = true;
-                } else {
-                    item.style.display = 'none';
-                }
-            });
+        // 初始化年份下拉框 (从数据中提取有的年份，或者填入当前年)
+        function initSelects() {
+            const years = Object.keys(archiveData).map(Number).sort((a, b) => b - a);
+            if (!years.includes(currentYear)) years.unshift(currentYear);
             
-            emptyState.style.display = hasVisible ? 'none' : 'block';
+            years.forEach(y => {
+                const opt = document.createElement('option');
+                opt.value = y; opt.textContent = y + ' 年';
+                yearSelect.appendChild(opt);
+            });
+            yearSelect.value = currentYear;
+            monthSelect.value = currentMonth;
         }
+
+        // 渲染日历网格
+        function renderCalendar(year, month) {
+            daysGrid.innerHTML = '';
+            
+            // 计算该月第一天是星期几 (0是周日，转为1-7)
+            const firstDay = new Date(year, month - 1, 1).getDay();
+            const startDay = firstDay === 0 ? 7 : firstDay;
+            
+            // 计算该月有几天
+            const daysInMonth = new Date(year, month, 0).getDate();
+            
+            // 填充前面的空白
+            for (let i = 1; i < startDay; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'day-cell empty';
+                daysGrid.appendChild(emptyCell);
+            }
+            
+            // 填充日期
+            const monthData = (archiveData[year] && archiveData[year][month]) ? archiveData[year][month] : {};
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'day-cell';
+                cell.textContent = day;
+                
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                cell.appendChild(dot);
+                
+                // 判断状态
+                if (monthData[day]) {
+                    cell.classList.add('has-news');
+                } else {
+                    cell.classList.add('no-news');
+                }
+                
+                if (year === today.getFullYear() && month === today.getMonth() + 1 && day === today.getDate()) {
+                    cell.classList.add('today');
+                }
+                
+                if (year === selectedYear && month === selectedMonth && day === selectedDay) {
+                    cell.classList.add('selected');
+                }
+                
+                // 点击事件
+                cell.addEventListener('click', () => {
+                    selectedYear = year;
+                    selectedMonth = month;
+                    selectedDay = day;
+                    renderCalendar(year, month); // 重新渲染刷新选中样式
+                    renderNews(year, month, day);
+                });
+                
+                daysGrid.appendChild(cell);
+            }
+        }
+
+        // 渲染新闻列表
+        function renderNews(year, month, day) {
+            selectedDateDisplay.textContent = `${year}年 ${month}月 ${day}日`;
+            newsList.innerHTML = '';
+            
+            const monthData = (archiveData[year] && archiveData[year][month]) ? archiveData[year][month] : null;
+            const dayData = monthData ? monthData[day] : null;
+            
+            if (dayData && dayData.length > 0) {
+                dayData.forEach(news => {
+                    const a = document.createElement('a');
+                    a.href = news.path;
+                    a.className = 'news-item';
+                    a.innerHTML = `<span class="news-time">${day}日 ${news.time}</span><span class="news-title">BBC 突发新闻存档 ➔</span>`;
+                    newsList.appendChild(a);
+                });
+            } else {
+                newsList.innerHTML = '<div class="empty-state">当日暂无新闻归档</div>';
+            }
+        }
+
+        // 事件监听
+        yearSelect.addEventListener('change', (e) => {
+            renderCalendar(parseInt(e.target.value), parseInt(monthSelect.value));
+        });
+        
+        monthSelect.addEventListener('change', (e) => {
+            renderCalendar(parseInt(yearSelect.value), parseInt(e.target.value));
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            let m = parseInt(monthSelect.value) - 1;
+            let y = parseInt(yearSelect.value);
+            if (m < 1) { m = 12; y--; yearSelect.value = y; }
+            monthSelect.value = m;
+            renderCalendar(y, m);
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            let m = parseInt(monthSelect.value) + 1;
+            let y = parseInt(yearSelect.value);
+            if (m > 12) { m = 1; y++; yearSelect.value = y; }
+            monthSelect.value = m;
+            renderCalendar(y, m);
+        });
+
+        document.getElementById('todayBtn').addEventListener('click', () => {
+            selectedYear = today.getFullYear();
+            selectedMonth = today.getMonth() + 1;
+            selectedDay = today.getDate();
+            yearSelect.value = selectedYear;
+            monthSelect.value = selectedMonth;
+            renderCalendar(selectedYear, selectedMonth);
+            renderNews(selectedYear, selectedMonth, selectedDay);
+        });
+
+        // 初始启动
+        initSelects();
+        renderCalendar(currentYear, currentMonth);
+        renderNews(currentYear, currentMonth, selectedDay);
     </script>
 </body>
 </html>
