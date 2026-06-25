@@ -31,6 +31,6 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add docs/ last_bbc_url.txt
+          git add .
           # 如果有新文件生成，就提交并推送到仓库
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto add new article" && git push)
