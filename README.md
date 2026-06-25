@@ -14,5 +14,5 @@
 ​交互逻辑：原生 JavaScript + CSS Flexbox
 ​访问方式
 ​您可以直接访问您的专属阅读链接：
-👉 https://moodHappy.github.io/bbc-news-archive/
+👉 https://moodhappy.github.io/bbc-news-archive/docs/index.html
 ​本项目由 Termux 终端与 GitHub 云端流水线驱动，实现 0 维护成本的全自动新闻库。
