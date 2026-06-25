@@ -79,7 +79,6 @@ def save_article(title, paragraphs, pub_date, article_url, now_obj):
     
     p_tags = "\n".join([f"<p>{p}</p>" for p in paragraphs])
     
-    # 强制不换行的 CSS (flex-wrap: nowrap; flex-shrink: 0)
     html_content = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -137,11 +136,10 @@ def generate_index():
                             time_str = f"{parts[3][:2]}:{parts[3][2:]}"
                             file_path = f"{year}/{month}/{file}"
                             
-                            # 提取文章真实标题
                             page_title = "BBC 新闻"
                             try:
                                 with open(os.path.join(BASE_DIR, year, month, file), 'r', encoding='utf-8') as f_html:
-                                    content = f_html.read(2000) # 只读头部提高速度
+                                    content = f_html.read(2000)
                                     start = content.find('<title>')
                                     end = content.find('</title>')
                                     if start != -1 and end != -1:
@@ -195,12 +193,10 @@ def generate_index():
         .day-cell.selected .dot { background-color: #d0021b; }
         
         .news-section { flex: 1; padding: 0 15px 30px 15px; }
-        .date-header { font-size: 18px; font-weight: bold; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
         .news-item { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.04); overflow: hidden; }
         .news-item:active { transform: scale(0.98); }
         .news-time { font-size: 16px; font-weight: 600; flex-shrink: 0; }
         
-        /* 真实新闻标题的单行省略样式 */
         .news-title { font-size: 14px; color: var(--muted); margin-left: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right; flex: 1; }
         
         .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
@@ -229,7 +225,6 @@ def generate_index():
         </div>
 
         <div class="news-section">
-            <div class="date-header" id="selectedDateDisplay">选中日期</div>
             <div id="newsList"></div>
         </div>
     </div>
@@ -248,7 +243,6 @@ def generate_index():
         const monthSelect = document.getElementById('monthSelect');
         const daysGrid = document.getElementById('daysGrid');
         const newsList = document.getElementById('newsList');
-        const selectedDateDisplay = document.getElementById('selectedDateDisplay');
 
         function initSelects() {
             const years = Object.keys(archiveData).map(Number).sort((a, b) => b - a);
@@ -314,7 +308,6 @@ def generate_index():
         }
 
         function renderNews(year, month, day) {
-            selectedDateDisplay.textContent = `${year}年 ${month}月 ${day}日`;
             newsList.innerHTML = '';
             
             const monthData = (archiveData[year] && archiveData[year][month]) ? archiveData[year][month] : null;
@@ -325,7 +318,7 @@ def generate_index():
                     const a = document.createElement('a');
                     a.href = news.path;
                     a.className = 'news-item';
-                    a.innerHTML = `<span class="news-time">${day}日 ${news.time}</span><span class="news-title">${news.title} ➔</span>`;
+                    a.innerHTML = `<span class="news-time">${news.time}</span><span class="news-title">${news.title} ➔</span>`;
                     newsList.appendChild(a);
                 });
             } else {
@@ -378,7 +371,7 @@ def generate_index():
     
     with open(os.path.join(BASE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(final_html)
-    print("首页 index.html 已更新为动态日历模式。")
+    print("首页 index.html 已更新为无多余日期的终极模式。")
 
 if __name__ == "__main__":
     os.makedirs(BASE_DIR, exist_ok=True)
