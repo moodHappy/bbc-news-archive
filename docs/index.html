@@ -5,16 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的 BBC 新闻库</title>
     <style>
-        body { font-family: -apple-system, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; line-height: 1.6; }
-        h1 { border-bottom: 2px solid #333; padding-bottom: 10px; }
-        a { color: #0066cc; text-decoration: none; }
-        ul { list-style-type: none; padding: 0; }
-        li { margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px dashed #eee; }
+        :root { --bg: #f5f5f7; --text: #1d1d1f; --muted: #86868b; --accent: #0066cc; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; background: var(--bg); color: var(--text); margin: 0; padding: 0; text-align: left; }
+        .header { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 25px 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 0 rgba(0,0,0,0.05); }
+        .header h1 { margin: 0; font-size: 1.6rem; font-weight: 700; }
+        .header p { margin: 5px 0 0 0; color: var(--muted); font-size: 0.9rem; }
+        .container { max-width: 600px; margin: 20px auto; padding: 0 15px; padding-bottom: 50px; }
+        
+        /* 折叠卡片 UI */
+        .year-card { background: #ffffff; border-radius: 14px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.03); overflow: hidden; }
+        .accordion-header { padding: 18px 20px; font-size: 1.15rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; transition: background 0.2s; }
+        .year-header { background: #fafafa; border-bottom: 1px solid #f0f0f0; }
+        .accordion-header:hover { background: #f0f0f5; }
+        .chevron { font-size: 0.8rem; color: var(--muted); transition: transform 0.3s ease; }
+        .chevron.rotate { transform: rotate(90deg); }
+        .accordion-content { padding: 15px; }
+        
+        .month-card { border-left: 3px solid var(--accent); margin-bottom: 12px; background: #fdfdfd; border-radius: 0 8px 8px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        .month-header { padding: 14px 16px; font-size: 1.05rem; font-weight: 500; border-bottom: none; }
+        
+        /* 新闻列表条目 */
+        .news-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; margin-bottom: 8px; background: #ffffff; border: 1px solid #e5e5ea; border-radius: 10px; text-decoration: none; transition: all 0.2s ease; }
+        .news-item:hover { border-color: var(--accent); box-shadow: 0 2px 10px rgba(0,102,204,0.1); transform: translateY(-1px); }
+        .news-item:last-child { margin-bottom: 0; }
+        .news-time { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+        .news-title { font-size: 0.85rem; color: var(--accent); }
     </style>
 </head>
 <body>
-    <h1>📰 我的 BBC 新闻库</h1>
-    <p>全自动定时抓取归档</p>
-    <h2>2026年 6月</h2><ul><li><a href='2026/6/2026_6_25_1441.html'>2026_6_25_1441</a></li></ul>
+    <div class="header">
+        <h1>📰 我的 BBC 新闻库</h1>
+        <p>全自动定时抓取归档</p>
+    </div>
+    
+    <div class="container">
+        <div class="year-card"><div class="accordion-header year-header"><span>📚 2026 年</span><span class="chevron rotate">▶</span></div><div class="accordion-content year-content active" style="display: block;">
+                <div class="month-card">
+                    <div class="accordion-header month-header">
+                        <span>📅 6 月</span>
+                        <span class="chevron rotate">▶</span>
+                    </div>
+                    <div class="accordion-content month-content active" style="display: block;">
+            
+                        <a href="2026/6/2026_6_25_2314.html" class="news-item">
+                            <span class="news-time">25日 23:14</span>
+                            <span class="news-title">BBC 突发新闻存档 ➔</span>
+                        </a>
+                
+                        <a href="2026/6/2026_6_25_1441.html" class="news-item">
+                            <span class="news-time">25日 14:41</span>
+                            <span class="news-title">BBC 突发新闻存档 ➔</span>
+                        </a>
+                </div></div></div></div>
+    </div>
+
+    <script>
+        // 处理折叠与展开的交互逻辑
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const chevron = header.querySelector('.chevron');
+                
+                if (content.classList.contains('active')) {
+                    content.style.display = 'none';
+                    content.classList.remove('active');
+                    chevron.classList.remove('rotate');
+                } else {
+                    content.style.display = 'block';
+                    content.classList.add('active');
+                    chevron.classList.add('rotate');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
