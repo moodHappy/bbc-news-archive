@@ -37,7 +37,7 @@ def fetch_bbc_news():
                 last_url = f.read().strip()
                 
         if article_url == last_url:
-            print("头条未更新，停止抓取。")
+            print("头条未更新，本次不生成新文章。")
             return
             
         print(f"发现新突发头条: {article_url}")
@@ -59,6 +59,7 @@ def fetch_bbc_news():
         
         for p in paragraphs:
             text = p.text.strip()
+            # 过滤短文本和版权声明
             if len(text.split()) <= 8: continue
             if "Copyright" in text and "BBC" in text: continue
             if "The BBC is not responsible" in text: continue
@@ -67,7 +68,6 @@ def fetch_bbc_news():
         
         if content_paragraphs:
             save_article(title, content_paragraphs, current_time, article_url, now)
-            generate_index()
             
     except Exception as e:
         print(f"抓取错误: {e}")
@@ -83,7 +83,7 @@ def save_article(title, paragraphs, pub_date, article_url, now_obj):
     
     p_tags = "\n".join([f"<p>{p}</p>" for p in paragraphs])
     
-    # 现代化文章阅读排版
+    # 现代化文章阅读排版，左对齐，Apple 原生字体栈
     html_content = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -240,8 +240,10 @@ def generate_index():
     
     with open(os.path.join(BASE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(index_content)
-    print("首页 index.html 已更新。")
+    print("首页 index.html 已强制更新！")
 
 if __name__ == "__main__":
     os.makedirs(BASE_DIR, exist_ok=True)
     fetch_bbc_news()
+    # 【核心修复】：无论上一步有没有抓取到新文章，强制无条件重新生成一次精美排版的主页！
+    generate_index()
