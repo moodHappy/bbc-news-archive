@@ -79,6 +79,7 @@ def save_article(title, paragraphs, pub_date, article_url, now_obj):
     
     p_tags = "\n".join([f"<p>{p}</p>" for p in paragraphs])
     
+    # 彻底修复换行问题，采用 nowrap 和 flex-shrink: 0 锁死单行排版
     html_content = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -88,11 +89,16 @@ def save_article(title, paragraphs, pub_date, article_url, now_obj):
     <style>
         :root {{ --bg: #f5f5f7; --card: #ffffff; --text: #1d1d1f; --muted: #86868b; --accent: #0066cc; }}
         body {{ font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; text-align: left; font-size: 1.25rem; line-height: 1.7; color: var(--text); background: var(--bg); margin: 0; padding: 0; }}
-        .container {{ max-width: 800px; margin: 0 auto; background: var(--card); padding: 40px 25px; min-height: 100vh; box-shadow: 0 4px 24px rgba(0,0,0,0.04); box-sizing: border-box; }}
+        .container {{ max-width: 800px; margin: 0 auto; background: var(--card); padding: 30px 20px; min-height: 100vh; box-shadow: 0 4px 24px rgba(0,0,0,0.04); box-sizing: border-box; overflow-x: hidden; }}
         h1 {{ font-size: 1.8rem; margin-top: 0; padding-bottom: 15px; border-bottom: 1px solid #e5e5ea; line-height: 1.3; }}
-        .meta {{ font-size: 0.95rem; color: var(--muted); margin-bottom: 30px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }}
-        .meta a {{ color: var(--accent); text-decoration: none; background: #f0f7ff; padding: 6px 12px; border-radius: 8px; font-weight: 500; transition: background 0.2s; }}
+        
+        /* 强迫症专属：单行锁定排版 */
+        .meta {{ font-size: 0.85rem; color: var(--muted); margin-bottom: 25px; display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; white-space: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 5px; }}
+        .meta::-webkit-scrollbar {{ display: none; }}
+        .meta span {{ flex-shrink: 0; }}
+        .meta a {{ color: var(--accent); text-decoration: none; background: #f0f7ff; padding: 6px 10px; border-radius: 6px; font-weight: 500; flex-shrink: 0; transition: background 0.2s; }}
         .meta a:hover {{ background: #e1efff; }}
+        
         p {{ margin-bottom: 22px; }}
     </style>
 </head>
@@ -118,7 +124,7 @@ def save_article(title, paragraphs, pub_date, article_url, now_obj):
 def generate_index():
     archive_data = {}
     
-    # 扫描目录，构建 JSON 数据结构: { year: { month: { day: [ {time, path} ] } } }
+    # 扫描目录，并在扫描时自动提取 HTML 里的真实标题
     if os.path.exists(BASE_DIR):
         years = [d for d in os.listdir(BASE_DIR) if d.isdigit()]
         for year in years:
@@ -129,27 +135,36 @@ def generate_index():
                 files = sorted([f for f in os.listdir(os.path.join(BASE_DIR, year, month)) if f.endswith('.html')], reverse=True)
                 for file in files:
                     try:
-                        # 文件名格式: YYYY_M_D_HHMM.html
+                        file_path = f"{year}/{month}/{file}"
                         parts = file.replace(".html", "").split('_')
                         if len(parts) == 4:
                             day = parts[2]
                             time_str = f"{parts[3][:2]}:{parts[3][2:]}"
-                            file_path = f"{year}/{month}/{file}"
+                            
+                            # 提取文件的真实标题
+                            article_title = "BBC 突发新闻"
+                            try:
+                                with open(os.path.join(BASE_DIR, year, month, file), 'r', encoding='utf-8') as html_f:
+                                    soup = BeautifulSoup(html_f.read(), 'html.parser')
+                                    t_tag = soup.find('title')
+                                    if t_tag:
+                                        article_title = t_tag.text.strip()
+                            except:
+                                pass
                             
                             if day not in archive_data[year][month]:
                                 archive_data[year][month][day] = []
                                 
                             archive_data[year][month][day].append({
                                 "time": time_str,
-                                "path": file_path
+                                "path": file_path,
+                                "title": article_title
                             })
                     except Exception:
                         pass
 
-    # 将 Python 字典转为 JSON 字符串注入到前端
-    json_data = json.dumps(archive_data)
+    json_data = json.dumps(archive_data, ensure_ascii=False)
 
-    # 前端 HTML 模板 (使用占位符避免转义花括号的麻烦)
     html_template = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -157,20 +172,18 @@ def generate_index():
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>我的 BBC 新闻库</title>
     <style>
-        :root { --bg: #f5f5f7; --text: #333; --muted: #888; --primary: #4a88f7; --border: #e0e0e0; --card: #fff; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; background: var(--bg); margin: 0; padding: 0; color: var(--text); }
+        :root { --bg: #f5f5f7; --text: #1d1d1f; --muted: #86868b; --primary: #0066cc; --border: #e5e5ea; --card: #ffffff; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; background: var(--bg); margin: 0; padding: 0; color: var(--text); text-align: left; }
         
         .container { max-width: 600px; margin: 0 auto; background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; }
         
-        /* 顶部控制区 */
         .controls { background: var(--card); padding: 15px 20px; display: flex; justify-content: center; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
-        .control-btn { background: var(--primary); color: #fff; border: none; border-radius: 4px; padding: 8px 12px; font-size: 14px; cursor: pointer; }
-        .control-btn:active { opacity: 0.8; }
-        .select-box { padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 15px; background: #fff; outline: none; }
+        .control-btn { background: #f0f7ff; color: var(--primary); border: 1px solid #dcebfa; border-radius: 6px; padding: 8px 14px; font-size: 14px; font-weight: 500; cursor: pointer; transition: 0.2s; }
+        .control-btn:active { background: #e1efff; }
+        .select-box { padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 15px; background: #fff; outline: none; font-weight: 500; color: var(--text); }
         
-        /* 日历区 */
         .calendar-wrapper { background: var(--card); padding: 10px 15px 20px 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-        .weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; font-size: 14px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+        .weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: 600; font-size: 13px; color: var(--muted); margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
         .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
         
         .day-cell { aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 16px; font-weight: 500; border-radius: 8px; cursor: pointer; position: relative; transition: all 0.2s; }
@@ -178,22 +191,23 @@ def generate_index():
         .day-cell.has-news { color: var(--text); }
         .day-cell.no-news { color: #ccc; }
         
-        /* 选中状态和指示灯 */
-        .day-cell.selected { background: #fff0db; border: 1px solid #f5a623; color: #d0021b; font-weight: bold; }
-        .day-cell.today { background: #eef5ff; color: var(--primary); }
+        .day-cell.selected { background: #f0f7ff; border: 1px solid var(--primary); color: var(--primary); font-weight: bold; }
+        .day-cell.today { background: #f9f9f9; color: var(--text); font-weight: 600; }
+        .day-cell.today::after { content: ''; position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; background-color: #ff3b30; border-radius: 50%; }
+        
         .dot { width: 4px; height: 4px; background-color: var(--primary); border-radius: 50%; position: absolute; bottom: 8px; display: none; }
         .day-cell.has-news .dot { display: block; }
-        .day-cell.selected .dot { background-color: #d0021b; }
         
-        /* 新闻列表区 */
         .news-section { flex: 1; padding: 0 15px 30px 15px; }
-        .date-header { font-size: 18px; font-weight: bold; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-        .news-item { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
-        .news-item:active { transform: scale(0.98); }
-        .news-time { font-size: 16px; font-weight: 600; }
-        .news-title { font-size: 14px; color: var(--muted); }
+        .date-header { font-size: 18px; font-weight: bold; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; color: var(--text); }
         
-        .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
+        /* 真实新闻卡片 UI */
+        .news-item { background: var(--card); border-radius: 12px; padding: 18px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; text-decoration: none; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.04); border: 1px solid transparent; transition: all 0.2s; }
+        .news-item:active { transform: scale(0.98); background: #fafafa; border-color: #eee; }
+        .news-title { font-size: 16px; font-weight: 600; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .news-time { font-size: 13px; color: var(--muted); }
+        
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 14px; }
     </style>
 </head>
 <body>
@@ -227,7 +241,6 @@ def generate_index():
     <script>
         const archiveData = DATA_PLACEHOLDER;
         
-        // 获取当前真实时间作为基准
         const today = new Date();
         let currentYear = today.getFullYear();
         let currentMonth = today.getMonth() + 1;
@@ -241,7 +254,6 @@ def generate_index():
         const newsList = document.getElementById('newsList');
         const selectedDateDisplay = document.getElementById('selectedDateDisplay');
 
-        // 初始化年份下拉框 (从数据中提取有的年份，或者填入当前年)
         function initSelects() {
             const years = Object.keys(archiveData).map(Number).sort((a, b) => b - a);
             if (!years.includes(currentYear)) years.unshift(currentYear);
@@ -255,25 +267,18 @@ def generate_index():
             monthSelect.value = currentMonth;
         }
 
-        // 渲染日历网格
         function renderCalendar(year, month) {
             daysGrid.innerHTML = '';
-            
-            // 计算该月第一天是星期几 (0是周日，转为1-7)
             const firstDay = new Date(year, month - 1, 1).getDay();
             const startDay = firstDay === 0 ? 7 : firstDay;
-            
-            // 计算该月有几天
             const daysInMonth = new Date(year, month, 0).getDate();
             
-            // 填充前面的空白
             for (let i = 1; i < startDay; i++) {
                 const emptyCell = document.createElement('div');
                 emptyCell.className = 'day-cell empty';
                 daysGrid.appendChild(emptyCell);
             }
             
-            // 填充日期
             const monthData = (archiveData[year] && archiveData[year][month]) ? archiveData[year][month] : {};
             
             for (let day = 1; day <= daysInMonth; day++) {
@@ -285,7 +290,6 @@ def generate_index():
                 dot.className = 'dot';
                 cell.appendChild(dot);
                 
-                // 判断状态
                 if (monthData[day]) {
                     cell.classList.add('has-news');
                 } else {
@@ -300,12 +304,11 @@ def generate_index():
                     cell.classList.add('selected');
                 }
                 
-                // 点击事件
                 cell.addEventListener('click', () => {
                     selectedYear = year;
                     selectedMonth = month;
                     selectedDay = day;
-                    renderCalendar(year, month); // 重新渲染刷新选中样式
+                    renderCalendar(year, month);
                     renderNews(year, month, day);
                 });
                 
@@ -313,7 +316,6 @@ def generate_index():
             }
         }
 
-        // 渲染新闻列表
         function renderNews(year, month, day) {
             selectedDateDisplay.textContent = `${year}年 ${month}月 ${day}日`;
             newsList.innerHTML = '';
@@ -326,7 +328,7 @@ def generate_index():
                     const a = document.createElement('a');
                     a.href = news.path;
                     a.className = 'news-item';
-                    a.innerHTML = `<span class="news-time">${day}日 ${news.time}</span><span class="news-title">BBC 突发新闻存档 ➔</span>`;
+                    a.innerHTML = `<div class="news-title">${news.title}</div><div class="news-time">${news.time} 抓取</div>`;
                     newsList.appendChild(a);
                 });
             } else {
@@ -334,7 +336,6 @@ def generate_index():
             }
         }
 
-        // 事件监听
         yearSelect.addEventListener('change', (e) => {
             renderCalendar(parseInt(e.target.value), parseInt(monthSelect.value));
         });
@@ -369,7 +370,6 @@ def generate_index():
             renderNews(selectedYear, selectedMonth, selectedDay);
         });
 
-        // 初始启动
         initSelects();
         renderCalendar(currentYear, currentMonth);
         renderNews(currentYear, currentMonth, selectedDay);
@@ -377,12 +377,11 @@ def generate_index():
 </body>
 </html>"""
 
-    # 替换占位符生成最终 HTML
     final_html = html_template.replace("DATA_PLACEHOLDER", json_data)
     
     with open(os.path.join(BASE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(final_html)
-    print("首页 index.html 已更新为动态日历模式。")
+    print("首页 index.html 已更新，真实标题提取完毕。")
 
 if __name__ == "__main__":
     os.makedirs(BASE_DIR, exist_ok=True)
