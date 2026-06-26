@@ -1,30 +1,51 @@
-# 📰 BBC News Archive (bbc-news-archive)
+# BBC News Archive
 
-这是一个自动化抓取、清理并归档 BBC News 突发新闻（头条）的项目。项目通过 Python 脚本定期检查 BBC 首页，提取最新的新闻内容，去除无关的版权声明和干扰段落，最终生成排版优雅、适合阅读的本地 HTML 文件。
+自动抓取 BBC News 头条文章并生成纯静态 WebApp 的自动化工具。该项目通过 GitHub Actions 实现定时任务，提供一个无广告、防干扰的纯净英语阅读环境。
 
 ## ✨ 核心特性
 
-* **🤖 自动化运行**：结合 GitHub Actions，每小时自动检测并抓取一次最新的 BBC 头条新闻。
-* **🧹 智能内容清洗**：自动过滤字数过少的干扰段落以及 BBC 默认的版权声明信息，只保留纯净的新闻正文。
-* **📖 优雅的阅读体验**：生成的 HTML 文件内置了精心调整的 CSS 样式（大字体、舒适的行高），非常适合移动端或沉浸式阅读。
-* **🗂️ 结构化归档**：按 `年份/月份` 自动建立多级目录结构管理新闻网页（例如 `2026/6/2026_6_25_1430.html`）。
-* **📱 移动端推送支持**：内置 Termux 环境兼容代码，支持在 Android 手机上抓取并触发本地系统通知。
+* **🤖 全自动运行**：利用 GitHub Actions，每小时自动检测并抓取 BBC News 首页的最新突发头条。
+* **📱 响应式 WebApp**：自动生成移动端友好的 HTML 页面（位于 `docs/index.html`），包含底部导航栏，支持滑动切换视图。
+* **📅 日历归档系统**：按年、月、日直观地管理和回溯所有抓取到的历史新闻。
+* **☁️ 实时词云趋势**：通过抓取首页标题，自动过滤虚词并统计词频，生成当天的热词云，快速掌握国际新闻焦点。
+* **📖 纯净阅读体验**：去除页面多余元素与免责声明，自动排版为大字体、宽行距的静态页面，非常适合日常的沉浸式英文阅读和语感培养。
+* **⚡ GitHub Pages 完美兼容**：所有静态文件均输出至 `docs` 目录，可直接零成本开启 GitHub Pages 部署。
 
-## ⚙️ 工作原理
+## 📂 目录结构
 
-1.  **触发阶段**：GitHub Actions 根据 `cron: '0 * * * *'` 每小时触发一次工作流，或由用户手动触发。
-2.  **抓取阶段**：Python 脚本 (`bbc_reader.py`) 请求 BBC 首页，解析出第一篇新闻链接，并与本地记录 (`last_bbc_url.txt`) 比对，避免重复抓取。
-3.  **处理阶段**：提取新闻标题和正文段落，剔除不需要的内容，并将时间戳固定为抓取时的绝对时间。
-4.  **归档阶段**：生成 HTML 文件并保存。工作流会自动使用 Git 将新生成的文件 Commit 并 Push 回本仓库。
+```text
+bbc-news-archive/
+├── .github/
+│   └── workflows/
+│       └── auto-scrape.yml    # GitHub Actions 定时任务配置
+├── docs/                      # WebApp 及文章静态文件目录（供 GitHub Pages 使用）
+│   ├── index.html             # WebApp 首页（日历 + 词云界面）
+│   └── YYYY/                  # 按年份、月份归档的具体新闻 HTML 页面
+├── bbc_reader.py              # 核心 Python 爬虫与静态页面生成脚本
+└── last_bbc_url.txt           # 记录上一篇抓取的文章 URL，防止重复生成
 
-## 🚀 如何使用 (GitHub Actions)
-
-1.  **Fork 本仓库** 到你的个人 GitHub 账号下。
-2.  进入仓库的 **Actions** 标签页，允许并启用 GitHub Actions 工作流。
-3.  系统将自动开始每小时执行一次抓取任务。你也可以点击 `Run workflow` 手动触发测试。
-
+```
+## 🚀 快速开始
+如果你想在自己的 GitHub 账号下运行这套系统：
+ 1. **Fork 本仓库**
+   点击页面右上角的 Fork 按钮，将项目复制到你的账号下。
+ 2. **开启 GitHub Actions 权限**
+   * 进入你 Fork 后的仓库，点击 Settings -> Actions -> General。
+   * 在 Workflow permissions 部分，选择 **Read and write permissions** 并保存（这允许机器人将抓取到的 HTML 文件自动 Commit 并推送到仓库）。
+   * 点击顶部的 Actions 标签页，同意并启用 Workflows。
+ 3. **手动触发一次运行 (可选)**
+   * 在 Actions 标签页左侧选择 Auto Scrape BBC News。
+   * 点击右侧的 Run workflow 按钮，验证脚本是否能成功抓取并生成文件。
+ 4. **开启 GitHub Pages 部署**
+   * 进入 Settings -> Pages。
+   * Source 选择 Deploy from a branch。
+   * Branch 选择 main，文件夹选择 /docs，然后点击 Save。
+   * 几分钟后，你就可以通过专属链接（如 https://<你的用户名>.github.io/bbc-news-archive/）访问你的个人新闻库了。
 ## 🛠️ 技术栈
-
-* **语言**: Python 3.10
-* **核心库**: `requests` (网络请求), `beautifulsoup4` (HTML 解析)
-* **自动化**: GitHub Actions
+ * **Python 3.10**: 核心脚本语言。
+ * **Requests & BeautifulSoup4**: 负责网络请求与 HTML DOM 树解析。
+ * **Vanilla HTML/CSS/JS**: 构建高性能、无依赖的纯静态 WebApp。
+ * **GitHub Actions**: 提供稳定的云端定时运行环境。
+## 📝 许可证
+本项目仅供学习与个人阅读使用，新闻内容的版权归 BBC 所有。
+```
