@@ -1,18 +1,30 @@
-# bbc-news-archive
+# 📰 BBC News Archive (bbc-news-archive)
 
-​📰 BBC 自动归档与阅读系统
-​基于 GitHub Actions 和 Python 的全自动 BBC 新闻抓取、归档与阅读平台。
-​核心功能
-​全自动抓取：每小时自动检测 BBC 头条新闻，无感更新。
-​智能归档：按年份/月份自动存储为纯净版 HTML，永久保存。
-​现代日历视图：提供移动端友好的日历筛选界面，点击日期即可快速跳转阅读。
-​沉浸式体验：去除无关广告与版权声明，采用原生 Apple 风格排版，支持单行阅读。
-​技术栈
-​抓取引擎：Python + BeautifulSoup4
-​自动化调度：GitHub Actions
-​网页托管：GitHub Pages
-​交互逻辑：原生 JavaScript + CSS Flexbox
-​访问方式
-​您可以直接访问您的专属阅读链接：
-👉 https://moodhappy.github.io/bbc-news-archive/docs/index.html  
-本项目由 Termux 终端与 GitHub 云端流水线驱动，实现 0 维护成本的全自动新闻库。
+这是一个自动化抓取、清理并归档 BBC News 突发新闻（头条）的项目。项目通过 Python 脚本定期检查 BBC 首页，提取最新的新闻内容，去除无关的版权声明和干扰段落，最终生成排版优雅、适合阅读的本地 HTML 文件。
+
+## ✨ 核心特性
+
+* **🤖 自动化运行**：结合 GitHub Actions，每小时自动检测并抓取一次最新的 BBC 头条新闻。
+* **🧹 智能内容清洗**：自动过滤字数过少的干扰段落以及 BBC 默认的版权声明信息，只保留纯净的新闻正文。
+* **📖 优雅的阅读体验**：生成的 HTML 文件内置了精心调整的 CSS 样式（大字体、舒适的行高），非常适合移动端或沉浸式阅读。
+* **🗂️ 结构化归档**：按 `年份/月份` 自动建立多级目录结构管理新闻网页（例如 `2026/6/2026_6_25_1430.html`）。
+* **📱 移动端推送支持**：内置 Termux 环境兼容代码，支持在 Android 手机上抓取并触发本地系统通知。
+
+## ⚙️ 工作原理
+
+1.  **触发阶段**：GitHub Actions 根据 `cron: '0 * * * *'` 每小时触发一次工作流，或由用户手动触发。
+2.  **抓取阶段**：Python 脚本 (`bbc_reader.py`) 请求 BBC 首页，解析出第一篇新闻链接，并与本地记录 (`last_bbc_url.txt`) 比对，避免重复抓取。
+3.  **处理阶段**：提取新闻标题和正文段落，剔除不需要的内容，并将时间戳固定为抓取时的绝对时间。
+4.  **归档阶段**：生成 HTML 文件并保存。工作流会自动使用 Git 将新生成的文件 Commit 并 Push 回本仓库。
+
+## 🚀 如何使用 (GitHub Actions)
+
+1.  **Fork 本仓库** 到你的个人 GitHub 账号下。
+2.  进入仓库的 **Actions** 标签页，允许并启用 GitHub Actions 工作流。
+3.  系统将自动开始每小时执行一次抓取任务。你也可以点击 `Run workflow` 手动触发测试。
+
+## 🛠️ 技术栈
+
+* **语言**: Python 3.10
+* **核心库**: `requests` (网络请求), `beautifulsoup4` (HTML 解析)
+* **自动化**: GitHub Actions
