@@ -1,10 +1,13 @@
 name: Auto Scrape BBC News
 
-# 触发条件：定时触发 + 手动触发
+# 触发条件：定时触发 + 手动触发 + 代码更新触发
 on:
   schedule:
     - cron: '0 0 * * *'  # 每天运行一次 (基于 UTC 时间)
-  workflow_dispatch:        # 允许你在 GitHub 网页上手动点击运行
+  workflow_dispatch:     # 允许你在 GitHub 网页上手动点击运行
+  push:
+    paths:
+      - 'bbc_reader.py'  # 只有当这个 Python 文件发生修改并提交时，才会自动触发
 
 jobs:
   build:
