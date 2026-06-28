@@ -7,96 +7,6 @@ from datetime import datetime, timezone, timedelta
 BASE_DIR = "docs"
 tz_utc_8 = timezone(timedelta(hours=8))
 
-# ================= 翻译注入模块 =================
-# 将之前油猴脚本的逻辑转换为原生前端 JS + CSS，植入到每一个生成的页面中
-TRANS_INJECT = """
-<style>
-    .immersive-trans-block {
-        color: #0066cc; font-size: 1.1rem; margin-top: -10px; margin-bottom: 25px; 
-        padding: 8px 12px; border-left: 4px solid #0066cc; background: #f0f7ff; 
-        border-radius: 6px; line-height: 1.6; transition: all 0.3s ease;
-    }
-    .immersive-trans-block.loading { color: #86868b; border-left-color: #86868b; background: #f5f5f7; }
-    .learning-blur { filter: blur(6px); cursor: pointer; user-select: none; opacity: 0.8; }
-    .learning-blur:hover { filter: blur(4px); opacity: 1; }
-</style>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // 默认开启学习模式
-        const enableLearningMode = true; 
-        
-        // 使用浏览器本地存储作为缓存，替代油猴的 GM_setValue
-        const cacheKey = 'bbc_trans_cache_v1';
-        let transCache = JSON.parse(localStorage.getItem(cacheKey) || '{}');
-        function saveCache() { localStorage.setItem(cacheKey, JSON.stringify(transCache)); }
-
-        async function getTranslation(text) {
-            if (transCache[text]) return transCache[text];
-
-            // 1. 尝试 Google 翻译 API
-            try {
-                const url1 = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=zh-CN&dt=t&q=" + encodeURIComponent(text);
-                const res1 = await fetch(url1);
-                const data = await res1.json();
-                let translatedText = '';
-                data[0].forEach(item => translatedText += item[0]);
-                if (translatedText) {
-                    transCache[text] = translatedText;
-                    saveCache();
-                    return translatedText;
-                }
-            } catch (e) {
-                console.warn("主API失败，尝试降级...", e);
-            }
-
-            // 2. 尝试 MyMemory 降级 API
-            try {
-                const url2 = "https://api.mymemory.translated.net/get?q=" + encodeURIComponent(text) + "&langpair=auto|zh-CN";
-                const res2 = await fetch(url2);
-                const data2 = await res2.json();
-                if (data2.responseData && data2.responseData.translatedText) {
-                    transCache[text] = data2.responseData.translatedText;
-                    saveCache();
-                    return data2.responseData.translatedText;
-                }
-            } catch (e) {
-                console.error("降级API也失败", e);
-            }
-            return "【翻译失败，请检查网络】";
-        }
-
-        const elements = document.querySelectorAll('.container h1, .content p');
-        elements.forEach(el => {
-            const originalText = el.innerText.trim();
-            if (!originalText) return;
-
-            const transDiv = document.createElement('div');
-            transDiv.className = 'immersive-trans-block loading';
-            transDiv.innerText = "翻译加载中...";
-
-            if (enableLearningMode) {
-                transDiv.classList.add('learning-blur');
-                transDiv.title = "点击查看清晰翻译";
-                transDiv.addEventListener('click', function() {
-                    this.classList.toggle('learning-blur');
-                });
-            }
-
-            el.insertAdjacentElement('afterend', transDiv);
-
-            getTranslation(originalText).then(result => {
-                transDiv.innerText = result;
-                transDiv.classList.remove('loading');
-            }).catch(() => {
-                transDiv.innerText = "【翻译失败】";
-                transDiv.classList.remove('loading');
-            });
-        });
-    });
-</script>
-"""
-# ===============================================
-
 def fetch_bbc_news():
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
@@ -169,7 +79,6 @@ def save_article(title, paragraphs, pub_date, article_url, now_obj):
 
     p_tags = "\n".join([f"<p>{p}</p>" for p in paragraphs])
 
-    # 这里的 {TRANS_INJECT} 会被 Python 的 f-string 自动替换为上方定义的注入模块
     html_content = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -201,7 +110,6 @@ def save_article(title, paragraphs, pub_date, article_url, now_obj):
             {p_tags}
         </div>
     </div>
-    {TRANS_INJECT}
 </body>
 </html>"""
 
@@ -215,13 +123,13 @@ def generate_index():
     if os.path.exists(BASE_DIR):
         years = [d for d in os.listdir(BASE_DIR) if d.isdigit()]
         for year in years:
-            y_key = str(int(year))
+            y_key = str(int(year)) # 强制转换去掉可能的前导零
             if y_key not in archive_data:
                 archive_data[y_key] = {}
 
             months = [d for d in os.listdir(os.path.join(BASE_DIR, year)) if d.isdigit()]
             for month in months:
-                m_key = str(int(month))
+                m_key = str(int(month)) # 确保 06 变成 6，防止前端 JS 匹配失败
                 if m_key not in archive_data[y_key]:
                     archive_data[y_key][m_key] = {}
 
@@ -231,7 +139,7 @@ def generate_index():
                         parts = file.replace(".html", "").split('_')
                         if len(parts) >= 4:
                             day = parts[2]
-                            d_key = str(int(day))
+                            d_key = str(int(day)) # 确保日期格式一致
                             time_str = f"{parts[3][:2]}:{parts[3][2:4]}"
                             file_path = f"{year}/{month}/{file}"
 
@@ -266,14 +174,16 @@ def generate_index():
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>我的 BBC 新闻库</title>
     <style>
-        /* [已省略大部分未变动的 CSS 保持清爽] */
         :root { --bg: #f5f5f7; --text: #333; --muted: #888; --primary: #4a88f7; --border: #e0e0e0; --card: #fff; }
         body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; background: var(--bg); margin: 0; padding: 0; color: var(--text); }
+        
         .container { max-width: 600px; margin: 0 auto; background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; }
+        
         .manual-fetch-bar { background: var(--card); padding: 12px 15px; display: flex; gap: 10px; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 20; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .fetch-input { flex: 1; padding: 10px 15px; border: 1px solid #ccc; border-radius: 20px; font-size: 14px; outline: none; background: #f9f9f9; transition: border 0.2s; }
         .fetch-input:focus { border-color: var(--primary); background: #fff; }
         .settings-btn { background: none; border: none; font-size: 20px; cursor: pointer; padding: 5px; }
+        
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 100; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: var(--card); border-radius: 16px; padding: 20px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .modal-title { margin: 0 0 15px 0; font-size: 18px; font-weight: bold; }
@@ -284,30 +194,39 @@ def generate_index():
         .btn { padding: 8px 16px; border-radius: 8px; border: none; font-size: 14px; font-weight: bold; cursor: pointer; }
         .btn-cancel { background: #eee; color: #333; }
         .btn-save { background: var(--primary); color: #fff; }
+
         #loadingBar { height: 3px; background: var(--primary); width: 0%; transition: width 0.3s; position: absolute; top: 0; left: 0; z-index: 30; }
+
         .controls { background: var(--card); padding: 15px 20px; display: flex; justify-content: center; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
         .control-btn { background: var(--primary); color: #fff; border: none; border-radius: 4px; padding: 8px 12px; font-size: 14px; cursor: pointer; }
         .control-btn:active { opacity: 0.8; }
         .select-box { padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 15px; background: #fff; outline: none; }
+        
         .calendar-wrapper { background: var(--card); padding: 10px 15px 20px 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
         .weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; font-size: 14px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
         .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+        
         .day-cell { aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 16px; font-weight: 500; border-radius: 8px; cursor: pointer; position: relative; transition: all 0.2s; }
         .day-cell.empty { visibility: hidden; }
         .day-cell.has-news { color: var(--text); }
         .day-cell.no-news { color: #ccc; }
+        
         .day-cell.selected { background: #fff0db; border: 1px solid #f5a623; color: #d0021b; font-weight: bold; }
         .day-cell.today { background: #eef5ff; color: var(--primary); }
         .dot { width: 4px; height: 4px; background-color: var(--primary); border-radius: 50%; position: absolute; bottom: 8px; display: none; }
         .day-cell.has-news .dot { display: block; }
         .day-cell.selected .dot { background-color: #d0021b; }
+        
         .news-section { flex: 1; padding: 0 15px 30px 15px; }
+        
         .news-item-wrapper { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
         .news-item { flex: 1; background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 0; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.04); overflow: hidden; transition: all 0.2s; }
         .news-item:active { transform: scale(0.98); }
         .news-time { font-size: 16px; font-weight: 600; flex-shrink: 0; }
         .news-title { font-size: 14px; color: var(--muted); margin-left: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right; flex: 1; }
+        
         .delete-btn { background: #ff3b30; color: white; border: none; border-radius: 10px; padding: 0 15px; height: 50px; font-size: 16px; cursor: pointer; display: none; transition: all 0.2s; flex-shrink: 0; }
+
         .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
     </style>
 </head>
@@ -482,6 +401,7 @@ def generate_index():
             }
         }
 
+        // ================= GitHub 同步与管理逻辑 =================
         const modal = document.getElementById('settingsModal');
         const bbcUrlInput = document.getElementById('bbcUrlInput');
         const loadingBar = document.getElementById('loadingBar');
@@ -500,6 +420,7 @@ def generate_index():
             closeSettings();
         }
 
+        // 双击日历唤出删除
         let lastTap = 0;
         const calWrapper = document.querySelector('.calendar-wrapper');
         calWrapper.addEventListener('click', function(e) {
@@ -572,6 +493,7 @@ def generate_index():
             }
         }
 
+        // ================= 前端纯静默动态抓取模块 =================
         bbcUrlInput.addEventListener('keypress', async function (e) {
             if (e.key === 'Enter') {
                 const url = bbcUrlInput.value.trim();
@@ -590,11 +512,13 @@ def generate_index():
                 bbcUrlInput.disabled = true;
 
                 try {
+                    // 1. 利用 allorigins 代理突破 CORS 抓取 BBC 网页文本
                     loadingBar.style.width = '30%';
                     const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
                     const res = await fetch(proxyUrl);
                     const proxyData = await res.json();
                     
+                    // 2. 使用 DOMParser 模拟后端的 BeautifulSoup 逻辑
                     loadingBar.style.width = '50%';
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(proxyData.contents, 'text/html');
@@ -616,6 +540,7 @@ def generate_index():
 
                     loadingBar.style.width = '65%';
                     
+                    // 计算时间和路径
                     const now = new Date();
                     const year = now.getFullYear().toString();
                     const month = (now.getMonth() + 1).toString();
@@ -630,6 +555,7 @@ def generate_index():
                     
                     const htmlOutput = generateBaseHTMLString(title, contentParagraphs.join('\\n'), pub_date, url);
 
+                    // 3. 提交静态 HTML 到 GitHub
                     loadingBar.style.width = '75%';
                     await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/${fileApiPath}`, {
                         method: 'PUT',
@@ -640,6 +566,7 @@ def generate_index():
                         })
                     });
 
+                    // 4. 更新 GitHub 上的 index.html 数据
                     loadingBar.style.width = '85%';
                     const idxRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, {
                         headers: { 'Authorization': `token ${ghToken}` }
@@ -677,6 +604,7 @@ def generate_index():
                         })
                     });
 
+                    // 5. 本地无刷新上屏
                     if (!archiveData[year]) archiveData[year] = {};
                     if (!archiveData[year][month]) archiveData[year][month] = {};
                     if (!archiveData[year][month][day]) archiveData[year][month][day] = [];
@@ -735,11 +663,11 @@ def generate_index():
             ${p_tags}
         </div>
     </div>
-    /*INJECT_MARKER*/
 </body>
-</html>`.replace('/*INJECT_MARKER*/', `""" + TRANS_INJECT + """`);
+</html>`;
         }
 
+        // ================= 基础控制绑定 =================
         yearSelect.addEventListener('change', (e) => {
             renderCalendar(parseInt(e.target.value), parseInt(monthSelect.value));
         });
@@ -769,7 +697,7 @@ def generate_index():
 </body>
 </html>"""
 
-    # 将 JSON 数据替换回模板中
+    # 关键修复点：务必将 /*DATA_START*/ 和 /*DATA_END*/ 一起拼装进最终结果里保留给前端用
     final_html = html_template.replace(
         "/*DATA_START*/REPLACEME_JSON_DATA/*DATA_END*/", 
         f"/*DATA_START*/{json_data}/*DATA_END*/"
@@ -777,7 +705,7 @@ def generate_index():
 
     with open(os.path.join(BASE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(final_html)
-    print("首页 index.html 已更新。")
+    print("首页 index.html 已更新，已修复索引丢失和格式匹配问题。")
 
 if __name__ == "__main__":
     os.makedirs(BASE_DIR, exist_ok=True)
