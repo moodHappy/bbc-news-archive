@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>我的 BBC 新闻库</title>
     <style>
-        /* [已省略大部分未变动的 CSS 保持清爽] */
         :root { --bg: #f5f5f7; --text: #333; --muted: #888; --primary: #4a88f7; --border: #e0e0e0; --card: #fff; }
         body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; background: var(--bg); margin: 0; padding: 0; color: var(--text); }
+        
         .container { max-width: 600px; margin: 0 auto; background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; }
+        
         .manual-fetch-bar { background: var(--card); padding: 12px 15px; display: flex; gap: 10px; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 20; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .fetch-input { flex: 1; padding: 10px 15px; border: 1px solid #ccc; border-radius: 20px; font-size: 14px; outline: none; background: #f9f9f9; transition: border 0.2s; }
         .fetch-input:focus { border-color: var(--primary); background: #fff; }
         .settings-btn { background: none; border: none; font-size: 20px; cursor: pointer; padding: 5px; }
+        
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 100; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: var(--card); border-radius: 16px; padding: 20px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .modal-title { margin: 0 0 15px 0; font-size: 18px; font-weight: bold; }
@@ -23,30 +25,39 @@
         .btn { padding: 8px 16px; border-radius: 8px; border: none; font-size: 14px; font-weight: bold; cursor: pointer; }
         .btn-cancel { background: #eee; color: #333; }
         .btn-save { background: var(--primary); color: #fff; }
+
         #loadingBar { height: 3px; background: var(--primary); width: 0%; transition: width 0.3s; position: absolute; top: 0; left: 0; z-index: 30; }
+
         .controls { background: var(--card); padding: 15px 20px; display: flex; justify-content: center; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
         .control-btn { background: var(--primary); color: #fff; border: none; border-radius: 4px; padding: 8px 12px; font-size: 14px; cursor: pointer; }
         .control-btn:active { opacity: 0.8; }
         .select-box { padding: 6px 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 15px; background: #fff; outline: none; }
+        
         .calendar-wrapper { background: var(--card); padding: 10px 15px 20px 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
         .weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-weight: bold; font-size: 14px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
         .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+        
         .day-cell { aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; font-size: 16px; font-weight: 500; border-radius: 8px; cursor: pointer; position: relative; transition: all 0.2s; }
         .day-cell.empty { visibility: hidden; }
         .day-cell.has-news { color: var(--text); }
         .day-cell.no-news { color: #ccc; }
+        
         .day-cell.selected { background: #fff0db; border: 1px solid #f5a623; color: #d0021b; font-weight: bold; }
         .day-cell.today { background: #eef5ff; color: var(--primary); }
         .dot { width: 4px; height: 4px; background-color: var(--primary); border-radius: 50%; position: absolute; bottom: 8px; display: none; }
         .day-cell.has-news .dot { display: block; }
         .day-cell.selected .dot { background-color: #d0021b; }
+        
         .news-section { flex: 1; padding: 0 15px 30px 15px; }
+        
         .news-item-wrapper { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
         .news-item { flex: 1; background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 0; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.04); overflow: hidden; transition: all 0.2s; }
         .news-item:active { transform: scale(0.98); }
         .news-time { font-size: 16px; font-weight: 600; flex-shrink: 0; }
         .news-title { font-size: 14px; color: var(--muted); margin-left: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right; flex: 1; }
+        
         .delete-btn { background: #ff3b30; color: white; border: none; border-radius: 10px; padding: 0 15px; height: 50px; font-size: 16px; cursor: pointer; display: none; transition: all 0.2s; flex-shrink: 0; }
+
         .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
     </style>
 </head>
@@ -108,7 +119,7 @@
 
     <script>
         // ================= 数据初始化与日历渲染 =================
-        const archiveData = /*DATA_START*/{"2026":{"6":{"26":[{"time":"22:10","path":"2026/6/2026_6_26_2210.html","title":"Canada eligible to join Eurovision competition"},{"time":"19:41","path":"2026/6/2026_6_26_1941.html","title":"Christmas market attacker jailed for life for murdering six in Germany"},{"time":"13:04","path":"2026/6/2026_6_26_1304.html","title":"Rescuers search rubble for survivors as Venezuela earthquakes kill at least 235"},{"time":"06:17","path":"2026/6/2026_6_26_0617.html","title":"France warns even young people's health at risk as Europe's heatwave shifts east"},{"time":"00:19","path":"2026/6/2026_6_26_0019.html","title":"Supreme Court allows Trump to end protected status for Haitian and Syrian immigrants"}],"27":[{"time":"10:40","path":"2026/6/2026_6_27_1040.html","title":"US conducts strikes on Iran after attack on cargo ship"},{"time":"00:56","path":"2026/6/2026_6_27_0056.html","title":"Mother dies saving daughter in Venezuela earthquakes"}],"28":[{"time":"07:58","path":"2026/6/2026_6_28_0758_custom.html","title":"China detains two leaders of influential underground church"}]}}}/*DATA_END*/;
+        const archiveData = /*DATA_START*/{"2026": {"6": {"28": [{"time": "07:58", "path": "2026/6/2026_6_28_0758_custom.html", "title": "China detains two leaders of influential underground church"}], "27": [{"time": "10:40", "path": "2026/6/2026_6_27_1040.html", "title": "US conducts strikes on Iran after attack on cargo ship"}, {"time": "00:56", "path": "2026/6/2026_6_27_0056.html", "title": "Mother dies saving daughter in Venezuela earthquakes"}], "26": [{"time": "22:10", "path": "2026/6/2026_6_26_2210.html", "title": "Canada eligible to join Eurovision competition"}, {"time": "19:41", "path": "2026/6/2026_6_26_1941.html", "title": "Christmas market attacker jailed for life for murdering six in Germany"}, {"time": "13:04", "path": "2026/6/2026_6_26_1304.html", "title": "Rescuers search rubble for survivors as Venezuela earthquakes kill at least 235"}, {"time": "06:17", "path": "2026/6/2026_6_26_0617.html", "title": "France warns even young people's health at risk as Europe's heatwave shifts east"}, {"time": "00:19", "path": "2026/6/2026_6_26_0019.html", "title": "Supreme Court allows Trump to end protected status for Haitian and Syrian immigrants"}]}}}/*DATA_END*/;
         
         const today = new Date();
         let currentYear = today.getFullYear();
@@ -221,6 +232,7 @@
             }
         }
 
+        // ================= GitHub 同步与管理逻辑 =================
         const modal = document.getElementById('settingsModal');
         const bbcUrlInput = document.getElementById('bbcUrlInput');
         const loadingBar = document.getElementById('loadingBar');
@@ -239,6 +251,7 @@
             closeSettings();
         }
 
+        // 双击日历唤出删除
         let lastTap = 0;
         const calWrapper = document.querySelector('.calendar-wrapper');
         calWrapper.addEventListener('click', function(e) {
@@ -311,6 +324,7 @@
             }
         }
 
+        // ================= 前端纯静默动态抓取模块 =================
         bbcUrlInput.addEventListener('keypress', async function (e) {
             if (e.key === 'Enter') {
                 const url = bbcUrlInput.value.trim();
@@ -329,11 +343,13 @@
                 bbcUrlInput.disabled = true;
 
                 try {
+                    // 1. 利用 allorigins 代理突破 CORS 抓取 BBC 网页文本
                     loadingBar.style.width = '30%';
                     const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
                     const res = await fetch(proxyUrl);
                     const proxyData = await res.json();
                     
+                    // 2. 使用 DOMParser 模拟后端的 BeautifulSoup 逻辑
                     loadingBar.style.width = '50%';
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(proxyData.contents, 'text/html');
@@ -355,6 +371,7 @@
 
                     loadingBar.style.width = '65%';
                     
+                    // 计算时间和路径
                     const now = new Date();
                     const year = now.getFullYear().toString();
                     const month = (now.getMonth() + 1).toString();
@@ -369,6 +386,7 @@
                     
                     const htmlOutput = generateBaseHTMLString(title, contentParagraphs.join('\n'), pub_date, url);
 
+                    // 3. 提交静态 HTML 到 GitHub
                     loadingBar.style.width = '75%';
                     await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/${fileApiPath}`, {
                         method: 'PUT',
@@ -379,6 +397,7 @@
                         })
                     });
 
+                    // 4. 更新 GitHub 上的 index.html 数据
                     loadingBar.style.width = '85%';
                     const idxRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, {
                         headers: { 'Authorization': `token ${ghToken}` }
@@ -416,6 +435,7 @@
                         })
                     });
 
+                    // 5. 本地无刷新上屏
                     if (!archiveData[year]) archiveData[year] = {};
                     if (!archiveData[year][month]) archiveData[year][month] = {};
                     if (!archiveData[year][month][day]) archiveData[year][month][day] = [];
@@ -474,96 +494,11 @@
             ${p_tags}
         </div>
     </div>
-    /*INJECT_MARKER*/
 </body>
-</html>`.replace('/*INJECT_MARKER*/', `
-<style>
-    .immersive-trans-block {
-        color: #0066cc; font-size: 1.1rem; margin-top: -10px; margin-bottom: 25px; 
-        padding: 8px 12px; border-left: 4px solid #0066cc; background: #f0f7ff; 
-        border-radius: 6px; line-height: 1.6; transition: all 0.3s ease;
-    }
-    .immersive-trans-block.loading { color: #86868b; border-left-color: #86868b; background: #f5f5f7; }
-    .learning-blur { filter: blur(6px); cursor: pointer; user-select: none; opacity: 0.8; }
-    .learning-blur:hover { filter: blur(4px); opacity: 1; }
-</style>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // 默认开启学习模式
-        const enableLearningMode = true; 
-        
-        // 使用浏览器本地存储作为缓存，替代油猴的 GM_setValue
-        const cacheKey = 'bbc_trans_cache_v1';
-        let transCache = JSON.parse(localStorage.getItem(cacheKey) || '{}');
-        function saveCache() { localStorage.setItem(cacheKey, JSON.stringify(transCache)); }
-
-        async function getTranslation(text) {
-            if (transCache[text]) return transCache[text];
-
-            // 1. 尝试 Google 翻译 API
-            try {
-                const url1 = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=zh-CN&dt=t&q=" + encodeURIComponent(text);
-                const res1 = await fetch(url1);
-                const data = await res1.json();
-                let translatedText = '';
-                data[0].forEach(item => translatedText += item[0]);
-                if (translatedText) {
-                    transCache[text] = translatedText;
-                    saveCache();
-                    return translatedText;
-                }
-            } catch (e) {
-                console.warn("主API失败，尝试降级...", e);
-            }
-
-            // 2. 尝试 MyMemory 降级 API
-            try {
-                const url2 = "https://api.mymemory.translated.net/get?q=" + encodeURIComponent(text) + "&langpair=auto|zh-CN";
-                const res2 = await fetch(url2);
-                const data2 = await res2.json();
-                if (data2.responseData && data2.responseData.translatedText) {
-                    transCache[text] = data2.responseData.translatedText;
-                    saveCache();
-                    return data2.responseData.translatedText;
-                }
-            } catch (e) {
-                console.error("降级API也失败", e);
-            }
-            return "【翻译失败，请检查网络】";
+</html>`;
         }
 
-        const elements = document.querySelectorAll('.container h1, .content p');
-        elements.forEach(el => {
-            const originalText = el.innerText.trim();
-            if (!originalText) return;
-
-            const transDiv = document.createElement('div');
-            transDiv.className = 'immersive-trans-block loading';
-            transDiv.innerText = "翻译加载中...";
-
-            if (enableLearningMode) {
-                transDiv.classList.add('learning-blur');
-                transDiv.title = "点击查看清晰翻译";
-                transDiv.addEventListener('click', function() {
-                    this.classList.toggle('learning-blur');
-                });
-            }
-
-            el.insertAdjacentElement('afterend', transDiv);
-
-            getTranslation(originalText).then(result => {
-                transDiv.innerText = result;
-                transDiv.classList.remove('loading');
-            }).catch(() => {
-                transDiv.innerText = "【翻译失败】";
-                transDiv.classList.remove('loading');
-            });
-        });
-    });
-</script>
-`);
-        }
-
+        // ================= 基础控制绑定 =================
         yearSelect.addEventListener('change', (e) => {
             renderCalendar(parseInt(e.target.value), parseInt(monthSelect.value));
         });
