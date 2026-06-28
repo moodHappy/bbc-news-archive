@@ -123,17 +123,24 @@ def generate_index():
     if os.path.exists(BASE_DIR):
         years = [d for d in os.listdir(BASE_DIR) if d.isdigit()]
         for year in years:
-            archive_data[year] = {}
+            y_key = str(int(year)) # 强制转换去掉可能的前导零
+            if y_key not in archive_data:
+                archive_data[y_key] = {}
+                
             months = [d for d in os.listdir(os.path.join(BASE_DIR, year)) if d.isdigit()]
             for month in months:
-                archive_data[year][month] = {}
+                m_key = str(int(month)) # 确保 06 变成 6，防止前端 JS 匹配失败
+                if m_key not in archive_data[y_key]:
+                    archive_data[y_key][m_key] = {}
+                    
                 files = sorted([f for f in os.listdir(os.path.join(BASE_DIR, year, month)) if f.endswith('.html')], reverse=True)
                 for file in files:
                     try:
                         parts = file.replace(".html", "").split('_')
                         if len(parts) >= 4:
                             day = parts[2]
-                            time_str = f"{parts[3][:2]}:{parts[3][2:]}"
+                            d_key = str(int(day)) # 确保日期格式一致
+                            time_str = f"{parts[3][:2]}:{parts[3][2:4]}"
                             file_path = f"{year}/{month}/{file}"
 
                             page_title = "BBC 新闻"
@@ -147,10 +154,10 @@ def generate_index():
                             except:
                                 pass
 
-                            if day not in archive_data[year][month]:
-                                archive_data[year][month][day] = []
+                            if d_key not in archive_data[y_key][m_key]:
+                                archive_data[y_key][m_key][d_key] = []
 
-                            archive_data[year][month][day].append({
+                            archive_data[y_key][m_key][d_key].append({
                                 "time": time_str,
                                 "path": file_path,
                                 "title": page_title
@@ -690,11 +697,15 @@ def generate_index():
 </body>
 </html>"""
 
-    final_html = html_template.replace("/*DATA_START*/REPLACEME_JSON_DATA/*DATA_END*/", json_data)
+    # 关键修复点：务必将 /*DATA_START*/ 和 /*DATA_END*/ 一起拼装进最终结果里保留给前端用
+    final_html = html_template.replace(
+        "/*DATA_START*/REPLACEME_JSON_DATA/*DATA_END*/", 
+        f"/*DATA_START*/{json_data}/*DATA_END*/"
+    )
 
     with open(os.path.join(BASE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(final_html)
-    print("首页 index.html 已更新，内置前端动态抓取与双击删除模块。")
+    print("首页 index.html 已更新，已修复索引丢失和格式匹配问题。")
 
 if __name__ == "__main__":
     os.makedirs(BASE_DIR, exist_ok=True)
