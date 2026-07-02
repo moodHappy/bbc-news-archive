@@ -228,10 +228,17 @@ def generate_index():
         .delete-btn { background: #ff3b30; color: white; border: none; border-radius: 10px; padding: 0 15px; height: 50px; font-size: 16px; cursor: pointer; display: none; transition: all 0.2s; flex-shrink: 0; }
 
         .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
+
+        /* Toast 提示框样式 */
+        .toast-msg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(0,0,0,0.8); color: #fff; padding: 12px 24px; border-radius: 24px; font-size: 14px; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .toast-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
     <div id="loadingBar"></div>
+    <!-- 引入 Toast 节点 -->
+    <div id="toastMsg" class="toast-msg"></div>
+
     <div class="manual-fetch-bar">
         <input type="text" id="bbcUrlInput" class="fetch-input" placeholder="粘贴 BBC 文章链接，回车生成..." autocomplete="off">
         <button class="settings-btn" onclick="openSettings()">⚙️</button>
@@ -287,6 +294,14 @@ def generate_index():
     </div>
 
     <script>
+        // Toast 提示函数
+        function showToast(msg, duration = 3000) {
+            const toast = document.getElementById('toastMsg');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, duration);
+        }
+
         // ================= 数据初始化与日历渲染 =================
         const archiveData = /*DATA_START*/REPLACEME_JSON_DATA/*DATA_END*/;
         
@@ -390,6 +405,7 @@ def generate_index():
                             renderCalendar(year, month);
                             renderNews(year, month, day);
                             await syncDeleteToGithub(pathToDelete);
+                            showToast('🗑️ 已删除该文章');
                         }
                     };
                     wrapper.appendChild(delBtn);
@@ -418,6 +434,7 @@ def generate_index():
             localStorage.setItem('GH_OWNER_BBC', document.getElementById('cfgGhOwner').value.trim());
             localStorage.setItem('GH_REPO_BBC', document.getElementById('cfgGhRepo').value.trim());
             closeSettings();
+            showToast('✅ 配置已保存');
         }
 
         // 双击日历唤出删除
@@ -490,6 +507,7 @@ def generate_index():
             } catch(e) {
                 console.error("Sync delete failed", e);
                 loadingBar.style.width = '0%';
+                showToast('❌ 云端同步删除失败');
             }
         }
 
@@ -497,27 +515,35 @@ def generate_index():
         bbcUrlInput.addEventListener('keypress', async function (e) {
             if (e.key === 'Enter') {
                 const url = bbcUrlInput.value.trim();
-                if (!url.includes('bbc.com/news')) return;
+                if (!url.includes('bbc.com/news')) {
+                    showToast('⚠️ 请输入有效的 BBC News 链接');
+                    return;
+                }
                 
                 const ghToken = localStorage.getItem('GH_TOKEN_BBC');
                 const ghOwner = localStorage.getItem('GH_OWNER_BBC');
                 const ghRepo = localStorage.getItem('GH_REPO_BBC');
                 
                 if (!ghToken || !ghOwner || !ghRepo) {
+                    showToast('⚠️ 请先点击齿轮图标配置 GitHub 密钥');
                     openSettings();
                     return;
                 }
 
                 loadingBar.style.width = '10%';
                 bbcUrlInput.disabled = true;
+                showToast('⏳ 正在抓取文章并上传，请耐心等待...');
 
                 try {
                     // 1. 利用 allorigins 代理突破 CORS 抓取 BBC 网页文本
                     loadingBar.style.width = '30%';
                     const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
                     const res = await fetch(proxyUrl);
+                    if (!res.ok) throw new Error("代理服务请求失败");
                     const proxyData = await res.json();
                     
+                    if (!proxyData.contents) throw new Error("代理未返回有效的网页内容");
+
                     // 2. 使用 DOMParser 模拟后端的 BeautifulSoup 逻辑
                     loadingBar.style.width = '50%';
                     const parser = new DOMParser();
@@ -538,6 +564,8 @@ def generate_index():
                         }
                     });
 
+                    if (contentParagraphs.length === 0) throw new Error("未在此页面解析到文章正文");
+
                     loadingBar.style.width = '65%';
                     
                     // 计算时间和路径
@@ -557,7 +585,7 @@ def generate_index():
 
                     // 3. 提交静态 HTML 到 GitHub
                     loadingBar.style.width = '75%';
-                    await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/${fileApiPath}`, {
+                    const uploadRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/${fileApiPath}`, {
                         method: 'PUT',
                         headers: { 'Authorization': `token ${ghToken}`, 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -565,12 +593,15 @@ def generate_index():
                             content: btoa(unescape(encodeURIComponent(htmlOutput)))
                         })
                     });
+                    if (!uploadRes.ok) throw new Error("文章文件上传 GitHub 失败，请检查配置或网络");
 
                     // 4. 更新 GitHub 上的 index.html 数据
                     loadingBar.style.width = '85%';
                     const idxRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, {
                         headers: { 'Authorization': `token ${ghToken}` }
                     });
+                    if (!idxRes.ok) throw new Error("获取远程 index.html 失败");
+                    
                     const idxData = await idxRes.json();
                     const idxContent = decodeURIComponent(escape(atob(idxData.content)));
 
@@ -594,7 +625,7 @@ def generate_index():
                     const newIdxContent = idxContent.substring(0, dataStart) + newJsonStr + idxContent.substring(dataEnd);
                     
                     loadingBar.style.width = '95%';
-                    await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, {
+                    const idxUpdateRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, {
                         method: 'PUT',
                         headers: { 'Authorization': `token ${ghToken}`, 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -603,6 +634,7 @@ def generate_index():
                             sha: idxData.sha
                         })
                     });
+                    if (!idxUpdateRes.ok) throw new Error("更新远程日历索引失败");
 
                     // 5. 本地无刷新上屏
                     if (!archiveData[year]) archiveData[year] = {};
@@ -621,10 +653,15 @@ def generate_index():
                     loadingBar.style.width = '100%';
                     bbcUrlInput.value = '';
                     setTimeout(() => { loadingBar.style.width = '0%'; }, 1000);
+                    
+                    // 成功提示
+                    showToast('🎉 文章抓取并保存成功！');
 
                 } catch (err) {
                     console.error('Fetch failed:', err);
                     loadingBar.style.width = '0%';
+                    // 失败提示
+                    showToast('❌ 操作失败: ' + err.message);
                 } finally {
                     bbcUrlInput.disabled = false;
                 }
@@ -705,7 +742,7 @@ def generate_index():
 
     with open(os.path.join(BASE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(final_html)
-    print("首页 index.html 已更新，已修复索引丢失和格式匹配问题。")
+    print("首页 index.html 已更新，已加入用户交互提示功能。")
 
 if __name__ == "__main__":
     os.makedirs(BASE_DIR, exist_ok=True)
