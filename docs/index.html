@@ -60,7 +60,6 @@
 
         .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
 
-        /* Toast 提示框样式 */
         .toast-msg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(0,0,0,0.8); color: #fff; padding: 12px 24px; border-radius: 24px; font-size: 14px; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         .toast-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     </style>
@@ -124,7 +123,7 @@
     </div>
 
     <script>
-        function showToast(msg, duration = 3000) {
+        function showToast(msg, duration = 3500) {
             const toast = document.getElementById('toastMsg');
             toast.textContent = msg;
             toast.classList.add('show');
@@ -139,7 +138,6 @@
         let selectedDay = today.getDate();
         let selectedYear = currentYear;
         let selectedMonth = currentMonth;
-        
         window.deleteMode = false;
 
         const yearSelect = document.getElementById('yearSelect');
@@ -151,7 +149,6 @@
             yearSelect.innerHTML = '';
             const years = Object.keys(archiveData).map(Number).sort((a, b) => b - a);
             if (!years.includes(currentYear)) years.unshift(currentYear);
-            
             years.forEach(y => {
                 const opt = document.createElement('option');
                 opt.value = y; opt.textContent = y + ' 年';
@@ -184,11 +181,8 @@
                 dot.className = 'dot';
                 cell.appendChild(dot);
                 
-                if (monthData[day] && monthData[day].length > 0) {
-                    cell.classList.add('has-news');
-                } else {
-                    cell.classList.add('no-news');
-                }
+                if (monthData[day] && monthData[day].length > 0) cell.classList.add('has-news');
+                else cell.classList.add('no-news');
                 
                 if (year === today.getFullYear() && month === today.getMonth() + 1 && day === today.getDate()) cell.classList.add('today');
                 if (year === selectedYear && month === selectedMonth && day === selectedDay) cell.classList.add('selected');
@@ -198,7 +192,6 @@
                     renderCalendar(year, month);
                     renderNews(year, month, day);
                 });
-                
                 daysGrid.appendChild(cell);
             }
         }
@@ -237,7 +230,6 @@
                         }
                     };
                     wrapper.appendChild(delBtn);
-
                     newsList.appendChild(wrapper);
                 });
             } else {
@@ -283,59 +275,35 @@
             const ghOwner = localStorage.getItem('GH_OWNER_BBC');
             const ghRepo = localStorage.getItem('GH_REPO_BBC');
             if (!ghToken || !ghOwner || !ghRepo) return;
-
             try {
                 loadingBar.style.width = '10%';
                 const targetFilePath = `docs/${fileRelPath}`;
-                const fileRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/${targetFilePath}`, {
-                    headers: { 'Authorization': `token ${ghToken}` }
-                });
-                
+                const fileRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/${targetFilePath}`, { headers: { 'Authorization': `token ${ghToken}` } });
                 if (fileRes.ok) {
                     const fileData = await fileRes.json();
-                    await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/${targetFilePath}`, {
-                        method: 'DELETE',
-                        headers: { 'Authorization': `token ${ghToken}`, 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            message: `Delete archived html file: ${fileRelPath}`,
-                            sha: fileData.sha
-                        })
-                    });
+                    await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/${targetFilePath}`, { method: 'DELETE', headers: { 'Authorization': `token ${ghToken}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ message: `Delete archived html file: ${fileRelPath}`, sha: fileData.sha }) });
                 }
                 
                 loadingBar.style.width = '50%';
-                const idxRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, {
-                    headers: { 'Authorization': `token ${ghToken}` }
-                });
+                const idxRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, { headers: { 'Authorization': `token ${ghToken}` } });
                 const idxData = await idxRes.json();
                 const idxContent = decodeURIComponent(escape(atob(idxData.content)));
-
                 const dataStart = idxContent.indexOf('/*DATA_START*/') + 14;
                 const dataEnd = idxContent.indexOf('/*DATA_END*/');
                 const newJsonStr = JSON.stringify(archiveData);
                 const newIdxContent = idxContent.substring(0, dataStart) + newJsonStr + idxContent.substring(dataEnd);
 
                 loadingBar.style.width = '80%';
-                await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, {
-                    method: 'PUT',
-                    headers: { 'Authorization': `token ${ghToken}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: `Update index.html after deleting file`,
-                        content: btoa(unescape(encodeURIComponent(newIdxContent))),
-                        sha: idxData.sha
-                    })
-                });
-                
+                await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, { method: 'PUT', headers: { 'Authorization': `token ${ghToken}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ message: `Update index.html after deleting file`, content: btoa(unescape(encodeURIComponent(newIdxContent))), sha: idxData.sha }) });
                 loadingBar.style.width = '100%';
                 setTimeout(() => { loadingBar.style.width = '0%'; }, 1000);
             } catch(e) {
-                console.error("Sync delete failed", e);
                 loadingBar.style.width = '0%';
                 showToast('❌ 云端同步删除失败');
             }
         }
 
-        // ================= 前端纯静默动态抓取模块 (引入双引擎逻辑) =================
+        // ================= 前端纯静默动态抓取模块 (增加拦截墙识别与三引擎兜底) =================
         bbcUrlInput.addEventListener('keypress', async function (e) {
             if (e.key === 'Enter') {
                 const url = bbcUrlInput.value.trim();
@@ -371,14 +339,19 @@
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(proxyData.contents, 'text/html');
                     
+                    // ================= 拦截墙智能识别 =================
+                    const pageText = doc.body.textContent.toLowerCase();
+                    if (pageText.includes('please enable js') || pageText.includes('cloudflare') || pageText.includes('checking your browser') || pageText.includes('cookie settings')) {
+                        throw new Error("此链接被 BBC 安全墙 (Cloudflare/Cookie) 拦截。代理无法抓取，请使用油猴脚本！");
+                    }
+
                     const titleTag = doc.querySelector('h1');
                     const title = titleTag ? titleTag.textContent.trim() : "BBC News";
                     
                     let contentParagraphs = [];
                     
                     // 引擎 A: 精准提取
-                    const exactBlocks = doc.querySelectorAll('[data-component="text-block"] p, [data-component="subheadline-block"] h2, [data-component="subheadline-block"] h3');
-                    
+                    const exactBlocks = doc.querySelectorAll('[data-component="text-block"], [data-component="subheadline-block"]');
                     if (exactBlocks.length > 0) {
                         exactBlocks.forEach(node => {
                             const text = node.textContent.trim();
@@ -389,14 +362,16 @@
                             if (text.startsWith("Image caption,")) return;
                             if (text.toLowerCase() === "watch:") return;
                             
-                            if (tagName === 'h2' || tagName === 'h3') {
+                            if (tagName === 'h2' || tagName === 'h3' || node.querySelector('h2, h3')) {
                                 contentParagraphs.push(`<h2>${text}</h2>`);
                             } else {
                                 contentParagraphs.push(`<p>${text}</p>`);
                             }
                         });
-                    } else {
-                        // 引擎 B: 降级回退
+                    } 
+                    
+                    // 引擎 B: 降级回退
+                    if (contentParagraphs.length === 0) {
                         const container = doc.querySelector('article') || doc.querySelector('main') || doc.body;
                         const nodes = container.querySelectorAll('p, h2, h3');
                         let stopParsing = false;
@@ -409,13 +384,12 @@
                             const lowerText = text.toLowerCase();
                             const tagName = node.tagName.toLowerCase();
 
-                            if (lowerText === 'related topics' || lowerText === 'more on this story' || lowerText === 'top stories') {
+                            if (lowerText === 'related topics' || lowerText === 'more on this story' || lowerText === 'top stories' || lowerText === 'related articles') {
                                 stopParsing = true;
                                 return;
                             }
 
                             if (text.length < 5 && tagName === 'p') return;
-                            
                             if (text.includes("Copyright") && text.includes("BBC")) return;
                             if (text.includes("The BBC is not responsible")) return;
                             if (text.includes("Read about our approach")) return;
@@ -430,7 +404,17 @@
                         });
                     }
 
-                    if (contentParagraphs.length === 0) throw new Error("未在此页面解析到文章正文");
+                    // 引擎 C: 极限暴力兜底 (防一切异常排版)
+                    if (contentParagraphs.length === 0) {
+                        doc.querySelectorAll('p').forEach(p => {
+                            const text = p.textContent.trim();
+                            if (text.length > 40 && !text.includes("Copyright") && !text.includes("BBC is not responsible")) {
+                                contentParagraphs.push(`<p>${text}</p>`);
+                            }
+                        });
+                    }
+
+                    if (contentParagraphs.length === 0) throw new Error("网页中未找到正文，可能页面结构极其特殊。");
 
                     loadingBar.style.width = '65%';
                     
@@ -467,7 +451,6 @@
                     
                     const idxData = await idxRes.json();
                     const idxContent = decodeURIComponent(escape(atob(idxData.content)));
-
                     const dataStart = idxContent.indexOf('/*DATA_START*/') + 14;
                     const dataEnd = idxContent.indexOf('/*DATA_END*/');
                     const oldJsonStr = idxContent.substring(dataStart, dataEnd);
@@ -477,13 +460,8 @@
                     if (!archiveObj[year][month]) archiveObj[year][month] = {};
                     if (!archiveObj[year][month][day]) archiveObj[year][month][day] = [];
                     
-                    const newItem = {
-                        time: hhmmStr,
-                        path: fileRelPath,
-                        title: title
-                    };
+                    const newItem = { time: hhmmStr, path: fileRelPath, title: title };
                     archiveObj[year][month][day].unshift(newItem);
-
                     const newJsonStr = JSON.stringify(archiveObj);
                     const newIdxContent = idxContent.substring(0, dataStart) + newJsonStr + idxContent.substring(dataEnd);
                     
@@ -515,13 +493,13 @@
                     loadingBar.style.width = '100%';
                     bbcUrlInput.value = '';
                     setTimeout(() => { loadingBar.style.width = '0%'; }, 1000);
-                    
                     showToast('🎉 文章抓取并保存成功！');
 
                 } catch (err) {
                     console.error('Fetch failed:', err);
                     loadingBar.style.width = '0%';
-                    showToast('❌ 操作失败: ' + err.message);
+                    // 如果错误消息太长，Toast 停留时间拉长一点让用户看清
+                    showToast('❌ 错误: ' + err.message, 5000);
                 } finally {
                     bbcUrlInput.disabled = false;
                 }
