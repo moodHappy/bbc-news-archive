@@ -51,19 +51,67 @@ def fetch_bbc_news():
         now = datetime.now(tz_utc_8)
         current_time = now.strftime("%Y-%m-%d %H:%M")
 
-        paragraphs = art_soup.find_all('p')
         content_paragraphs = []
 
-        for p in paragraphs:
-            text = p.text.strip()
-            if len(text.split()) <= 8: continue
-            if "Copyright" in text and "BBC" in text: continue
-            if "The BBC is not responsible" in text: continue
-            if "Read about our approach" in text: continue
-            content_paragraphs.append(text)
+        # ================= Python 后端双引擎提取逻辑 =================
+        # 引擎 A：寻找现代 BBC 专属的正文组件标签 (精准模式)
+        exact_blocks = art_soup.select('[data-component="text-block"] p, [data-component="subheadline-block"] h2, [data-component="subheadline-block"] h3')
+        
+        if exact_blocks:
+            for node in exact_blocks:
+                text = node.get_text(strip=True)
+                tag_name = node.name.lower()
+
+                if len(text) < 2: continue
+                # 排除常见的组件自带垃圾文字
+                if text.startswith("Image source,"): continue
+                if text.startswith("Image caption,"): continue
+                if text.lower() == "watch:": continue
+
+                if tag_name in ['h2', 'h3']:
+                    content_paragraphs.append(f"<h2>{text}</h2>")
+                else:
+                    content_paragraphs.append(f"<p>{text}</p>")
+        else:
+            # 引擎 B：回退模式 (针对特殊页面、旧版)
+            container = art_soup.find('article') or art_soup.find('main') or art_soup.body
+            if container:
+                nodes = container.find_all(['p', 'h2', 'h3'])
+                stop_parsing = False
+
+                for node in nodes:
+                    if stop_parsing: break
+
+                    # 跳过包裹在侧边栏、页脚、导航栏中的文字 (相当于 JS 的 node.closest)
+                    if node.find_parent(['aside', 'nav', 'footer', 'figure']):
+                        continue
+
+                    text = node.get_text(strip=True)
+                    lower_text = text.lower()
+                    tag_name = node.name.lower()
+
+                    # 遇到以下标题，说明正文已结束
+                    if lower_text in ['related topics', 'more on this story', 'top stories']:
+                        stop_parsing = True
+                        continue
+
+                    if len(text) < 5 and tag_name == 'p': continue
+
+                    if "Copyright" in text and "BBC" in text: continue
+                    if "The BBC is not responsible" in text: continue
+                    if "Read about our approach" in text: continue
+                    if lower_text.startswith("read:"): continue
+                    if text == "Share": continue
+
+                    if tag_name in ['h2', 'h3']:
+                        content_paragraphs.append(f"<h2>{text}</h2>")
+                    else:
+                        content_paragraphs.append(f"<p>{text}</p>")
 
         if content_paragraphs:
             save_article(title, content_paragraphs, current_time, article_url, now)
+        else:
+            print("未解析到文章正文，可能页面结构特殊。")
 
     except Exception as e:
         print(f"抓取错误: {e}")
@@ -77,7 +125,8 @@ def save_article(title, paragraphs, pub_date, article_url, now_obj):
     filename = f"{now_obj.year}_{now_obj.month}_{now_obj.day}_{now_obj.strftime('%H%M')}.html"
     html_path = os.path.join(target_dir, filename)
 
-    p_tags = "\n".join([f"<p>{p}</p>" for p in paragraphs])
+    # 提取逻辑已经自带了 <p> 或 <h2> 标签，直接 join 即可
+    p_tags = "\n            ".join(paragraphs)
 
     html_content = f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -90,6 +139,7 @@ def save_article(title, paragraphs, pub_date, article_url, now_obj):
         body {{ font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; text-align: left; font-size: 1.25rem; line-height: 1.7; color: var(--text); background: var(--bg); margin: 0; padding: 0; }}
         .container {{ max-width: 800px; margin: 0 auto; background: var(--card); padding: 40px 25px; min-height: 100vh; box-shadow: 0 4px 24px rgba(0,0,0,0.04); box-sizing: border-box; }}
         h1 {{ font-size: 1.8rem; margin-top: 0; padding-bottom: 15px; border-bottom: 1px solid #e5e5ea; line-height: 1.3; }}
+        h2 {{ font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; color: #1d1d1f; }}
         .meta {{ font-size: 0.9rem; color: var(--muted); margin-bottom: 30px; display: flex; flex-wrap: nowrap; gap: 10px; align-items: center; white-space: nowrap; overflow-x: auto; scrollbar-width: none; }}
         .meta::-webkit-scrollbar {{ display: none; }}
         .meta span {{ flex-shrink: 0; }}
@@ -123,13 +173,13 @@ def generate_index():
     if os.path.exists(BASE_DIR):
         years = [d for d in os.listdir(BASE_DIR) if d.isdigit()]
         for year in years:
-            y_key = str(int(year)) # 强制转换去掉可能的前导零
+            y_key = str(int(year))
             if y_key not in archive_data:
                 archive_data[y_key] = {}
 
             months = [d for d in os.listdir(os.path.join(BASE_DIR, year)) if d.isdigit()]
             for month in months:
-                m_key = str(int(month)) # 确保 06 变成 6，防止前端 JS 匹配失败
+                m_key = str(int(month))
                 if m_key not in archive_data[y_key]:
                     archive_data[y_key][m_key] = {}
 
@@ -139,7 +189,7 @@ def generate_index():
                         parts = file.replace(".html", "").split('_')
                         if len(parts) >= 4:
                             day = parts[2]
-                            d_key = str(int(day)) # 确保日期格式一致
+                            d_key = str(int(day))
                             time_str = f"{parts[3][:2]}:{parts[3][2:4]}"
                             file_path = f"{year}/{month}/{file}"
 
@@ -236,7 +286,6 @@ def generate_index():
 </head>
 <body>
     <div id="loadingBar"></div>
-    <!-- 引入 Toast 节点 -->
     <div id="toastMsg" class="toast-msg"></div>
 
     <div class="manual-fetch-bar">
@@ -294,7 +343,6 @@ def generate_index():
     </div>
 
     <script>
-        // Toast 提示函数
         function showToast(msg, duration = 3000) {
             const toast = document.getElementById('toastMsg');
             toast.textContent = msg;
@@ -302,7 +350,6 @@ def generate_index():
             setTimeout(() => { toast.classList.remove('show'); }, duration);
         }
 
-        // ================= 数据初始化与日历渲染 =================
         const archiveData = /*DATA_START*/REPLACEME_JSON_DATA/*DATA_END*/;
         
         const today = new Date();
@@ -417,7 +464,6 @@ def generate_index():
             }
         }
 
-        // ================= GitHub 同步与管理逻辑 =================
         const modal = document.getElementById('settingsModal');
         const bbcUrlInput = document.getElementById('bbcUrlInput');
         const loadingBar = document.getElementById('loadingBar');
@@ -437,7 +483,6 @@ def generate_index():
             showToast('✅ 配置已保存');
         }
 
-        // 双击日历唤出删除
         let lastTap = 0;
         const calWrapper = document.querySelector('.calendar-wrapper');
         calWrapper.addEventListener('click', function(e) {
@@ -460,7 +505,6 @@ def generate_index():
 
             try {
                 loadingBar.style.width = '10%';
-                
                 const targetFilePath = `docs/${fileRelPath}`;
                 const fileRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/${targetFilePath}`, {
                     headers: { 'Authorization': `token ${ghToken}` }
@@ -479,7 +523,6 @@ def generate_index():
                 }
                 
                 loadingBar.style.width = '50%';
-
                 const idxRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, {
                     headers: { 'Authorization': `token ${ghToken}` }
                 });
@@ -511,7 +554,7 @@ def generate_index():
             }
         }
 
-        // ================= 前端纯静默动态抓取模块 =================
+        // ================= 前端纯静默动态抓取模块 (引入双引擎逻辑) =================
         bbcUrlInput.addEventListener('keypress', async function (e) {
             if (e.key === 'Enter') {
                 const url = bbcUrlInput.value.trim();
@@ -535,7 +578,6 @@ def generate_index():
                 showToast('⏳ 正在抓取文章并上传，请耐心等待...');
 
                 try {
-                    // 1. 利用 allorigins 代理突破 CORS 抓取 BBC 网页文本
                     loadingBar.style.width = '30%';
                     const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
                     const res = await fetch(proxyUrl);
@@ -544,7 +586,6 @@ def generate_index():
                     
                     if (!proxyData.contents) throw new Error("代理未返回有效的网页内容");
 
-                    // 2. 使用 DOMParser 模拟后端的 BeautifulSoup 逻辑
                     loadingBar.style.width = '50%';
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(proxyData.contents, 'text/html');
@@ -552,23 +593,66 @@ def generate_index():
                     const titleTag = doc.querySelector('h1');
                     const title = titleTag ? titleTag.textContent.trim() : "BBC News";
                     
-                    const pTags = doc.querySelectorAll('p');
                     let contentParagraphs = [];
-                    pTags.forEach(p => {
-                        let text = p.textContent.trim();
-                        if (text.split(' ').length > 8 && 
-                            !text.includes("Copyright") && 
-                            !text.includes("The BBC is not responsible") && 
-                            !text.includes("Read about our approach")) {
-                            contentParagraphs.push(`<p>${text}</p>`);
-                        }
-                    });
+                    
+                    // 引擎 A: 精准提取
+                    const exactBlocks = doc.querySelectorAll('[data-component="text-block"] p, [data-component="subheadline-block"] h2, [data-component="subheadline-block"] h3');
+                    
+                    if (exactBlocks.length > 0) {
+                        exactBlocks.forEach(node => {
+                            const text = node.textContent.trim();
+                            const tagName = node.tagName.toLowerCase();
+                            
+                            if (text.length < 2) return;
+                            if (text.startsWith("Image source,")) return;
+                            if (text.startsWith("Image caption,")) return;
+                            if (text.toLowerCase() === "watch:") return;
+                            
+                            if (tagName === 'h2' || tagName === 'h3') {
+                                contentParagraphs.push(`<h2>${text}</h2>`);
+                            } else {
+                                contentParagraphs.push(`<p>${text}</p>`);
+                            }
+                        });
+                    } else {
+                        // 引擎 B: 降级回退
+                        const container = doc.querySelector('article') || doc.querySelector('main') || doc.body;
+                        const nodes = container.querySelectorAll('p, h2, h3');
+                        let stopParsing = false;
+
+                        nodes.forEach(node => {
+                            if (stopParsing) return;
+                            if (node.closest('aside') || node.closest('nav') || node.closest('footer') || node.closest('figure')) return;
+
+                            const text = node.textContent.trim();
+                            const lowerText = text.toLowerCase();
+                            const tagName = node.tagName.toLowerCase();
+
+                            if (lowerText === 'related topics' || lowerText === 'more on this story' || lowerText === 'top stories') {
+                                stopParsing = true;
+                                return;
+                            }
+
+                            if (text.length < 5 && tagName === 'p') return;
+                            
+                            if (text.includes("Copyright") && text.includes("BBC")) return;
+                            if (text.includes("The BBC is not responsible")) return;
+                            if (text.includes("Read about our approach")) return;
+                            if (lowerText.startsWith("read:")) return;
+                            if (text === "Share") return;
+
+                            if (tagName === 'h2' || tagName === 'h3') {
+                                contentParagraphs.push(`<h2>${text}</h2>`);
+                            } else {
+                                contentParagraphs.push(`<p>${text}</p>`);
+                            }
+                        });
+                    }
 
                     if (contentParagraphs.length === 0) throw new Error("未在此页面解析到文章正文");
 
                     loadingBar.style.width = '65%';
                     
-                    // 计算时间和路径
                     const now = new Date();
                     const year = now.getFullYear().toString();
                     const month = (now.getMonth() + 1).toString();
@@ -581,9 +665,8 @@ def generate_index():
                     const fileRelPath = `${year}/${month}/${filename}`;
                     const fileApiPath = `docs/${year}/${month}/${filename}`;
                     
-                    const htmlOutput = generateBaseHTMLString(title, contentParagraphs.join('\\n'), pub_date, url);
+                    const htmlOutput = generateBaseHTMLString(title, contentParagraphs.join('\\n            '), pub_date, url);
 
-                    // 3. 提交静态 HTML 到 GitHub
                     loadingBar.style.width = '75%';
                     const uploadRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/${fileApiPath}`, {
                         method: 'PUT',
@@ -595,7 +678,6 @@ def generate_index():
                     });
                     if (!uploadRes.ok) throw new Error("文章文件上传 GitHub 失败，请检查配置或网络");
 
-                    // 4. 更新 GitHub 上的 index.html 数据
                     loadingBar.style.width = '85%';
                     const idxRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, {
                         headers: { 'Authorization': `token ${ghToken}` }
@@ -636,7 +718,6 @@ def generate_index():
                     });
                     if (!idxUpdateRes.ok) throw new Error("更新远程日历索引失败");
 
-                    // 5. 本地无刷新上屏
                     if (!archiveData[year]) archiveData[year] = {};
                     if (!archiveData[year][month]) archiveData[year][month] = {};
                     if (!archiveData[year][month][day]) archiveData[year][month][day] = [];
@@ -654,13 +735,11 @@ def generate_index():
                     bbcUrlInput.value = '';
                     setTimeout(() => { loadingBar.style.width = '0%'; }, 1000);
                     
-                    // 成功提示
                     showToast('🎉 文章抓取并保存成功！');
 
                 } catch (err) {
                     console.error('Fetch failed:', err);
                     loadingBar.style.width = '0%';
-                    // 失败提示
                     showToast('❌ 操作失败: ' + err.message);
                 } finally {
                     bbcUrlInput.disabled = false;
@@ -680,6 +759,7 @@ def generate_index():
         body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; text-align: left; font-size: 1.25rem; line-height: 1.7; color: var(--text); background: var(--bg); margin: 0; padding: 0; }
         .container { max-width: 800px; margin: 0 auto; background: var(--card); padding: 40px 25px; min-height: 100vh; box-shadow: 0 4px 24px rgba(0,0,0,0.04); box-sizing: border-box; }
         h1 { font-size: 1.8rem; margin-top: 0; padding-bottom: 15px; border-bottom: 1px solid #e5e5ea; line-height: 1.3; }
+        h2 { font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; color: #1d1d1f; }
         .meta { font-size: 0.9rem; color: var(--muted); margin-bottom: 30px; display: flex; flex-wrap: nowrap; gap: 10px; align-items: center; white-space: nowrap; overflow-x: auto; scrollbar-width: none; }
         .meta::-webkit-scrollbar { display: none; }
         .meta span { flex-shrink: 0; }
@@ -704,7 +784,6 @@ def generate_index():
 </html>`;
         }
 
-        // ================= 基础控制绑定 =================
         yearSelect.addEventListener('change', (e) => {
             renderCalendar(parseInt(e.target.value), parseInt(monthSelect.value));
         });
@@ -734,7 +813,6 @@ def generate_index():
 </body>
 </html>"""
 
-    # 关键修复点：务必将 /*DATA_START*/ 和 /*DATA_END*/ 一起拼装进最终结果里保留给前端用
     final_html = html_template.replace(
         "/*DATA_START*/REPLACEME_JSON_DATA/*DATA_END*/", 
         f"/*DATA_START*/{json_data}/*DATA_END*/"
@@ -742,7 +820,7 @@ def generate_index():
 
     with open(os.path.join(BASE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(final_html)
-    print("首页 index.html 已更新，已加入用户交互提示功能。")
+    print("首页 index.html 已更新，全面启用双引擎提取逻辑。")
 
 if __name__ == "__main__":
     os.makedirs(BASE_DIR, exist_ok=True)
