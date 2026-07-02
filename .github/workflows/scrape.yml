@@ -3,24 +3,24 @@ name: Auto Scrape BBC News
 # 触发条件：定时触发 + 手动触发 + 代码更新触发
 on:
   schedule:
-    - cron: '0 0 * * *'  # 每天运行一次 (基于 UTC 时间)
-  workflow_dispatch:     # 允许你在 GitHub 网页上手动点击运行
+    - cron: '0 0 * * *'  # 每天运行一次 (基于 UTC 时间，北京时间早上 8 点)
+  workflow_dispatch:     # 允许你在 GitHub Actions 网页上手动点击运行
   push:
     paths:
-      - 'bbc_reader.py'  # 只有当这个 Python 文件发生修改并提交时，才会自动触发
+      - 'bbc_reader.py'  # 只有当这个 Python 文件发生修改并提交时，才会自动触发运行一次
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write       # 赋予机器人写入代码库的权限
+      contents: write       # 赋予 github-actions 机器人写入并推送到代码库的权限
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # 升级至最新的 v4，拉取代码更快更稳
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 # 升级至最新的 v5
         with:
           python-version: '3.10'
 
@@ -34,6 +34,14 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+          
+          # 将所有生成的新文件（如 docs 目录的 html、更改的 index.html、last_bbc_url.txt）添加到暂存区
           git add .
-          # 如果有新文件生成，就提交并推送到仓库
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto add new article" && git push)
+          
+          # 判断是否有变动：如果有新文章或配置更新就提交，如果没有变动就安全退出，不报错
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "Auto update BBC News archive"
+            git push
+          else
+            echo "头条未更新或无新文件生成，本次无需提交。"
+          fi
