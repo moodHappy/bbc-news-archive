@@ -148,14 +148,35 @@
 
         function initSelects() {
             yearSelect.innerHTML = '';
-            const years = Object.keys(archiveData).map(Number).sort((a, b) => b - a);
-            if (!years.includes(currentYear)) years.unshift(currentYear);
             
-            years.forEach(y => {
+            // 提取已存在数据的年份
+            let dataYears = Object.keys(archiveData).map(Number);
+            
+            // 生成跨度 50 年的选项（从当前年的前 10 年到后 40 年）
+            let generatedYears = [];
+            for (let i = -10; i <= 40; i++) {
+                generatedYears.push(currentYear + i);
+            }
+            
+            // 合并已有数据的年份和生成的年份，去重并降序排列
+            let allYears = Array.from(new Set([...dataYears, ...generatedYears])).sort((a, b) => b - a);
+            
+            allYears.forEach(y => {
                 const opt = document.createElement('option');
-                opt.value = y; opt.textContent = y + ' 年';
+                opt.value = y; 
+                opt.textContent = y + ' 年';
                 yearSelect.appendChild(opt);
             });
+            
+            // 确保当前选中的年份在下拉列表中（防御性处理）
+            let hasSelectedYear = Array.from(yearSelect.options).some(opt => parseInt(opt.value) === selectedYear);
+            if (!hasSelectedYear) {
+                const opt = document.createElement('option');
+                opt.value = selectedYear; 
+                opt.textContent = selectedYear + ' 年';
+                yearSelect.insertBefore(opt, yearSelect.firstChild);
+            }
+            
             yearSelect.value = selectedYear;
             monthSelect.value = selectedMonth;
         }
@@ -356,6 +377,11 @@
         });
         document.getElementById('todayBtn').addEventListener('click', () => {
             selectedYear = today.getFullYear(); selectedMonth = today.getMonth() + 1; selectedDay = today.getDate();
+            
+            // 如果点回今天时，发现年份不在列表里，再初始化一次下拉框（一般都有）
+            let hasSelectedYear = Array.from(yearSelect.options).some(opt => parseInt(opt.value) === selectedYear);
+            if(!hasSelectedYear) initSelects();
+
             yearSelect.value = selectedYear; monthSelect.value = selectedMonth;
             renderCalendar(selectedYear, selectedMonth); renderNews(selectedYear, selectedMonth, selectedDay);
         });
