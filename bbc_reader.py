@@ -123,13 +123,13 @@ def generate_index():
     if os.path.exists(BASE_DIR):
         years = [d for d in os.listdir(BASE_DIR) if d.isdigit()]
         for year in years:
-            y_key = str(int(year)) # 强制转换去掉可能的前导零
+            y_key = str(int(year)) 
             if y_key not in archive_data:
                 archive_data[y_key] = {}
 
             months = [d for d in os.listdir(os.path.join(BASE_DIR, year)) if d.isdigit()]
             for month in months:
-                m_key = str(int(month)) # 确保 06 变成 6，防止前端 JS 匹配失败
+                m_key = str(int(month)) 
                 if m_key not in archive_data[y_key]:
                     archive_data[y_key][m_key] = {}
 
@@ -139,7 +139,7 @@ def generate_index():
                         parts = file.replace(".html", "").split('_')
                         if len(parts) >= 4:
                             day = parts[2]
-                            d_key = str(int(day)) # 确保日期格式一致
+                            d_key = str(int(day)) 
                             time_str = f"{parts[3][:2]}:{parts[3][2:4]}"
                             file_path = f"{year}/{month}/{file}"
 
@@ -317,14 +317,35 @@ def generate_index():
 
         function initSelects() {
             yearSelect.innerHTML = '';
-            const years = Object.keys(archiveData).map(Number).sort((a, b) => b - a);
-            if (!years.includes(currentYear)) years.unshift(currentYear);
             
-            years.forEach(y => {
+            // 提取已存在数据的年份
+            let dataYears = Object.keys(archiveData).map(Number);
+            
+            // 生成跨度 50 年的选项（从当前年的前 10 年到后 40 年）
+            let generatedYears = [];
+            for (let i = -10; i <= 40; i++) {
+                generatedYears.push(currentYear + i);
+            }
+            
+            // 合并已有数据的年份和生成的年份，去重并降序排列
+            let allYears = Array.from(new Set([...dataYears, ...generatedYears])).sort((a, b) => b - a);
+            
+            allYears.forEach(y => {
                 const opt = document.createElement('option');
-                opt.value = y; opt.textContent = y + ' 年';
+                opt.value = y; 
+                opt.textContent = y + ' 年';
                 yearSelect.appendChild(opt);
             });
+            
+            // 确保当前选中的年份在下拉列表中（防御性处理）
+            let hasSelectedYear = Array.from(yearSelect.options).some(opt => parseInt(opt.value) === selectedYear);
+            if (!hasSelectedYear) {
+                const opt = document.createElement('option');
+                opt.value = selectedYear; 
+                opt.textContent = selectedYear + ' 年';
+                yearSelect.insertBefore(opt, yearSelect.firstChild);
+            }
+            
             yearSelect.value = selectedYear;
             monthSelect.value = selectedMonth;
         }
@@ -525,6 +546,11 @@ def generate_index():
         });
         document.getElementById('todayBtn').addEventListener('click', () => {
             selectedYear = today.getFullYear(); selectedMonth = today.getMonth() + 1; selectedDay = today.getDate();
+            
+            // 如果点回今天时，发现年份不在列表里，再初始化一次下拉框（一般都有）
+            let hasSelectedYear = Array.from(yearSelect.options).some(opt => parseInt(opt.value) === selectedYear);
+            if(!hasSelectedYear) initSelects();
+
             yearSelect.value = selectedYear; monthSelect.value = selectedMonth;
             renderCalendar(selectedYear, selectedMonth); renderNews(selectedYear, selectedMonth, selectedDay);
         });
@@ -536,7 +562,7 @@ def generate_index():
 </body>
 </html>"""
 
-    # 关键修复点：务必将 /*DATA_START*/ 和 /*DATA_END*/ 一起拼装进最终结果里保留给前端用
+    # 务必将 /*DATA_START*/ 和 /*DATA_END*/ 一起拼装进最终结果里保留给前端用
     final_html = html_template.replace(
         "/*DATA_START*/REPLACEME_JSON_DATA/*DATA_END*/", 
         f"/*DATA_START*/{json_data}/*DATA_END*/"
@@ -544,7 +570,7 @@ def generate_index():
 
     with open(os.path.join(BASE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(final_html)
-    print("首页 index.html 已更新，已加入用户交互提示功能。")
+    print("首页 index.html 已更新，已生成 50 年跨度日历并关联内容。")
 
 if __name__ == "__main__":
     os.makedirs(BASE_DIR, exist_ok=True)
