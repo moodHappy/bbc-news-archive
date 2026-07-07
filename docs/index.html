@@ -10,7 +10,7 @@
         
         .container { max-width: 600px; margin: 0 auto; background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; }
         
-        .settings-bar { background: var(--card); padding: 12px 15px; display: flex; justify-content: flex-end; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 20; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .manual-fetch-bar { background: var(--card); padding: 12px 15px; display: flex; justify-content: flex-end; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 20; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .settings-btn { background: none; border: none; font-size: 20px; cursor: pointer; padding: 5px; }
         
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 100; justify-content: center; align-items: center; padding: 20px; }
@@ -67,14 +67,14 @@
     <div id="loadingBar"></div>
     <div id="toastMsg" class="toast-msg"></div>
 
-    <div class="settings-bar">
+    <div class="manual-fetch-bar">
         <button class="settings-btn" onclick="openSettings()">⚙️</button>
     </div>
 
     <div class="modal-overlay" id="settingsModal">
         <div class="modal-content">
             <h3 class="modal-title">本地配置中心</h3>
-            <p style="font-size:12px; color:#888; margin-top:-10px; margin-bottom:15px;">密钥仅保存在您的浏览器本地，用于双击唤出删除时自动同步云端。</p>
+            <p style="font-size:12px; color:#888; margin-top:-10px; margin-bottom:15px;">密钥仅保存在您的浏览器本地，不会上传到任何第三方服务器。</p>
             <div class="form-group">
                 <label>GitHub Personal Access Token</label>
                 <input type="password" id="cfgGhToken" placeholder="ghp_...">
@@ -121,6 +121,7 @@
     </div>
 
     <script>
+        // Toast 提示函数
         function showToast(msg, duration = 3000) {
             const toast = document.getElementById('toastMsg');
             toast.textContent = msg;
@@ -128,6 +129,7 @@
             setTimeout(() => { toast.classList.remove('show'); }, duration);
         }
 
+        // ================= 数据初始化与日历渲染 =================
         const archiveData = /*DATA_START*/{"2026": {"7": {"7": [{"time": "21:17", "path": "2026/7/2026_7_7_2117.html", "title": "Zelensky to press Nato for air defence systems after intense Russian strikes"}, {"time": "12:00", "path": "2026/7/2026_7_7_1200_browser.html", "title": "Why European backlash over Trump intervention won't worry Infantino"}, {"time": "10:36", "path": "2026/7/2026_7_7_1036.html", "title": "Can China repeat its EV success with robotaxis?"}], "6": [{"time": "22:15", "path": "2026/7/2026_7_6_2215_browser.html", "title": "Red card system in disarray over Trump, Fifa and Balogun decision"}, {"time": "10:39", "path": "2026/7/2026_7_6_1039.html", "title": "Iran's supreme leader absent as senior officials attend ayatollah's funeral"}], "5": [{"time": "10:35", "path": "2026/7/2026_7_5_1035.html", "title": "Dior dress, Adam Sandler and a man of honour: What we know about Taylor and Travis's wedding"}], "4": [{"time": "10:26", "path": "2026/7/2026_7_4_1026.html", "title": "China's internet got so mad about a celebrity's 'bad' singing, her concert was cancelled"}], "3": [{"time": "10:28", "path": "2026/7/2026_7_3_1028.html", "title": "On the Strait of Hormuz, BBC finds seized ships and shark fishermen as uneasy calm returns"}], "2": [{"time": "14:15", "path": "2026/7/2026_7_2_1415_browser.html", "title": "Chinese tycoon sentenced to 30 years in US jail"}, {"time": "14:14", "path": "2026/7/2026_7_2_1414_browser.html", "title": "Banned by Beijing, this comedian is taking his act to Chinese speakers abroad"}, {"time": "13:15", "path": "2026/7/2026_7_2_1315.html", "title": "At least 10 killed in large-scale Russian missile and drone strikes on Kyiv"}, {"time": "10:45", "path": "2026/7/2026_7_2_1045.html", "title": "Aunt of Venezuelan boy pulled from rubble tells BBC she will give him 'mother's warmth'"}], "1": [{"time": "10:55", "path": "2026/7/2026_7_1_1055.html", "title": "Trump made more than $1bn from crypto in first year back in office"}]}, "6": {"30": [{"time": "10:50", "path": "2026/6/2026_6_30_1050.html", "title": "Aftershock frays nerves as many Venezuelans left to fend for themselves"}], "29": [{"time": "10:56", "path": "2026/6/2026_6_29_1056.html", "title": "Two boys pulled from Venezuela earthquake rubble among 33 people rescued over weekend"}, {"time": "06:06", "path": "2026/6/2026_6_29_0606_custom.html", "title": "Eleven killed after plane carrying skydivers crashes in eastern France"}], "28": [{"time": "07:58", "path": "2026/6/2026_6_28_0758_custom.html", "title": "China detains two leaders of influential underground church"}], "27": [{"time": "10:40", "path": "2026/6/2026_6_27_1040.html", "title": "US conducts strikes on Iran after attack on cargo ship"}, {"time": "00:56", "path": "2026/6/2026_6_27_0056.html", "title": "Mother dies saving daughter in Venezuela earthquakes"}], "26": [{"time": "22:10", "path": "2026/6/2026_6_26_2210.html", "title": "Canada eligible to join Eurovision competition"}, {"time": "19:41", "path": "2026/6/2026_6_26_1941.html", "title": "Christmas market attacker jailed for life for murdering six in Germany"}, {"time": "13:04", "path": "2026/6/2026_6_26_1304.html", "title": "Rescuers search rubble for survivors as Venezuela earthquakes kill at least 235"}, {"time": "06:17", "path": "2026/6/2026_6_26_0617.html", "title": "France warns even young people's health at risk as Europe's heatwave shifts east"}, {"time": "00:19", "path": "2026/6/2026_6_26_0019.html", "title": "Supreme Court allows Trump to end protected status for Haitian and Syrian immigrants"}]}}}/*DATA_END*/;
         
         const today = new Date();
@@ -261,6 +263,7 @@
             showToast('✅ 配置已保存');
         }
 
+        // 双击日历唤出删除
         let lastTap = 0;
         const calWrapper = document.querySelector('.calendar-wrapper');
         calWrapper.addEventListener('click', function(e) {
@@ -279,10 +282,7 @@
             const ghToken = localStorage.getItem('GH_TOKEN_BBC');
             const ghOwner = localStorage.getItem('GH_OWNER_BBC');
             const ghRepo = localStorage.getItem('GH_REPO_BBC');
-            if (!ghToken || !ghOwner || !ghRepo) {
-                showToast('⚠️ 未配置密钥，仅在本地页面移除。请点击右上角齿轮配置以同步云端。');
-                return;
-            }
+            if (!ghToken || !ghOwner || !ghRepo) return;
 
             try {
                 loadingBar.style.width = '10%';
@@ -339,71 +339,25 @@
 
         // ================= 基础控制绑定 =================
         yearSelect.addEventListener('change', (e) => {
-            selectedYear = parseInt(e.target.value);
-            renderCalendar(selectedYear, selectedMonth);
-            renderNews(selectedYear, selectedMonth, selectedDay);
+            renderCalendar(parseInt(e.target.value), parseInt(monthSelect.value));
         });
-        
         monthSelect.addEventListener('change', (e) => {
-            selectedMonth = parseInt(e.target.value);
-            renderCalendar(selectedYear, selectedMonth);
-            renderNews(selectedYear, selectedMonth, selectedDay);
+            renderCalendar(parseInt(yearSelect.value), parseInt(e.target.value));
         });
-        
         document.getElementById('prevBtn').addEventListener('click', () => {
-            selectedMonth--;
-            if (selectedMonth < 1) { 
-                selectedMonth = 12; 
-                selectedYear--; 
-                
-                let exists = Array.from(yearSelect.options).some(opt => parseInt(opt.value) === selectedYear);
-                if (!exists) {
-                    const opt = document.createElement('option');
-                    opt.value = selectedYear; opt.textContent = selectedYear + ' 年';
-                    yearSelect.appendChild(opt);
-                    const opts = Array.from(yearSelect.options);
-                    opts.sort((a, b) => parseInt(b.value) - parseInt(a.value));
-                    yearSelect.innerHTML = '';
-                    opts.forEach(o => yearSelect.appendChild(o));
-                }
-                yearSelect.value = selectedYear; 
-            }
-            monthSelect.value = selectedMonth; 
-            renderCalendar(selectedYear, selectedMonth);
-            renderNews(selectedYear, selectedMonth, selectedDay);
+            let m = parseInt(monthSelect.value) - 1; let y = parseInt(yearSelect.value);
+            if (m < 1) { m = 12; y--; yearSelect.value = y; }
+            monthSelect.value = m; renderCalendar(y, m);
         });
-        
         document.getElementById('nextBtn').addEventListener('click', () => {
-            selectedMonth++;
-            if (selectedMonth > 12) { 
-                selectedMonth = 1; 
-                selectedYear++; 
-                
-                let exists = Array.from(yearSelect.options).some(opt => parseInt(opt.value) === selectedYear);
-                if (!exists) {
-                    const opt = document.createElement('option');
-                    opt.value = selectedYear; opt.textContent = selectedYear + ' 年';
-                    yearSelect.appendChild(opt);
-                    const opts = Array.from(yearSelect.options);
-                    opts.sort((a, b) => parseInt(b.value) - parseInt(a.value));
-                    yearSelect.innerHTML = '';
-                    opts.forEach(o => yearSelect.appendChild(o));
-                }
-                yearSelect.value = selectedYear; 
-            }
-            monthSelect.value = selectedMonth; 
-            renderCalendar(selectedYear, selectedMonth);
-            renderNews(selectedYear, selectedMonth, selectedDay);
+            let m = parseInt(monthSelect.value) + 1; let y = parseInt(yearSelect.value);
+            if (m > 12) { m = 1; y++; yearSelect.value = y; }
+            monthSelect.value = m; renderCalendar(y, m);
         });
-        
         document.getElementById('todayBtn').addEventListener('click', () => {
-            selectedYear = today.getFullYear(); 
-            selectedMonth = today.getMonth() + 1; 
-            selectedDay = today.getDate();
-            yearSelect.value = selectedYear; 
-            monthSelect.value = selectedMonth;
-            renderCalendar(selectedYear, selectedMonth); 
-            renderNews(selectedYear, selectedMonth, selectedDay);
+            selectedYear = today.getFullYear(); selectedMonth = today.getMonth() + 1; selectedDay = today.getDate();
+            yearSelect.value = selectedYear; monthSelect.value = selectedMonth;
+            renderCalendar(selectedYear, selectedMonth); renderNews(selectedYear, selectedMonth, selectedDay);
         });
 
         initSelects();
