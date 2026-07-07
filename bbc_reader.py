@@ -179,9 +179,7 @@ def generate_index():
         
         .container { max-width: 600px; margin: 0 auto; background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; }
         
-        .manual-fetch-bar { background: var(--card); padding: 12px 15px; display: flex; gap: 10px; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 20; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .fetch-input { flex: 1; padding: 10px 15px; border: 1px solid #ccc; border-radius: 20px; font-size: 14px; outline: none; background: #f9f9f9; transition: border 0.2s; }
-        .fetch-input:focus { border-color: var(--primary); background: #fff; }
+        .settings-bar { background: var(--card); padding: 12px 15px; display: flex; justify-content: flex-end; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 20; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .settings-btn { background: none; border: none; font-size: 20px; cursor: pointer; padding: 5px; }
         
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 100; justify-content: center; align-items: center; padding: 20px; }
@@ -238,15 +236,14 @@ def generate_index():
     <div id="loadingBar"></div>
     <div id="toastMsg" class="toast-msg"></div>
 
-    <div class="manual-fetch-bar">
-        <input type="text" id="bbcUrlInput" class="fetch-input" placeholder="粘贴 BBC 文章链接，回车生成..." autocomplete="off">
+    <div class="settings-bar">
         <button class="settings-btn" onclick="openSettings()">⚙️</button>
     </div>
 
     <div class="modal-overlay" id="settingsModal">
         <div class="modal-content">
             <h3 class="modal-title">本地配置中心</h3>
-            <p style="font-size:12px; color:#888; margin-top:-10px; margin-bottom:15px;">密钥仅保存在您的浏览器本地，不会上传到任何第三方服务器。</p>
+            <p style="font-size:12px; color:#888; margin-top:-10px; margin-bottom:15px;">密钥仅保存在您的浏览器本地，用于双击唤出删除时自动同步云端。</p>
             <div class="form-group">
                 <label>GitHub Personal Access Token</label>
                 <input type="password" id="cfgGhToken" placeholder="ghp_...">
@@ -293,7 +290,6 @@ def generate_index():
     </div>
 
     <script>
-        // Toast 提示函数
         function showToast(msg, duration = 3000) {
             const toast = document.getElementById('toastMsg');
             toast.textContent = msg;
@@ -301,7 +297,6 @@ def generate_index():
             setTimeout(() => { toast.classList.remove('show'); }, duration);
         }
 
-        // ================= 数据初始化与日历渲染 =================
         const archiveData = /*DATA_START*/REPLACEME_JSON_DATA/*DATA_END*/;
         
         const today = new Date();
@@ -320,18 +315,8 @@ def generate_index():
 
         function initSelects() {
             yearSelect.innerHTML = '';
-            
-            // 核心修改点：加入去重集合，不仅包含历史数据，还延续未来 50 年
-            const dataYears = Object.keys(archiveData).map(Number);
-            const yearsSet = new Set(dataYears);
-            
-            // 向过去缓冲 5 年，向未来延续 50 年，确保选择器生命周期足够长
-            for (let i = -5; i <= 50; i++) {
-                yearsSet.add(currentYear + i);
-            }
-            
-            // 转为数组并降序排列（最新的在最上）
-            const years = Array.from(yearsSet).sort((a, b) => b - a);
+            const years = Object.keys(archiveData).map(Number).sort((a, b) => b - a);
+            if (!years.includes(currentYear)) years.unshift(currentYear);
             
             years.forEach(y => {
                 const opt = document.createElement('option');
@@ -428,7 +413,6 @@ def generate_index():
 
         // ================= GitHub 同步与管理逻辑 =================
         const modal = document.getElementById('settingsModal');
-        const bbcUrlInput = document.getElementById('bbcUrlInput');
         const loadingBar = document.getElementById('loadingBar');
 
         function openSettings() {
@@ -446,7 +430,6 @@ def generate_index():
             showToast('✅ 配置已保存');
         }
 
-        // 双击日历唤出删除
         let lastTap = 0;
         const calWrapper = document.querySelector('.calendar-wrapper');
         calWrapper.addEventListener('click', function(e) {
@@ -465,7 +448,10 @@ def generate_index():
             const ghToken = localStorage.getItem('GH_TOKEN_BBC');
             const ghOwner = localStorage.getItem('GH_OWNER_BBC');
             const ghRepo = localStorage.getItem('GH_REPO_BBC');
-            if (!ghToken || !ghOwner || !ghRepo) return;
+            if (!ghToken || !ghOwner || !ghRepo) {
+                showToast('⚠️ 未配置密钥，仅在本地页面移除。请点击右上角齿轮配置以同步云端。');
+                return;
+            }
 
             try {
                 loadingBar.style.width = '10%';
@@ -520,220 +506,73 @@ def generate_index():
             }
         }
 
-        // ================= 前端纯静默动态抓取模块 =================
-        bbcUrlInput.addEventListener('keypress', async function (e) {
-            if (e.key === 'Enter') {
-                const url = bbcUrlInput.value.trim();
-                if (!url.includes('bbc.com/news')) {
-                    showToast('⚠️ 请输入有效的 BBC News 链接');
-                    return;
-                }
-                
-                const ghToken = localStorage.getItem('GH_TOKEN_BBC');
-                const ghOwner = localStorage.getItem('GH_OWNER_BBC');
-                const ghRepo = localStorage.getItem('GH_REPO_BBC');
-                
-                if (!ghToken || !ghOwner || !ghRepo) {
-                    showToast('⚠️ 请先点击齿轮图标配置 GitHub 密钥');
-                    openSettings();
-                    return;
-                }
-
-                loadingBar.style.width = '10%';
-                bbcUrlInput.disabled = true;
-                showToast('⏳ 正在抓取文章并上传，请耐心等待...');
-
-                try {
-                    // 1. 利用 allorigins 代理突破 CORS 抓取 BBC 网页文本
-                    loadingBar.style.width = '30%';
-                    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-                    const res = await fetch(proxyUrl);
-                    if (!res.ok) throw new Error("代理服务请求失败");
-                    const proxyData = await res.json();
-                    
-                    if (!proxyData.contents) throw new Error("代理未返回有效的网页内容");
-
-                    // 2. 使用 DOMParser 模拟后端的 BeautifulSoup 逻辑
-                    loadingBar.style.width = '50%';
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(proxyData.contents, 'text/html');
-                    
-                    const titleTag = doc.querySelector('h1');
-                    const title = titleTag ? titleTag.textContent.trim() : "BBC News";
-                    
-                    const pTags = doc.querySelectorAll('p');
-                    let contentParagraphs = [];
-                    pTags.forEach(p => {
-                        let text = p.textContent.trim();
-                        if (text.split(' ').length > 8 && 
-                            !text.includes("Copyright") && 
-                            !text.includes("The BBC is not responsible") && 
-                            !text.includes("Read about our approach")) {
-                            contentParagraphs.push(`<p>${text}</p>`);
-                        }
-                    });
-
-                    if (contentParagraphs.length === 0) throw new Error("未在此页面解析到文章正文");
-
-                    loadingBar.style.width = '65%';
-                    
-                    // 计算时间和路径
-                    const now = new Date();
-                    const year = now.getFullYear().toString();
-                    const month = (now.getMonth() + 1).toString();
-                    const day = now.getDate().toString();
-                    const hhmmStr = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
-                    const hhmmFile = String(now.getHours()).padStart(2, '0') + String(now.getMinutes()).padStart(2, '0');
-                    const pub_date = `${year}-${month.padStart(2,'0')}-${day.padStart(2,'0')} ${hhmmStr}`;
-                    
-                    const filename = `${year}_${month}_${day}_${hhmmFile}_custom.html`;
-                    const fileRelPath = `${year}/${month}/${filename}`;
-                    const fileApiPath = `docs/${year}/${month}/${filename}`;
-                    
-                    const htmlOutput = generateBaseHTMLString(title, contentParagraphs.join('\\n'), pub_date, url);
-
-                    // 3. 提交静态 HTML 到 GitHub
-                    loadingBar.style.width = '75%';
-                    const uploadRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/${fileApiPath}`, {
-                        method: 'PUT',
-                        headers: { 'Authorization': `token ${ghToken}`, 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            message: `Add custom BBC news: ${title}`,
-                            content: btoa(unescape(encodeURIComponent(htmlOutput)))
-                        })
-                    });
-                    if (!uploadRes.ok) throw new Error("文章文件上传 GitHub 失败，请检查配置或网络");
-
-                    // 4. 更新 GitHub 上的 index.html 数据
-                    loadingBar.style.width = '85%';
-                    const idxRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, {
-                        headers: { 'Authorization': `token ${ghToken}` }
-                    });
-                    if (!idxRes.ok) throw new Error("获取远程 index.html 失败");
-                    
-                    const idxData = await idxRes.json();
-                    const idxContent = decodeURIComponent(escape(atob(idxData.content)));
-
-                    const dataStart = idxContent.indexOf('/*DATA_START*/') + 14;
-                    const dataEnd = idxContent.indexOf('/*DATA_END*/');
-                    const oldJsonStr = idxContent.substring(dataStart, dataEnd);
-                    const archiveObj = JSON.parse(oldJsonStr);
-
-                    if (!archiveObj[year]) archiveObj[year] = {};
-                    if (!archiveObj[year][month]) archiveObj[year][month] = {};
-                    if (!archiveObj[year][month][day]) archiveObj[year][month][day] = [];
-                    
-                    const newItem = {
-                        time: hhmmStr,
-                        path: fileRelPath,
-                        title: title
-                    };
-                    archiveObj[year][month][day].unshift(newItem);
-
-                    const newJsonStr = JSON.stringify(archiveObj);
-                    const newIdxContent = idxContent.substring(0, dataStart) + newJsonStr + idxContent.substring(dataEnd);
-                    
-                    loadingBar.style.width = '95%';
-                    const idxUpdateRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, {
-                        method: 'PUT',
-                        headers: { 'Authorization': `token ${ghToken}`, 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            message: `Update index.html calendar with custom BBC article`,
-                            content: btoa(unescape(encodeURIComponent(newIdxContent))),
-                            sha: idxData.sha
-                        })
-                    });
-                    if (!idxUpdateRes.ok) throw new Error("更新远程日历索引失败");
-
-                    // 5. 本地无刷新上屏
-                    if (!archiveData[year]) archiveData[year] = {};
-                    if (!archiveData[year][month]) archiveData[year][month] = {};
-                    if (!archiveData[year][month][day]) archiveData[year][month][day] = [];
-                    archiveData[year][month][day].unshift(newItem);
-
-                    selectedYear = parseInt(year);
-                    selectedMonth = parseInt(month);
-                    selectedDay = parseInt(day);
-                    
-                    initSelects();
-                    renderCalendar(selectedYear, selectedMonth);
-                    renderNews(selectedYear, selectedMonth, selectedDay);
-
-                    loadingBar.style.width = '100%';
-                    bbcUrlInput.value = '';
-                    setTimeout(() => { loadingBar.style.width = '0%'; }, 1000);
-                    
-                    // 成功提示
-                    showToast('🎉 文章抓取并保存成功！');
-
-                } catch (err) {
-                    console.error('Fetch failed:', err);
-                    loadingBar.style.width = '0%';
-                    // 失败提示
-                    showToast('❌ 操作失败: ' + err.message);
-                } finally {
-                    bbcUrlInput.disabled = false;
-                }
-            }
-        });
-
-        function generateBaseHTMLString(title, p_tags, pub_date, article_url) {
-            return `<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${title}</title>
-    <style>
-        :root { --bg: #f5f5f7; --card: #ffffff; --text: #1d1d1f; --muted: #86868b; --accent: #0066cc; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; text-align: left; font-size: 1.25rem; line-height: 1.7; color: var(--text); background: var(--bg); margin: 0; padding: 0; }
-        .container { max-width: 800px; margin: 0 auto; background: var(--card); padding: 40px 25px; min-height: 100vh; box-shadow: 0 4px 24px rgba(0,0,0,0.04); box-sizing: border-box; }
-        h1 { font-size: 1.8rem; margin-top: 0; padding-bottom: 15px; border-bottom: 1px solid #e5e5ea; line-height: 1.3; }
-        .meta { font-size: 0.9rem; color: var(--muted); margin-bottom: 30px; display: flex; flex-wrap: nowrap; gap: 10px; align-items: center; white-space: nowrap; overflow-x: auto; scrollbar-width: none; }
-        .meta::-webkit-scrollbar { display: none; }
-        .meta span { flex-shrink: 0; }
-        .meta a { color: var(--accent); text-decoration: none; background: #f0f7ff; padding: 6px 10px; border-radius: 8px; font-weight: 500; transition: background 0.2s; flex-shrink: 0; }
-        .meta a:hover { background: #e1efff; }
-        p { margin-bottom: 22px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>${title}</h1>
-        <div class="meta">
-            <span>📅 ${pub_date}</span>
-            <a href="${article_url}" target="_blank">🔗 阅读原文</a>
-            <a href="../../index.html">🔙 返回日历</a>
-        </div>
-        <div class="content">
-            ${p_tags}
-        </div>
-    </div>
-</body>
-</html>`;
-        }
-
         // ================= 基础控制绑定 =================
         yearSelect.addEventListener('change', (e) => {
-            renderCalendar(parseInt(e.target.value), parseInt(monthSelect.value));
+            selectedYear = parseInt(e.target.value);
+            renderCalendar(selectedYear, selectedMonth);
+            renderNews(selectedYear, selectedMonth, selectedDay);
         });
+        
         monthSelect.addEventListener('change', (e) => {
-            renderCalendar(parseInt(yearSelect.value), parseInt(e.target.value));
+            selectedMonth = parseInt(e.target.value);
+            renderCalendar(selectedYear, selectedMonth);
+            renderNews(selectedYear, selectedMonth, selectedDay);
         });
+        
         document.getElementById('prevBtn').addEventListener('click', () => {
-            let m = parseInt(monthSelect.value) - 1; let y = parseInt(yearSelect.value);
-            if (m < 1) { m = 12; y--; yearSelect.value = y; }
-            monthSelect.value = m; renderCalendar(y, m);
+            selectedMonth--;
+            if (selectedMonth < 1) { 
+                selectedMonth = 12; 
+                selectedYear--; 
+                
+                let exists = Array.from(yearSelect.options).some(opt => parseInt(opt.value) === selectedYear);
+                if (!exists) {
+                    const opt = document.createElement('option');
+                    opt.value = selectedYear; opt.textContent = selectedYear + ' 年';
+                    yearSelect.appendChild(opt);
+                    const opts = Array.from(yearSelect.options);
+                    opts.sort((a, b) => parseInt(b.value) - parseInt(a.value));
+                    yearSelect.innerHTML = '';
+                    opts.forEach(o => yearSelect.appendChild(o));
+                }
+                yearSelect.value = selectedYear; 
+            }
+            monthSelect.value = selectedMonth; 
+            renderCalendar(selectedYear, selectedMonth);
+            renderNews(selectedYear, selectedMonth, selectedDay);
         });
+        
         document.getElementById('nextBtn').addEventListener('click', () => {
-            let m = parseInt(monthSelect.value) + 1; let y = parseInt(yearSelect.value);
-            if (m > 12) { m = 1; y++; yearSelect.value = y; }
-            monthSelect.value = m; renderCalendar(y, m);
+            selectedMonth++;
+            if (selectedMonth > 12) { 
+                selectedMonth = 1; 
+                selectedYear++; 
+                
+                let exists = Array.from(yearSelect.options).some(opt => parseInt(opt.value) === selectedYear);
+                if (!exists) {
+                    const opt = document.createElement('option');
+                    opt.value = selectedYear; opt.textContent = selectedYear + ' 年';
+                    yearSelect.appendChild(opt);
+                    const opts = Array.from(yearSelect.options);
+                    opts.sort((a, b) => parseInt(b.value) - parseInt(a.value));
+                    yearSelect.innerHTML = '';
+                    opts.forEach(o => yearSelect.appendChild(o));
+                }
+                yearSelect.value = selectedYear; 
+            }
+            monthSelect.value = selectedMonth; 
+            renderCalendar(selectedYear, selectedMonth);
+            renderNews(selectedYear, selectedMonth, selectedDay);
         });
+        
         document.getElementById('todayBtn').addEventListener('click', () => {
-            selectedYear = today.getFullYear(); selectedMonth = today.getMonth() + 1; selectedDay = today.getDate();
-            yearSelect.value = selectedYear; monthSelect.value = selectedMonth;
-            renderCalendar(selectedYear, selectedMonth); renderNews(selectedYear, selectedMonth, selectedDay);
+            selectedYear = today.getFullYear(); 
+            selectedMonth = today.getMonth() + 1; 
+            selectedDay = today.getDate();
+            yearSelect.value = selectedYear; 
+            monthSelect.value = selectedMonth;
+            renderCalendar(selectedYear, selectedMonth); 
+            renderNews(selectedYear, selectedMonth, selectedDay);
         });
 
         initSelects();
@@ -743,7 +582,6 @@ def generate_index():
 </body>
 </html>"""
 
-    # 关键修复点：务必将 /*DATA_START*/ 和 /*DATA_END*/ 一起拼装进最终结果里保留给前端用
     final_html = html_template.replace(
         "/*DATA_START*/REPLACEME_JSON_DATA/*DATA_END*/", 
         f"/*DATA_START*/{json_data}/*DATA_END*/"
@@ -751,7 +589,7 @@ def generate_index():
 
     with open(os.path.join(BASE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(final_html)
-    print("首页 index.html 已更新，已加入用户交互提示功能。")
+    print("首页 index.html 已更新，已彻底移除抓取输入框，完全保留删除与云端同步功能，并修复联动 Bug。")
 
 if __name__ == "__main__":
     os.makedirs(BASE_DIR, exist_ok=True)
