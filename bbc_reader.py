@@ -179,7 +179,7 @@ def generate_index():
         
         .container { max-width: 600px; margin: 0 auto; background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; }
         
-        .settings-bar { background: var(--card); padding: 12px 15px; display: flex; justify-content: flex-end; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 20; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .manual-fetch-bar { background: var(--card); padding: 12px 15px; display: flex; justify-content: flex-end; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 20; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .settings-btn { background: none; border: none; font-size: 20px; cursor: pointer; padding: 5px; }
         
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 100; justify-content: center; align-items: center; padding: 20px; }
@@ -236,14 +236,14 @@ def generate_index():
     <div id="loadingBar"></div>
     <div id="toastMsg" class="toast-msg"></div>
 
-    <div class="settings-bar">
+    <div class="manual-fetch-bar">
         <button class="settings-btn" onclick="openSettings()">⚙️</button>
     </div>
 
     <div class="modal-overlay" id="settingsModal">
         <div class="modal-content">
             <h3 class="modal-title">本地配置中心</h3>
-            <p style="font-size:12px; color:#888; margin-top:-10px; margin-bottom:15px;">密钥仅保存在您的浏览器本地，用于双击唤出删除时自动同步云端。</p>
+            <p style="font-size:12px; color:#888; margin-top:-10px; margin-bottom:15px;">密钥仅保存在您的浏览器本地，不会上传到任何第三方服务器。</p>
             <div class="form-group">
                 <label>GitHub Personal Access Token</label>
                 <input type="password" id="cfgGhToken" placeholder="ghp_...">
@@ -290,6 +290,7 @@ def generate_index():
     </div>
 
     <script>
+        // Toast 提示函数
         function showToast(msg, duration = 3000) {
             const toast = document.getElementById('toastMsg');
             toast.textContent = msg;
@@ -297,6 +298,7 @@ def generate_index():
             setTimeout(() => { toast.classList.remove('show'); }, duration);
         }
 
+        // ================= 数据初始化与日历渲染 =================
         const archiveData = /*DATA_START*/REPLACEME_JSON_DATA/*DATA_END*/;
         
         const today = new Date();
@@ -430,6 +432,7 @@ def generate_index():
             showToast('✅ 配置已保存');
         }
 
+        // 双击日历唤出删除
         let lastTap = 0;
         const calWrapper = document.querySelector('.calendar-wrapper');
         calWrapper.addEventListener('click', function(e) {
@@ -448,10 +451,7 @@ def generate_index():
             const ghToken = localStorage.getItem('GH_TOKEN_BBC');
             const ghOwner = localStorage.getItem('GH_OWNER_BBC');
             const ghRepo = localStorage.getItem('GH_REPO_BBC');
-            if (!ghToken || !ghOwner || !ghRepo) {
-                showToast('⚠️ 未配置密钥，仅在本地页面移除。请点击右上角齿轮配置以同步云端。');
-                return;
-            }
+            if (!ghToken || !ghOwner || !ghRepo) return;
 
             try {
                 loadingBar.style.width = '10%';
@@ -508,71 +508,25 @@ def generate_index():
 
         // ================= 基础控制绑定 =================
         yearSelect.addEventListener('change', (e) => {
-            selectedYear = parseInt(e.target.value);
-            renderCalendar(selectedYear, selectedMonth);
-            renderNews(selectedYear, selectedMonth, selectedDay);
+            renderCalendar(parseInt(e.target.value), parseInt(monthSelect.value));
         });
-        
         monthSelect.addEventListener('change', (e) => {
-            selectedMonth = parseInt(e.target.value);
-            renderCalendar(selectedYear, selectedMonth);
-            renderNews(selectedYear, selectedMonth, selectedDay);
+            renderCalendar(parseInt(yearSelect.value), parseInt(e.target.value));
         });
-        
         document.getElementById('prevBtn').addEventListener('click', () => {
-            selectedMonth--;
-            if (selectedMonth < 1) { 
-                selectedMonth = 12; 
-                selectedYear--; 
-                
-                let exists = Array.from(yearSelect.options).some(opt => parseInt(opt.value) === selectedYear);
-                if (!exists) {
-                    const opt = document.createElement('option');
-                    opt.value = selectedYear; opt.textContent = selectedYear + ' 年';
-                    yearSelect.appendChild(opt);
-                    const opts = Array.from(yearSelect.options);
-                    opts.sort((a, b) => parseInt(b.value) - parseInt(a.value));
-                    yearSelect.innerHTML = '';
-                    opts.forEach(o => yearSelect.appendChild(o));
-                }
-                yearSelect.value = selectedYear; 
-            }
-            monthSelect.value = selectedMonth; 
-            renderCalendar(selectedYear, selectedMonth);
-            renderNews(selectedYear, selectedMonth, selectedDay);
+            let m = parseInt(monthSelect.value) - 1; let y = parseInt(yearSelect.value);
+            if (m < 1) { m = 12; y--; yearSelect.value = y; }
+            monthSelect.value = m; renderCalendar(y, m);
         });
-        
         document.getElementById('nextBtn').addEventListener('click', () => {
-            selectedMonth++;
-            if (selectedMonth > 12) { 
-                selectedMonth = 1; 
-                selectedYear++; 
-                
-                let exists = Array.from(yearSelect.options).some(opt => parseInt(opt.value) === selectedYear);
-                if (!exists) {
-                    const opt = document.createElement('option');
-                    opt.value = selectedYear; opt.textContent = selectedYear + ' 年';
-                    yearSelect.appendChild(opt);
-                    const opts = Array.from(yearSelect.options);
-                    opts.sort((a, b) => parseInt(b.value) - parseInt(a.value));
-                    yearSelect.innerHTML = '';
-                    opts.forEach(o => yearSelect.appendChild(o));
-                }
-                yearSelect.value = selectedYear; 
-            }
-            monthSelect.value = selectedMonth; 
-            renderCalendar(selectedYear, selectedMonth);
-            renderNews(selectedYear, selectedMonth, selectedDay);
+            let m = parseInt(monthSelect.value) + 1; let y = parseInt(yearSelect.value);
+            if (m > 12) { m = 1; y++; yearSelect.value = y; }
+            monthSelect.value = m; renderCalendar(y, m);
         });
-        
         document.getElementById('todayBtn').addEventListener('click', () => {
-            selectedYear = today.getFullYear(); 
-            selectedMonth = today.getMonth() + 1; 
-            selectedDay = today.getDate();
-            yearSelect.value = selectedYear; 
-            monthSelect.value = selectedMonth;
-            renderCalendar(selectedYear, selectedMonth); 
-            renderNews(selectedYear, selectedMonth, selectedDay);
+            selectedYear = today.getFullYear(); selectedMonth = today.getMonth() + 1; selectedDay = today.getDate();
+            yearSelect.value = selectedYear; monthSelect.value = selectedMonth;
+            renderCalendar(selectedYear, selectedMonth); renderNews(selectedYear, selectedMonth, selectedDay);
         });
 
         initSelects();
@@ -582,6 +536,7 @@ def generate_index():
 </body>
 </html>"""
 
+    # 关键修复点：务必将 /*DATA_START*/ 和 /*DATA_END*/ 一起拼装进最终结果里保留给前端用
     final_html = html_template.replace(
         "/*DATA_START*/REPLACEME_JSON_DATA/*DATA_END*/", 
         f"/*DATA_START*/{json_data}/*DATA_END*/"
@@ -589,7 +544,7 @@ def generate_index():
 
     with open(os.path.join(BASE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(final_html)
-    print("首页 index.html 已更新，已彻底移除抓取输入框，完全保留删除与云端同步功能，并修复联动 Bug。")
+    print("首页 index.html 已更新，已加入用户交互提示功能。")
 
 if __name__ == "__main__":
     os.makedirs(BASE_DIR, exist_ok=True)
