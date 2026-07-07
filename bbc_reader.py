@@ -528,31 +528,77 @@ def generate_index():
         }
 
         // ================= 基础控制绑定 =================
+        // 核心修复点：强制更新全局变量 selectedYear / selectedMonth 并重新渲染下方新闻
+        
         yearSelect.addEventListener('change', (e) => {
-            renderCalendar(parseInt(e.target.value), parseInt(monthSelect.value));
-        });
-        monthSelect.addEventListener('change', (e) => {
-            renderCalendar(parseInt(yearSelect.value), parseInt(e.target.value));
-        });
-        document.getElementById('prevBtn').addEventListener('click', () => {
-            let m = parseInt(monthSelect.value) - 1; let y = parseInt(yearSelect.value);
-            if (m < 1) { m = 12; y--; yearSelect.value = y; }
-            monthSelect.value = m; renderCalendar(y, m);
-        });
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            let m = parseInt(monthSelect.value) + 1; let y = parseInt(yearSelect.value);
-            if (m > 12) { m = 1; y++; yearSelect.value = y; }
-            monthSelect.value = m; renderCalendar(y, m);
-        });
-        document.getElementById('todayBtn').addEventListener('click', () => {
-            selectedYear = today.getFullYear(); selectedMonth = today.getMonth() + 1; selectedDay = today.getDate();
+            selectedYear = parseInt(e.target.value);
+            selectedMonth = parseInt(monthSelect.value);
             
-            // 如果点回今天时，发现年份不在列表里，再初始化一次下拉框（一般都有）
+            let maxDays = new Date(selectedYear, selectedMonth, 0).getDate();
+            if (selectedDay > maxDays) selectedDay = maxDays;
+            
+            renderCalendar(selectedYear, selectedMonth);
+            renderNews(selectedYear, selectedMonth, selectedDay);
+        });
+
+        monthSelect.addEventListener('change', (e) => {
+            selectedYear = parseInt(yearSelect.value);
+            selectedMonth = parseInt(e.target.value);
+            
+            let maxDays = new Date(selectedYear, selectedMonth, 0).getDate();
+            if (selectedDay > maxDays) selectedDay = maxDays;
+            
+            renderCalendar(selectedYear, selectedMonth);
+            renderNews(selectedYear, selectedMonth, selectedDay);
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            let m = parseInt(monthSelect.value) - 1; 
+            let y = parseInt(yearSelect.value);
+            if (m < 1) { m = 12; y--; }
+            
+            monthSelect.value = m; 
+            yearSelect.value = y;
+            selectedYear = y; 
+            selectedMonth = m;
+            
+            let maxDays = new Date(selectedYear, selectedMonth, 0).getDate();
+            if (selectedDay > maxDays) selectedDay = maxDays;
+            
+            renderCalendar(selectedYear, selectedMonth);
+            renderNews(selectedYear, selectedMonth, selectedDay);
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            let m = parseInt(monthSelect.value) + 1; 
+            let y = parseInt(yearSelect.value);
+            if (m > 12) { m = 1; y++; }
+            
+            monthSelect.value = m; 
+            yearSelect.value = y;
+            selectedYear = y; 
+            selectedMonth = m;
+            
+            let maxDays = new Date(selectedYear, selectedMonth, 0).getDate();
+            if (selectedDay > maxDays) selectedDay = maxDays;
+            
+            renderCalendar(selectedYear, selectedMonth);
+            renderNews(selectedYear, selectedMonth, selectedDay);
+        });
+
+        document.getElementById('todayBtn').addEventListener('click', () => {
+            selectedYear = today.getFullYear(); 
+            selectedMonth = today.getMonth() + 1; 
+            selectedDay = today.getDate();
+            
             let hasSelectedYear = Array.from(yearSelect.options).some(opt => parseInt(opt.value) === selectedYear);
             if(!hasSelectedYear) initSelects();
 
-            yearSelect.value = selectedYear; monthSelect.value = selectedMonth;
-            renderCalendar(selectedYear, selectedMonth); renderNews(selectedYear, selectedMonth, selectedDay);
+            yearSelect.value = selectedYear; 
+            monthSelect.value = selectedMonth;
+            
+            renderCalendar(selectedYear, selectedMonth); 
+            renderNews(selectedYear, selectedMonth, selectedDay);
         });
 
         initSelects();
@@ -562,7 +608,6 @@ def generate_index():
 </body>
 </html>"""
 
-    # 务必将 /*DATA_START*/ 和 /*DATA_END*/ 一起拼装进最终结果里保留给前端用
     final_html = html_template.replace(
         "/*DATA_START*/REPLACEME_JSON_DATA/*DATA_END*/", 
         f"/*DATA_START*/{json_data}/*DATA_END*/"
@@ -570,7 +615,7 @@ def generate_index():
 
     with open(os.path.join(BASE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(final_html)
-    print("首页 index.html 已更新，已生成 50 年跨度日历并关联内容。")
+    print("首页 index.html 已更新，切换月份时残留新闻的 bug 已修复。")
 
 if __name__ == "__main__":
     os.makedirs(BASE_DIR, exist_ok=True)
