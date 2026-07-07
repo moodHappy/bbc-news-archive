@@ -236,7 +236,6 @@ def generate_index():
 </head>
 <body>
     <div id="loadingBar"></div>
-    <!-- 引入 Toast 节点 -->
     <div id="toastMsg" class="toast-msg"></div>
 
     <div class="manual-fetch-bar">
@@ -321,8 +320,18 @@ def generate_index():
 
         function initSelects() {
             yearSelect.innerHTML = '';
-            const years = Object.keys(archiveData).map(Number).sort((a, b) => b - a);
-            if (!years.includes(currentYear)) years.unshift(currentYear);
+            
+            // 核心修改点：加入去重集合，不仅包含历史数据，还延续未来 50 年
+            const dataYears = Object.keys(archiveData).map(Number);
+            const yearsSet = new Set(dataYears);
+            
+            // 向过去缓冲 5 年，向未来延续 50 年，确保选择器生命周期足够长
+            for (let i = -5; i <= 50; i++) {
+                yearsSet.add(currentYear + i);
+            }
+            
+            // 转为数组并降序排列（最新的在最上）
+            const years = Array.from(yearsSet).sort((a, b) => b - a);
             
             years.forEach(y => {
                 const opt = document.createElement('option');
