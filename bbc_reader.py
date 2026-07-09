@@ -118,6 +118,29 @@ def save_article(title, paragraphs, pub_date, article_url, now_obj):
     print(f"文章已保存: {html_path}")
 
 def generate_index():
+    # --- 新增：保留之前的置顶数据 ---
+    pinned_paths = set()
+    index_path = os.path.join(BASE_DIR, "index.html")
+    if os.path.exists(index_path):
+        try:
+            with open(index_path, "r", encoding="utf-8") as f:
+                content = f.read()
+                start_marker = "/*DATA_START*/"
+                end_marker = "/*DATA_END*/"
+                start = content.find(start_marker)
+                end = content.find(end_marker)
+                if start != -1 and end != -1:
+                    old_json_str = content[start+len(start_marker):end]
+                    old_data = json.loads(old_json_str)
+                    for y_data in old_data.values():
+                        for m_data in y_data.values():
+                            for d_data in m_data.values():
+                                for item in d_data:
+                                    if item.get("pinned"):
+                                        pinned_paths.add(item["path"])
+        except Exception as e:
+            print(f"读取历史置顶状态失败: {e}")
+
     archive_data = {}
 
     if os.path.exists(BASE_DIR):
@@ -157,11 +180,16 @@ def generate_index():
                             if d_key not in archive_data[y_key][m_key]:
                                 archive_data[y_key][m_key][d_key] = []
 
-                            archive_data[y_key][m_key][d_key].append({
+                            # --- 新增：恢复置顶标记 ---
+                            item_data = {
                                 "time": time_str,
                                 "path": file_path,
                                 "title": page_title
-                            })
+                            }
+                            if file_path in pinned_paths:
+                                item_data["pinned"] = True
+
+                            archive_data[y_key][m_key][d_key].append(item_data)
                     except Exception:
                         pass
 
@@ -220,14 +248,15 @@ def generate_index():
         .news-item-wrapper { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
         .news-item { flex: 1; background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 0; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.04); overflow: hidden; transition: all 0.2s; }
         .news-item:active { transform: scale(0.98); }
+        .news-item.pinned-item { border-left: 4px solid #f5a623; } /* 置顶UI标记 */
         .news-time { font-size: 16px; font-weight: 600; flex-shrink: 0; }
         .news-title { font-size: 14px; color: var(--muted); margin-left: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right; flex: 1; }
         
         .delete-btn { background: #ff3b30; color: white; border: none; border-radius: 10px; padding: 0 15px; height: 50px; font-size: 16px; cursor: pointer; display: none; transition: all 0.2s; flex-shrink: 0; }
+        .pin-btn { background: #f5a623; color: white; border: none; border-radius: 10px; padding: 0 15px; height: 50px; font-size: 16px; cursor: pointer; display: none; transition: all 0.2s; flex-shrink: 0; }
 
         .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
 
-        /* Toast 提示框样式 */
         .toast-msg { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(0,0,0,0.8); color: #fff; padding: 12px 24px; border-radius: 24px; font-size: 14px; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         .toast-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     </style>
@@ -290,7 +319,6 @@ def generate_index():
     </div>
 
     <script>
-        // Toast 提示函数
         function showToast(msg, duration = 3000) {
             const toast = document.getElementById('toastMsg');
             toast.textContent = msg;
@@ -298,7 +326,6 @@ def generate_index():
             setTimeout(() => { toast.classList.remove('show'); }, duration);
         }
 
-        // ================= 数据初始化与日历渲染 =================
         const archiveData = /*DATA_START*/REPLACEME_JSON_DATA/*DATA_END*/;
         
         const today = new Date();
@@ -317,35 +344,23 @@ def generate_index():
 
         function initSelects() {
             yearSelect.innerHTML = '';
-            
-            // 提取已存在数据的年份
             let dataYears = Object.keys(archiveData).map(Number);
-            
-            // 生成跨度 50 年的选项（从当前年的前 10 年到后 40 年）
             let generatedYears = [];
-            for (let i = -10; i <= 40; i++) {
-                generatedYears.push(currentYear + i);
-            }
-            
-            // 合并已有数据的年份和生成的年份，去重并降序排列
+            for (let i = -10; i <= 40; i++) generatedYears.push(currentYear + i);
             let allYears = Array.from(new Set([...dataYears, ...generatedYears])).sort((a, b) => b - a);
             
             allYears.forEach(y => {
                 const opt = document.createElement('option');
-                opt.value = y; 
-                opt.textContent = y + ' 年';
+                opt.value = y; opt.textContent = y + ' 年';
                 yearSelect.appendChild(opt);
             });
             
-            // 确保当前选中的年份在下拉列表中（防御性处理）
             let hasSelectedYear = Array.from(yearSelect.options).some(opt => parseInt(opt.value) === selectedYear);
             if (!hasSelectedYear) {
                 const opt = document.createElement('option');
-                opt.value = selectedYear; 
-                opt.textContent = selectedYear + ' 年';
+                opt.value = selectedYear; opt.textContent = selectedYear + ' 年';
                 yearSelect.insertBefore(opt, yearSelect.firstChild);
             }
-            
             yearSelect.value = selectedYear;
             monthSelect.value = selectedMonth;
         }
@@ -373,11 +388,8 @@ def generate_index():
                 dot.className = 'dot';
                 cell.appendChild(dot);
                 
-                if (monthData[day] && monthData[day].length > 0) {
-                    cell.classList.add('has-news');
-                } else {
-                    cell.classList.add('no-news');
-                }
+                if (monthData[day] && monthData[day].length > 0) cell.classList.add('has-news');
+                else cell.classList.add('no-news');
                 
                 if (year === today.getFullYear() && month === today.getMonth() + 1 && day === today.getDate()) cell.classList.add('today');
                 if (year === selectedYear && month === selectedMonth && day === selectedDay) cell.classList.add('selected');
@@ -392,22 +404,63 @@ def generate_index():
             }
         }
 
+        // 获取所有被置顶的文章
+        function getAllPinnedNews() {
+            let pinned = [];
+            for (let y in archiveData) {
+                for (let m in archiveData[y]) {
+                    for (let d in archiveData[y][m]) {
+                        archiveData[y][m][d].forEach(news => {
+                            if (news.pinned) pinned.push(news);
+                        });
+                    }
+                }
+            }
+            return pinned;
+        }
+
         function renderNews(year, month, day) {
             newsList.innerHTML = '';
-            const monthData = (archiveData[year] && archiveData[year][month]) ? archiveData[year][month] : null;
-            const dayData = monthData ? monthData[day] : null;
             
-            if (dayData && dayData.length > 0) {
-                dayData.forEach((news, index) => {
+            const allPinned = getAllPinnedNews();
+            const monthData = (archiveData[year] && archiveData[year][month]) ? archiveData[year][month] : null;
+            const dayData = monthData ? monthData[day] : [];
+            
+            // 过滤掉当前选中日期里已经被置顶的文章，避免重复渲染
+            const currentDayUnpinned = (dayData || []).filter(n => !n.pinned);
+            
+            // 合并渲染数组：置顶文章永远在最上方
+            const itemsToRender = [...allPinned, ...currentDayUnpinned];
+            
+            if (itemsToRender.length > 0) {
+                itemsToRender.forEach((news, index) => {
                     const wrapper = document.createElement('div');
                     wrapper.className = 'news-item-wrapper';
 
                     const a = document.createElement('a');
                     a.href = news.path;
-                    a.className = 'news-item';
-                    a.innerHTML = `<span class="news-time">${news.time}</span><span class="news-title">${news.title}</span>`;
+                    a.className = 'news-item' + (news.pinned ? ' pinned-item' : '');
+                    
+                    const pinEmoji = news.pinned ? '📌 ' : '';
+                    a.innerHTML = `<span class="news-time">${news.time}</span><span class="news-title">${pinEmoji}${news.title}</span>`;
                     wrapper.appendChild(a);
 
+                    // 置顶/取消按钮
+                    const pinBtn = document.createElement('button');
+                    pinBtn.className = 'pin-btn';
+                    pinBtn.innerHTML = news.pinned ? '❌' : '📌';
+                    if (window.deleteMode) pinBtn.style.display = 'block';
+                    
+                    pinBtn.onclick = async (e) => {
+                        e.preventDefault();
+                        news.pinned = !news.pinned;
+                        renderNews(selectedYear, selectedMonth, selectedDay);
+                        await syncIndexToGithub(); // 同步置顶状态
+                        showToast(news.pinned ? '📌 已置顶' : '❌ 已取消置顶');
+                    };
+                    wrapper.appendChild(pinBtn);
+
+                    // 删除按钮
                     const delBtn = document.createElement('button');
                     delBtn.className = 'delete-btn';
                     delBtn.innerHTML = '🗑️';
@@ -417,16 +470,31 @@ def generate_index():
                         e.preventDefault();
                         if(confirm('确认删除此条目并同步删除云端文件吗？')) {
                             const pathToDelete = news.path;
-                            dayData.splice(index, 1);
-                            if (dayData.length === 0) delete archiveData[year][month][day];
+                            // 全局查找并删除此文章
+                            let found = false;
+                            for (let y in archiveData) {
+                                for (let m in archiveData[y]) {
+                                    for (let d in archiveData[y][m]) {
+                                        const arr = archiveData[y][m][d];
+                                        const idx = arr.findIndex(item => item.path === pathToDelete);
+                                        if (idx !== -1) {
+                                            arr.splice(idx, 1);
+                                            if (arr.length === 0) delete archiveData[y][m][d];
+                                            found = true; break;
+                                        }
+                                    }
+                                    if(found) break;
+                                }
+                                if(found) break;
+                            }
+                            
                             renderCalendar(year, month);
-                            renderNews(year, month, day);
+                            renderNews(selectedYear, selectedMonth, selectedDay);
                             await syncDeleteToGithub(pathToDelete);
                             showToast('🗑️ 已删除该文章');
                         }
                     };
                     wrapper.appendChild(delBtn);
-
                     newsList.appendChild(wrapper);
                 });
             } else {
@@ -434,7 +502,6 @@ def generate_index():
             }
         }
 
-        // ================= GitHub 同步与管理逻辑 =================
         const modal = document.getElementById('settingsModal');
         const loadingBar = document.getElementById('loadingBar');
 
@@ -453,7 +520,6 @@ def generate_index():
             showToast('✅ 配置已保存');
         }
 
-        // 双击日历唤出删除
         let lastTap = 0;
         const calWrapper = document.querySelector('.calendar-wrapper');
         calWrapper.addEventListener('click', function(e) {
@@ -461,12 +527,51 @@ def generate_index():
             const tapLength = currentTime - lastTap;
             if (tapLength < 500 && tapLength > 0) {
                 window.deleteMode = !window.deleteMode;
-                const btns = document.querySelectorAll('.delete-btn');
+                const btns = document.querySelectorAll('.delete-btn, .pin-btn');
                 btns.forEach(btn => btn.style.display = window.deleteMode ? 'block' : 'none');
                 e.preventDefault();
             }
             lastTap = currentTime;
         });
+
+        // 纯更新 Index 状态（用于置顶功能）
+        async function syncIndexToGithub() {
+            const ghToken = localStorage.getItem('GH_TOKEN_BBC');
+            const ghOwner = localStorage.getItem('GH_OWNER_BBC');
+            const ghRepo = localStorage.getItem('GH_REPO_BBC');
+            if (!ghToken || !ghOwner || !ghRepo) return;
+
+            try {
+                loadingBar.style.width = '30%';
+                const idxRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, {
+                    headers: { 'Authorization': `token ${ghToken}` }
+                });
+                const idxData = await idxRes.json();
+                const idxContent = decodeURIComponent(escape(atob(idxData.content)));
+
+                const dataStart = idxContent.indexOf('/*DATA_START*/') + 14;
+                const dataEnd = idxContent.indexOf('/*DATA_END*/');
+                const newJsonStr = JSON.stringify(archiveData);
+                const newIdxContent = idxContent.substring(0, dataStart) + newJsonStr + idxContent.substring(dataEnd);
+
+                loadingBar.style.width = '70%';
+                await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `token ${ghToken}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: `Update index.html pinned status`,
+                        content: btoa(unescape(encodeURIComponent(newIdxContent))),
+                        sha: idxData.sha
+                    })
+                });
+                loadingBar.style.width = '100%';
+                setTimeout(() => { loadingBar.style.width = '0%'; }, 1000);
+            } catch(e) {
+                console.error("Sync pin status failed", e);
+                loadingBar.style.width = '0%';
+                showToast('❌ 云端同步置顶状态失败');
+            }
+        }
 
         async function syncDeleteToGithub(fileRelPath) {
             const ghToken = localStorage.getItem('GH_TOKEN_BBC');
@@ -476,7 +581,6 @@ def generate_index():
 
             try {
                 loadingBar.style.width = '10%';
-                
                 const targetFilePath = `docs/${fileRelPath}`;
                 const fileRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/${targetFilePath}`, {
                     headers: { 'Authorization': `token ${ghToken}` }
@@ -495,7 +599,6 @@ def generate_index():
                 }
                 
                 loadingBar.style.width = '50%';
-
                 const idxRes = await fetch(`https://api.github.com/repos/${ghOwner}/${ghRepo}/contents/docs/index.html`, {
                     headers: { 'Authorization': `token ${ghToken}` }
                 });
@@ -527,16 +630,11 @@ def generate_index():
             }
         }
 
-        // ================= 基础控制绑定 =================
-        // 核心修复点：强制更新全局变量 selectedYear / selectedMonth 并重新渲染下方新闻
-        
         yearSelect.addEventListener('change', (e) => {
             selectedYear = parseInt(e.target.value);
             selectedMonth = parseInt(monthSelect.value);
-            
             let maxDays = new Date(selectedYear, selectedMonth, 0).getDate();
             if (selectedDay > maxDays) selectedDay = maxDays;
-            
             renderCalendar(selectedYear, selectedMonth);
             renderNews(selectedYear, selectedMonth, selectedDay);
         });
@@ -544,10 +642,8 @@ def generate_index():
         monthSelect.addEventListener('change', (e) => {
             selectedYear = parseInt(yearSelect.value);
             selectedMonth = parseInt(e.target.value);
-            
             let maxDays = new Date(selectedYear, selectedMonth, 0).getDate();
             if (selectedDay > maxDays) selectedDay = maxDays;
-            
             renderCalendar(selectedYear, selectedMonth);
             renderNews(selectedYear, selectedMonth, selectedDay);
         });
@@ -556,15 +652,10 @@ def generate_index():
             let m = parseInt(monthSelect.value) - 1; 
             let y = parseInt(yearSelect.value);
             if (m < 1) { m = 12; y--; }
-            
-            monthSelect.value = m; 
-            yearSelect.value = y;
-            selectedYear = y; 
-            selectedMonth = m;
-            
+            monthSelect.value = m; yearSelect.value = y;
+            selectedYear = y; selectedMonth = m;
             let maxDays = new Date(selectedYear, selectedMonth, 0).getDate();
             if (selectedDay > maxDays) selectedDay = maxDays;
-            
             renderCalendar(selectedYear, selectedMonth);
             renderNews(selectedYear, selectedMonth, selectedDay);
         });
@@ -573,15 +664,10 @@ def generate_index():
             let m = parseInt(monthSelect.value) + 1; 
             let y = parseInt(yearSelect.value);
             if (m > 12) { m = 1; y++; }
-            
-            monthSelect.value = m; 
-            yearSelect.value = y;
-            selectedYear = y; 
-            selectedMonth = m;
-            
+            monthSelect.value = m; yearSelect.value = y;
+            selectedYear = y; selectedMonth = m;
             let maxDays = new Date(selectedYear, selectedMonth, 0).getDate();
             if (selectedDay > maxDays) selectedDay = maxDays;
-            
             renderCalendar(selectedYear, selectedMonth);
             renderNews(selectedYear, selectedMonth, selectedDay);
         });
@@ -590,13 +676,9 @@ def generate_index():
             selectedYear = today.getFullYear(); 
             selectedMonth = today.getMonth() + 1; 
             selectedDay = today.getDate();
-            
             let hasSelectedYear = Array.from(yearSelect.options).some(opt => parseInt(opt.value) === selectedYear);
             if(!hasSelectedYear) initSelects();
-
-            yearSelect.value = selectedYear; 
-            monthSelect.value = selectedMonth;
-            
+            yearSelect.value = selectedYear; monthSelect.value = selectedMonth;
             renderCalendar(selectedYear, selectedMonth); 
             renderNews(selectedYear, selectedMonth, selectedDay);
         });
@@ -615,7 +697,7 @@ def generate_index():
 
     with open(os.path.join(BASE_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(final_html)
-    print("首页 index.html 已更新，切换月份时残留新闻的 bug 已修复。")
+    print("首页 index.html 已更新，置顶功能已加入。")
 
 if __name__ == "__main__":
     os.makedirs(BASE_DIR, exist_ok=True)
