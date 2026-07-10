@@ -77,7 +77,156 @@ def save_article(title, paragraphs, pub_date, article_url, now_obj):
     filename = f"{now_obj.year}_{now_obj.month}_{now_obj.day}_{now_obj.strftime('%H%M')}.html"
     html_path = os.path.join(target_dir, filename)
 
-    p_tags = "\n".join([f"<p>{p}</p>" for p in paragraphs])
+    # 包装段落：注入隐藏批注框
+    p_tags_list = []
+    for p in paragraphs:
+        p_tags_list.append(f"""
+            <div class="para-wrap">
+                <p>{p}<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>""")
+    p_tags = "\n".join(p_tags_list)
+
+    # 包含双端编辑和重构推送的 JS 引擎
+    engine_script = """
+        const GH_OWNER = localStorage.getItem('GH_OWNER_BBC') || "moodHappy";
+        const GH_REPO = localStorage.getItem('GH_REPO_BBC') || "Web-Notes-Matrix";
+
+        function escapeHTML(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        function initAnnotations() {
+            document.querySelectorAll('.para-wrap').forEach(wrap => {
+                const view = wrap.querySelector('.anno-view');
+                const edit = wrap.querySelector('.anno-edit');
+                const toggle = wrap.querySelector('.anno-toggle');
+                const box = wrap.querySelector('.anno-box');
+                
+                const rawText = edit.value.trim();
+                if (rawText) {
+                    toggle.classList.add('has-anno');
+                    if (typeof marked !== 'undefined') view.innerHTML = marked.parse(rawText);
+                }
+
+                toggle.onclick = () => {
+                    if (box.style.display === 'block') {
+                        box.style.display = 'none';
+                    } else {
+                        box.style.display = 'block';
+                        if (!edit.value.trim()) {
+                            view.style.display = 'none';
+                            edit.style.display = 'block';
+                            edit.focus();
+                        } else {
+                            view.style.display = 'block';
+                            edit.style.display = 'none';
+                        }
+                    }
+                };
+
+                const triggerEdit = () => {
+                    view.style.display = 'none';
+                    edit.style.display = 'block';
+                    edit.value = edit.value; 
+                    edit.focus();
+                };
+
+                view.addEventListener('dblclick', triggerEdit);
+                view.addEventListener('touchstart', e => { if (e.touches.length === 2) triggerEdit(); }, {passive: true});
+
+                edit.onblur = async () => {
+                    const newVal = edit.value.trim();
+                    try { view.innerHTML = newVal ? marked.parse(newVal) : ''; } catch(e){}
+                    edit.style.display = 'none';
+                    
+                    if (newVal) {
+                        view.style.display = 'block';
+                        toggle.classList.add('has-anno');
+                    } else {
+                        view.style.display = 'none';
+                        box.style.display = 'none';
+                        toggle.classList.remove('has-anno');
+                    }
+                    
+                    if (edit.getAttribute('data-old-val') !== newVal) {
+                        edit.setAttribute('data-old-val', newVal);
+                        await syncToGitHub();
+                    }
+                };
+                edit.setAttribute('data-old-val', rawText);
+            });
+        }
+        window.onload = initAnnotations;
+
+        function reconstructSelfHTML() {
+            const titleStr = document.querySelector('h1').innerText;
+            const metaStr = document.querySelector('.meta').innerHTML.replace(/<span class="sync-status".*?<\\/span>/, '<span class="sync-status" id="sync-status">📡 同步中...</span>');
+            
+            let contentHTML = '';
+            document.querySelectorAll('.content > *').forEach(node => {
+                if (node.classList.contains('para-wrap')) {
+                    const pNode = node.querySelector('p').cloneNode(true);
+                    const toggle = pNode.querySelector('.anno-toggle');
+                    if (toggle) toggle.remove();
+                    
+                    const rawMarkdown = node.querySelector('.anno-edit').value || '';
+                    const safeMarkdown = escapeHTML(rawMarkdown);
+                    
+                    contentHTML += '\\n            <div class="para-wrap">\\n                <p>' + pNode.innerHTML + '<span class="anno-toggle"></span></p>\\n                <div class="anno-box" style="display:none;">\\n                    <div class="anno-view markdown-body"></div>\\n                    <textarea class="anno-edit" style="display:none;">' + safeMarkdown + '</textarea>\\n                </div>\\n            </div>';
+                } else if (node.tagName === 'H2' || node.tagName === 'H3') {
+                    contentHTML += '\\n            <' + node.tagName.toLowerCase() + '>' + node.innerHTML + '</' + node.tagName.toLowerCase() + '>';
+                }
+            });
+
+            const styleBlock = document.querySelector('style').textContent;
+            const scriptBlock = document.getElementById('matrix-engine').textContent;
+
+            return '<!DOCTYPE html>\\n<html lang="zh-CN">\\n<head>\\n    <meta charset="UTF-8">\\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\\n    <title>' + titleStr + '</title>\\n    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"><\\/script>\\n    <style>' + styleBlock + '</style>\\n</head>\\n<body>\\n    <div class="container">\\n        <h1>' + titleStr + '</h1>\\n        <div class="meta">\\n            ' + metaStr + '\\n        </div>\\n        <div class="content">' + contentHTML + '\\n        </div>\\n    </div>\\n    <script id="matrix-engine">' + scriptBlock + '<\\/script>\\n</body>\\n</html>';
+        }
+
+        async function syncToGitHub() {
+            const token = localStorage.getItem('GH_TOKEN_BBC');
+            if(!token) return alert('缺少 GitHub Token，无法同步批注！请先在日历页配置。');
+
+            const statusMsg = document.getElementById('sync-status');
+            statusMsg.style.display = 'block';
+            statusMsg.style.color = '#3b82f6';
+            statusMsg.innerText = '📡 同步中...';
+
+            const pureHtml = reconstructSelfHTML();
+            const path = window.location.pathname;
+            const fileRelPath = path.substring(path.indexOf('docs/')); 
+            
+            try {
+                const utf8Encode = new TextEncoder().encode(pureHtml);
+                const binaryString = String.fromCodePoint(...utf8Encode);
+                const base64Html = btoa(binaryString);
+
+                const getRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${fileRelPath}`, {
+                    headers: { 'Authorization': `token ${token}` }
+                });
+                const fileData = await getRes.json();
+
+                const putRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${fileRelPath}`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: `Auto-save annotation`, content: base64Html, sha: fileData.sha })
+                });
+
+                if(putRes.ok) {
+                    statusMsg.style.color = '#2ea44f';
+                    statusMsg.innerText = '✅ 云端已同步';
+                    setTimeout(() => statusMsg.style.display = 'none', 3000);
+                } else {
+                    statusMsg.style.color = '#e74c3c'; statusMsg.innerText = '❌ 同步失败';
+                }
+            } catch(e) { statusMsg.style.color = '#e74c3c'; statusMsg.innerText = '❌ 网络断开'; }
+        }
+    """
 
     html_content = f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -85,6 +234,7 @@ def save_article(title, paragraphs, pub_date, article_url, now_obj):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         :root {{ --bg: #f5f5f7; --card: #ffffff; --text: #1d1d1f; --muted: #86868b; --accent: #0066cc; }}
         body {{ font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; text-align: left; font-size: 1.25rem; line-height: 1.7; color: var(--text); background: var(--bg); margin: 0; padding: 0; }}
@@ -92,10 +242,31 @@ def save_article(title, paragraphs, pub_date, article_url, now_obj):
         h1 {{ font-size: 1.8rem; margin-top: 0; padding-bottom: 15px; border-bottom: 1px solid #e5e5ea; line-height: 1.3; }}
         .meta {{ font-size: 0.9rem; color: var(--muted); margin-bottom: 30px; display: flex; flex-wrap: nowrap; gap: 10px; align-items: center; white-space: nowrap; overflow-x: auto; scrollbar-width: none; }}
         .meta::-webkit-scrollbar {{ display: none; }}
-        .meta span {{ flex-shrink: 0; }}
-        .meta a {{ color: var(--accent); text-decoration: none; background: #f0f7ff; padding: 6px 10px; border-radius: 8px; font-weight: 500; transition: background 0.2s; flex-shrink: 0; }}
+        .meta span, .meta a {{ flex-shrink: 0; }}
+        .meta a {{ color: var(--accent); text-decoration: none; background: #f0f7ff; padding: 6px 10px; border-radius: 8px; font-weight: 500; transition: background 0.2s; }}
         .meta a:hover {{ background: #e1efff; }}
-        p {{ margin-bottom: 22px; }}
+        .sync-status {{ margin-left: auto; color: #3b82f6; font-weight: bold; display: none; }}
+        
+        /* 批注及段落排版 */
+        .para-wrap {{ margin-bottom: 22px; position: relative; }}
+        .para-wrap p {{ margin-bottom: 0; }}
+        .anno-toggle {{ display: inline-flex; margin-left: 6px; cursor: pointer; opacity: 0.2; font-size: 0.8rem; vertical-align: middle; transition: all 0.2s; user-select: none; }}
+        .anno-toggle:hover {{ opacity: 0.8; transform: scale(1.1); }}
+        .anno-toggle.has-anno {{ opacity: 1; }}
+        .anno-toggle::after {{ content: "🔴"; }}
+        
+        .anno-box {{ display: none; margin-top: 10px; background: #f8f6ff; border-left: 4px solid #8e7cc3; padding: 12px 16px; border-radius: 0 6px 6px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }}
+        .anno-view {{ font-size: 1.05rem; line-height: 1.6; color: #4a4a4a; min-height: 24px; }}
+        .anno-edit {{ width: 100%; min-height: 120px; padding: 10px; font-family: monospace; font-size: 1rem; border: 1px dashed #8e7cc3; border-radius: 6px; box-sizing: border-box; resize: vertical; display: none; background: #fff; color: #333; outline: none; }}
+        .anno-edit:focus {{ border: 1px solid #8e7cc3; box-shadow: 0 0 0 3px rgba(142,124,195,0.1); }}
+        
+        /* 迷你 Markdown 渲染器优化 */
+        .markdown-body p {{ margin-top: 0; margin-bottom: 8px; }}
+        .markdown-body p:last-child {{ margin-bottom: 0; }}
+        .markdown-body p:empty {{ display: none; }}
+        .markdown-body h1, .markdown-body h2, .markdown-body h3 {{ color: #8e7cc3; font-size: 1.15rem; margin: 10px 0 8px 0; border-bottom: 1px dashed #e0d8f0; padding-bottom: 4px; }}
+        .markdown-body ul, .markdown-body ol {{ margin: 0 0 8px 0; padding-left: 20px; }}
+        .markdown-body blockquote {{ margin: 0 0 10px 0; padding: 10px 15px; background: rgba(142,124,195,0.1); border-left: 4px solid #8e7cc3; color: #555; }}
     </style>
 </head>
 <body>
@@ -105,11 +276,13 @@ def save_article(title, paragraphs, pub_date, article_url, now_obj):
             <span>📅 {pub_date}</span>
             <a href="{article_url}" target="_blank">🔗 阅读原文</a>
             <a href="../../index.html">🔙 返回日历</a>
+            <span class="sync-status" id="sync-status">📡 同步中...</span>
         </div>
         <div class="content">
             {p_tags}
         </div>
     </div>
+    <script id="matrix-engine">{engine_script}</script>
 </body>
 </html>"""
 
@@ -118,7 +291,6 @@ def save_article(title, paragraphs, pub_date, article_url, now_obj):
     print(f"文章已保存: {html_path}")
 
 def generate_index():
-    # --- 新增：保留之前的置顶数据 ---
     pinned_paths = set()
     index_path = os.path.join(BASE_DIR, "index.html")
     if os.path.exists(index_path):
@@ -180,7 +352,6 @@ def generate_index():
                             if d_key not in archive_data[y_key][m_key]:
                                 archive_data[y_key][m_key][d_key] = []
 
-                            # --- 新增：恢复置顶标记 ---
                             item_data = {
                                 "time": time_str,
                                 "path": file_path,
@@ -248,7 +419,7 @@ def generate_index():
         .news-item-wrapper { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
         .news-item { flex: 1; background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 0; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.04); overflow: hidden; transition: all 0.2s; }
         .news-item:active { transform: scale(0.98); }
-        .news-item.pinned-item { border-left: 4px solid #f5a623; } /* 置顶UI标记 */
+        .news-item.pinned-item { border-left: 4px solid #f5a623; } 
         .news-time { font-size: 16px; font-weight: 600; flex-shrink: 0; }
         .news-title { font-size: 14px; color: var(--muted); margin-left: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right; flex: 1; }
         
@@ -404,7 +575,6 @@ def generate_index():
             }
         }
 
-        // 获取所有被置顶的文章
         function getAllPinnedNews() {
             let pinned = [];
             for (let y in archiveData) {
@@ -426,10 +596,7 @@ def generate_index():
             const monthData = (archiveData[year] && archiveData[year][month]) ? archiveData[year][month] : null;
             const dayData = monthData ? monthData[day] : [];
             
-            // 过滤掉当前选中日期里已经被置顶的文章，避免重复渲染
             const currentDayUnpinned = (dayData || []).filter(n => !n.pinned);
-            
-            // 合并渲染数组：置顶文章永远在最上方
             const itemsToRender = [...allPinned, ...currentDayUnpinned];
             
             if (itemsToRender.length > 0) {
@@ -445,7 +612,6 @@ def generate_index():
                     a.innerHTML = `<span class="news-time">${news.time}</span><span class="news-title">${pinEmoji}${news.title}</span>`;
                     wrapper.appendChild(a);
 
-                    // 置顶/取消按钮
                     const pinBtn = document.createElement('button');
                     pinBtn.className = 'pin-btn';
                     pinBtn.innerHTML = news.pinned ? '❌' : '📌';
@@ -455,12 +621,11 @@ def generate_index():
                         e.preventDefault();
                         news.pinned = !news.pinned;
                         renderNews(selectedYear, selectedMonth, selectedDay);
-                        await syncIndexToGithub(); // 同步置顶状态
+                        await syncIndexToGithub(); 
                         showToast(news.pinned ? '📌 已置顶' : '❌ 已取消置顶');
                     };
                     wrapper.appendChild(pinBtn);
 
-                    // 删除按钮
                     const delBtn = document.createElement('button');
                     delBtn.className = 'delete-btn';
                     delBtn.innerHTML = '🗑️';
@@ -470,7 +635,6 @@ def generate_index():
                         e.preventDefault();
                         if(confirm('确认删除此条目并同步删除云端文件吗？')) {
                             const pathToDelete = news.path;
-                            // 全局查找并删除此文章
                             let found = false;
                             for (let y in archiveData) {
                                 for (let m in archiveData[y]) {
@@ -534,7 +698,6 @@ def generate_index():
             lastTap = currentTime;
         });
 
-        // 纯更新 Index 状态（用于置顶功能）
         async function syncIndexToGithub() {
             const ghToken = localStorage.getItem('GH_TOKEN_BBC');
             const ghOwner = localStorage.getItem('GH_OWNER_BBC');
