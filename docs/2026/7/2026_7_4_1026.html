@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -17,7 +16,9 @@
         .meta span, .meta a { flex-shrink: 0; }
         .meta a { color: var(--accent); text-decoration: none; background: #f0f7ff; padding: 6px 10px; border-radius: 8px; font-weight: 500; transition: background 0.2s; }
         .meta a:hover { background: #e1efff; }
-        .sync-status { margin-left: auto; color: #3b82f6; font-weight: bold; display: none; }
+
+        /* 状态按钮样式 */
+        .sync-status { margin-left: auto; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem; font-weight: bold; display: none; color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
 
         /* 段落与批注核心样式 */
         .para-wrap { margin-bottom: 22px; position: relative; }
@@ -45,7 +46,7 @@
     <div class="container">
         <h1>China's internet got so mad about a celebrity's 'bad' singing, her concert was cancelled</h1>
         <div class="meta">
-            <span>📅 2026-07-10 21:20</span>
+            <span>📅 2026-07-10 21:31</span>
             <a href="https://www.bbc.com/news/articles/cdx7d254lrjo" target="_blank">🔗 阅读原文</a>
             <a href="../../index.html">🔙 返回日历</a>
             <span class="sync-status" id="sync-status">📡 同步中...</span>
@@ -388,10 +389,8 @@
                 let lastTap = 0;
                 view.addEventListener('touchstart', e => {
                     if (e.touches.length === 2) {
-                        // 双指触摸，进入编辑
                         triggerEdit();
                     } else if (e.touches.length === 1) {
-                        // 单指双击，折叠批注
                         const currentTime = new Date().getTime();
                         const tapLength = currentTime - lastTap;
                         if (tapLength < 500 && tapLength > 0) {
@@ -453,12 +452,12 @@
         }
 
         async function syncToGitHub() {
-            const token = localStorage.getItem('GH_TOKEN_BBC');
+            const token = localStorage.getItem('GH_TOKEN_BBC') || localStorage.getItem('GH_TOKEN') || null;
             if(!token) return alert('缺少 GitHub Token，无法同步批注！请先在日历页配置。');
 
             const statusMsg = document.getElementById('sync-status');
-            statusMsg.style.display = 'block';
-            statusMsg.style.color = '#3b82f6';
+            statusMsg.style.display = 'inline-block';
+            statusMsg.style.backgroundColor = '#2ea44f'; // 开始同步直接变成抢眼的绿色按钮
             statusMsg.innerText = '📡 同步中...';
 
             const pureHtml = reconstructSelfHTML();
@@ -470,13 +469,13 @@
                 const binaryString = String.fromCodePoint(...utf8Encode);
                 const base64Html = btoa(binaryString);
 
-                // 添加时间戳，彻底打破 GitHub API 缓存限制
+                // 核心修复点：删掉 Cache-Control，用 fetch 自带的 no-store 完美防缓存，且不触发 CORS 跨域拦截
                 const getRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${fileRelPath}?t=${Date.now()}`, {
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Cache-Control': 'no-cache'
-                    }
+                    headers: { 'Authorization': `token ${token}` },
+                    cache: 'no-store'
                 });
+
+                if (!getRes.ok) throw new Error('API Rate limit or File not found');
                 const fileData = await getRes.json();
 
                 const putRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${fileRelPath}`, {
@@ -486,13 +485,17 @@
                 });
 
                 if(putRes.ok) {
-                    statusMsg.style.color = '#2ea44f';
+                    statusMsg.style.backgroundColor = '#2ea44f'; // 依然是绿色
                     statusMsg.innerText = '✅ 云端已同步';
                     setTimeout(() => statusMsg.style.display = 'none', 3000);
                 } else {
-                    statusMsg.style.color = '#e74c3c'; statusMsg.innerText = '❌ 同步失败';
+                    throw new Error('Put failed');
                 }
-            } catch(e) { statusMsg.style.color = '#e74c3c'; statusMsg.innerText = '❌ 网络断开'; }
+            } catch(e) {
+                console.error(e);
+                statusMsg.style.backgroundColor = '#e74c3c'; // 失败变红
+                statusMsg.innerText = '❌ 同步失败';
+            }
         }
         </script>
 </body>
