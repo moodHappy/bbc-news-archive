@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
+<html lang="zh-CN"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>China evacuates nearly two million people as powerful typhoon makes landfall</title>
@@ -54,7 +53,7 @@
         <div class="content">
 
             <div class="para-wrap">
-                <p>A powerful typhoon has made landfall in China, the second to hit the country in a week, with nearly two million people evacuated from areas in the path of the storm.<span class="anno-toggle"></span></p>
+                <p>A powerful typhoon has made landfall in China, the second to hit the country in a week, with nearly two million people evacuated from areas in the path of the storm.<span class="anno-toggle"></span></p><p class="zh-para-auto" style="color: rgb(127, 140, 141); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">强台风在中国登陆，这是一周内第二次袭击中国，近200万人从风暴路径地区撤离。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
@@ -62,7 +61,7 @@
             </div>
 
             <div class="para-wrap">
-                <p>Typhoon Bavi, which spans 1,000km (620 miles) at its widest point - roughly the width of France - first came ashore in the coastal city of Taizhou on Saturday evening before making a second landfall in Wenzhou around midnight (17:00 GMT).<span class="anno-toggle"></span></p>
+                <p>Typhoon Bavi, which spans 1,000km (620 miles) at its widest point - roughly the width of France - first came ashore in the coastal city of Taizhou on Saturday evening before making a second landfall in Wenzhou around midnight (17:00 GMT).<span class="anno-toggle"></span></p><p class="zh-para-auto" style="color: rgb(127, 140, 141); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">台风巴威最宽处长达 1,000 公里（620 英里），大约相当于法国的宽度。周六晚上，它首次在沿海城市台州登陆，然后在午夜（格林威治标准时间 17:00）左右在温州第二次登陆。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
@@ -176,7 +175,10 @@
                     const rawMarkdown = node.querySelector('.anno-edit').value || '';
                     const safeMarkdown = escapeHTML(rawMarkdown);
 
-                    contentHTML += '\n            <div class="para-wrap">\n                <p>' + pNode.innerHTML + '<span class="anno-toggle"></span></p>\n                <div class="anno-box" style="display:none;">\n                    <div class="anno-view markdown-body"></div>\n                    <textarea class="anno-edit" style="display:none;">' + safeMarkdown + '</textarea>\n                </div>\n            </div>';
+                    const zhNode = node.querySelector('.zh-para-auto');
+                    const zhStyle = (zhNode && zhNode.getAttribute('style')) ? zhNode.getAttribute('style').replace(/"/g, '&quot;') : '';
+                    const zhHTML = zhNode ? '\n                <p class="zh-para-auto" style="' + zhStyle + '">' + zhNode.innerHTML + '</p>' : '';
+                    contentHTML += '\n            <div class="para-wrap">\n                <p>' + pNode.innerHTML + '<span class="anno-toggle"></span></p>' + zhHTML + '\n                <div class="anno-box" style="display:none;">\n                    <div class="anno-view markdown-body"></div>\n                    <textarea class="anno-edit" style="display:none;">' + safeMarkdown + '</textarea>\n                </div>\n            </div>';
                 } else if (node.tagName === 'H2' || node.tagName === 'H3') {
                     contentHTML += '\n            <' + node.tagName.toLowerCase() + '>' + node.innerHTML + '</' + node.tagName.toLowerCase() + '>';
                 }
@@ -235,5 +237,5 @@
             }
         }
     </script>
-</body>
-</html>
+
+</body></html>
