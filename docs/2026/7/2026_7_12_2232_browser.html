@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>East Asia braces for destructive typhoon as landslides kill 15 in Philippines</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root { --bg: #f5f5f7; --card: #ffffff; --text: #1d1d1f; --muted: #86868b; --accent: #0066cc; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; text-align: left; font-size: 1.25rem; line-height: 1.7; color: var(--text); background: var(--bg); margin: 0; padding: 0; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card); padding: 40px 25px; min-height: 100vh; box-shadow: 0 4px 24px rgba(0,0,0,0.04); box-sizing: border-box; }
+        h1 { font-size: 1.8rem; margin-top: 0; padding-bottom: 15px; border-bottom: 1px solid #e5e5ea; line-height: 1.3; }
+        h2 { font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; color: #1d1d1f; }
+        .meta { font-size: 0.9rem; color: var(--muted); margin-bottom: 30px; display: flex; flex-wrap: nowrap; gap: 10px; align-items: center; white-space: nowrap; overflow-x: auto; scrollbar-width: none; }
+        .meta::-webkit-scrollbar { display: none; }
+        .meta span, .meta a { flex-shrink: 0; }
+        .meta a { color: var(--accent); text-decoration: none; background: #f0f7ff; padding: 6px 10px; border-radius: 8px; font-weight: 500; transition: background 0.2s; }
+        .meta a:hover { background: #e1efff; }
+
+        /* 状态按钮样式 */
+        .sync-status { margin-left: auto; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem; font-weight: bold; display: none; color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+
+        /* 段落与批注核心样式 */
+        .para-wrap { margin-bottom: 22px; position: relative; }
+        .para-wrap p { margin-bottom: 0; }
+        .anno-toggle { display: inline-flex; margin-left: 6px; cursor: pointer; opacity: 0.2; font-size: 0.8rem; vertical-align: middle; transition: all 0.2s; user-select: none; }
+        .anno-toggle:hover { opacity: 0.8; transform: scale(1.1); }
+        .anno-toggle.has-anno { opacity: 1; }
+        .anno-toggle::after { content: "🔴"; }
+
+        .anno-box { display: none; margin-top: 10px; background: #f8f6ff; border-left: 4px solid #8e7cc3; padding: 12px 16px; border-radius: 0 6px 6px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        .anno-view { font-size: 1.05rem; line-height: 1.6; color: #4a4a4a; min-height: 24px; }
+        .anno-edit { width: 100%; min-height: 120px; padding: 10px; font-family: monospace; font-size: 1rem; border: 1px dashed #8e7cc3; border-radius: 6px; box-sizing: border-box; resize: vertical; display: none; background: #fff; color: #333; outline: none; }
+        .anno-edit:focus { border: 1px solid #8e7cc3; box-shadow: 0 0 0 3px rgba(142,124,195,0.1); }
+
+        /* 迷你 Markdown 渲染器优化 */
+        .markdown-body p { margin-top: 0; margin-bottom: 8px; }
+        .markdown-body p:last-child { margin-bottom: 0; }
+        .markdown-body p:empty { display: none; }
+        .markdown-body h1, .markdown-body h2, .markdown-body h3 { color: #8e7cc3; font-size: 1.15rem; margin: 10px 0 8px 0; border-bottom: 1px dashed #e0d8f0; padding-bottom: 4px; }
+        .markdown-body ul, .markdown-body ol { margin: 0 0 8px 0; padding-left: 20px; }
+        .markdown-body blockquote { margin: 0 0 10px 0; padding: 10px 15px; background: rgba(142,124,195,0.1); border-left: 4px solid #8e7cc3; color: #555; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>East Asia braces for destructive typhoon as landslides kill 15 in Philippines</h1>
+        <div class="meta">
+            <span>📅 2026-07-12 22:32</span>
+            <a href="https://www.bbc.com/news/articles/c04y6wr03gxo" target="_blank">🔗 阅读原文</a>
+            <a href="../../index.html">🔙 返回日历</a>
+            <span class="sync-status" id="sync-status">📡 同步中...</span>
+        </div>
+        <div class="content">
+            
+            <div class="para-wrap">
+                <p>Landslides triggered by one of the strongest storms in decades have killed at least 15 people in the southern Philippines, as parts of East Asia brace themselves for the looming storm.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Typhoon Bavi, which spans 1,000km (620 miles) at its widest point – roughly the width of France - is sweeping across the Pacific towards Taiwan.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>It is expected to dump rain on Taiwan's north and east, and on a chain of remote Japanese islands, before making landfall in south-eastern China on Saturday.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Dozens of flights have been cancelled while schools have suspended classes across the region. Supermarket shelves have been wiped clean as residents stock up on supplies ahead of the typhoon.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>On the Philippine island of Mindanao, families have been buried overnight by landslides, and rescuers are still searching for those missing.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Moderate to heavy rains will continue to drench parts of the country throughout the weekend, officials say.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Taiwanese authorities have warned that Bavi could bring up to 1m (39 inches) of rainfall. Some 29,000 soldiers have been put on standby to help with relief efforts, according to the island's defence ministry.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Bavi is set to be the largest storm, by size, to hit the island since 1987, Taiwan's Central Weather Administration told Reuters.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Farmers across the region rushed to harvest or protect their crops while the weather held earlier on Friday, while fishermen made sure to secure their vessels tightly.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>"Don't be fooled by the nice and calm weather now. A storm like this could be the most terrifying," 60-year-old fisherman Chen Ming-hui told Reuters.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Thousands of sandbags have been distributed to residents and shop-owners in flood-prone areas.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Across the strait, China has also warned of "significant impact" from the typhoon that could move northward after smashing into the south-eastern Fujian province.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>"Bavi's large size and abundant energy mean its remnants and outer rainbands could move from Jiangsu and Anhui provinces toward the Bohai Sea region," said Ma Jun, director of China's Institute of Public and Environmental Affairs.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>The northern provinces, which have "less experience" dealing with typhoons in comparison with the south, should "strengthen preparations", he warned.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Some forecasts suggest Bavi could make landfall twice in China.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>In Japan, residents on the remote Sakishima Islands are also on high alert. Photographs shared online show some of them taping up windows and draping windproof nets across their homes and shops.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Various airlines have grounded flights in the region. Japan Airlines, for instance, has axed more than 100 flights for Friday and Saturday, disrupting travel for nearly 20,000 passengers.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>All Nippon Airways, another Japanese carrier, has cancelled more than 160 flights through Sunday, also affecting about 20,000 people, according to Reuters.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Thai Airways and Malaysia Airlines have also grounded flights to and from Taipei.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Parts of southern China are still reeling from the devastation brought by Typhoon Maysak earlier this week.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Maysak left at least 39 people dead, with rescuers still combing through wreckage for missing people. More than 130,000 were evacuated, mostly in the Guangxi region.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Maysak killed large swathes of livestock and resulted in massive agriculture loss. It also spurred two rare tornadoes in the central Hubei province.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script id="matrix-engine">
+        const GH_OWNER = localStorage.getItem('GH_OWNER_BBC') || "moodHappy";
+        const GH_REPO = localStorage.getItem('GH_REPO_BBC') || "Web-Notes-Matrix";
+
+        function escapeHTML(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        function initAnnotations() {
+            document.querySelectorAll('.para-wrap').forEach(wrap => {
+                const view = wrap.querySelector('.anno-view');
+                const edit = wrap.querySelector('.anno-edit');
+                const toggle = wrap.querySelector('.anno-toggle');
+                const box = wrap.querySelector('.anno-box');
+
+                const rawText = edit.value.trim();
+                if (rawText) {
+                    toggle.classList.add('has-anno');
+                    if (typeof marked !== 'undefined') view.innerHTML = marked.parse(rawText);
+                }
+
+                toggle.onclick = () => {
+                    if (box.style.display === 'block') {
+                        box.style.display = 'none';
+                        wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        box.style.display = 'block';
+                        if (!edit.value.trim()) {
+                            view.style.display = 'none';
+                            edit.style.display = 'block';
+                            edit.focus();
+                        } else {
+                            view.style.display = 'block';
+                            edit.style.display = 'none';
+                        }
+                    }
+                };
+
+                const triggerEdit = () => {
+                    view.style.display = 'none';
+                    edit.style.display = 'block';
+                    edit.value = edit.value;
+                    edit.focus();
+                };
+
+                // PC端鼠标双击折叠
+                view.addEventListener('dblclick', () => {
+                    box.style.display = 'none';
+                    wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+
+                // 移动端手势逻辑
+                let lastTap = 0;
+                view.addEventListener('touchstart', e => {
+                    if (e.touches.length === 2) {
+                        triggerEdit();
+                    } else if (e.touches.length === 1) {
+                        const currentTime = new Date().getTime();
+                        const tapLength = currentTime - lastTap;
+                        if (tapLength < 500 && tapLength > 0) {
+                            box.style.display = 'none';
+                            wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                        lastTap = currentTime;
+                    }
+                }, {passive: true});
+
+                edit.onblur = async () => {
+                    const newVal = edit.value.trim();
+                    try { view.innerHTML = newVal ? marked.parse(newVal) : ''; } catch(e){}
+                    edit.style.display = 'none';
+
+                    if (newVal) {
+                        view.style.display = 'block';
+                        toggle.classList.add('has-anno');
+                    } else {
+                        view.style.display = 'none';
+                        box.style.display = 'none';
+                        toggle.classList.remove('has-anno');
+                    }
+
+                    if (edit.getAttribute('data-old-val') !== newVal) {
+                        edit.setAttribute('data-old-val', newVal);
+                        await syncToGitHub();
+                    }
+                };
+                edit.setAttribute('data-old-val', rawText);
+            });
+        }
+        window.onload = initAnnotations;
+
+        function reconstructSelfHTML() {
+            const titleStr = document.querySelector('h1').innerText;
+            const metaStr = document.querySelector('.meta').innerHTML.replace(/<span class="sync-status".*?<\/span>/, '<span class="sync-status" id="sync-status">📡 同步中...</span>');
+
+            let contentHTML = '';
+            document.querySelectorAll('.content > *').forEach(node => {
+                if (node.classList.contains('para-wrap')) {
+                    const pNode = node.querySelector('p').cloneNode(true);
+                    const toggle = pNode.querySelector('.anno-toggle');
+                    if (toggle) toggle.remove();
+
+                    const rawMarkdown = node.querySelector('.anno-edit').value || '';
+                    const safeMarkdown = escapeHTML(rawMarkdown);
+
+                    contentHTML += '\n            <div class="para-wrap">\n                <p>' + pNode.innerHTML + '<span class="anno-toggle"></span></p>\n                <div class="anno-box" style="display:none;">\n                    <div class="anno-view markdown-body"></div>\n                    <textarea class="anno-edit" style="display:none;">' + safeMarkdown + '</textarea>\n                </div>\n            </div>';
+                } else if (node.tagName === 'H2' || node.tagName === 'H3') {
+                    contentHTML += '\n            <' + node.tagName.toLowerCase() + '>' + node.innerHTML + '</' + node.tagName.toLowerCase() + '>';
+                }
+            });
+
+            const styleBlock = document.querySelector('style').textContent;
+            const scriptBlock = document.getElementById('matrix-engine').textContent;
+
+            return '<!DOCTYPE html>\n<html lang="zh-CN">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>' + titleStr + '</title>\n    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"><\/script>\n    <style>' + styleBlock + '</style>\n</head>\n<body>\n    <div class="container">\n        <h1>' + titleStr + '</h1>\n        <div class="meta">\n            ' + metaStr + '\n        </div>\n        <div class="content">' + contentHTML + '\n        </div>\n    </div>\n    <script id="matrix-engine">' + scriptBlock + '<\/script>\n</body>\n</html>';
+        }
+
+        async function syncToGitHub() {
+            const token = localStorage.getItem('GH_TOKEN_BBC') || localStorage.getItem('GH_TOKEN') || null;
+            if(!token) return alert('缺少 GitHub Token，无法同步批注！请先在日历页配置。');
+
+            const statusMsg = document.getElementById('sync-status');
+            statusMsg.style.display = 'inline-block';
+            statusMsg.style.backgroundColor = '#2ea44f'; // 开始同步直接变成抢眼的绿色按钮
+            statusMsg.innerText = '📡 同步中...';
+
+            const pureHtml = reconstructSelfHTML();
+            const path = window.location.pathname;
+            const fileRelPath = path.substring(path.indexOf('docs/'));
+
+            try {
+                const utf8Encode = new TextEncoder().encode(pureHtml);
+                const binaryString = String.fromCodePoint(...utf8Encode);
+                const base64Html = btoa(binaryString);
+
+                // 核心修复点：删掉 Cache-Control，用 fetch 自带的 no-store 完美防缓存，且不触发 CORS 跨域拦截
+                const getRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${fileRelPath}?t=${Date.now()}`, {
+                    headers: { 'Authorization': `token ${token}` },
+                    cache: 'no-store'
+                });
+
+                if (!getRes.ok) throw new Error('API Rate limit or File not found');
+                const fileData = await getRes.json();
+
+                const putRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${fileRelPath}`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: `Auto-save annotation`, content: base64Html, sha: fileData.sha })
+                });
+
+                if(putRes.ok) {
+                    statusMsg.style.backgroundColor = '#2ea44f'; // 依然是绿色
+                    statusMsg.innerText = '✅ 云端已同步';
+                    setTimeout(() => statusMsg.style.display = 'none', 3000);
+                } else {
+                    throw new Error('Put failed');
+                }
+            } catch(e) {
+                console.error(e);
+                statusMsg.style.backgroundColor = '#e74c3c'; // 失败变红
+                statusMsg.innerText = '❌ 同步失败';
+            }
+        }
+        </script>
+</body>
+</html>
