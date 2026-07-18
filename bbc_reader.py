@@ -207,11 +207,8 @@ def generate_index():
         
         .container { max-width: 600px; margin: 0 auto; background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; }
         
-        .manual-fetch-bar { background: var(--card); padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 20; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .manual-fetch-bar { background: var(--card); padding: 12px 15px; display: flex; justify-content: flex-end; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 20; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .settings-btn { background: none; border: none; font-size: 20px; cursor: pointer; padding: 5px; }
-        
-        .logo-container { display: flex; gap: 4px; margin-left: 5px; }
-        .logo-block { background-color: #000; color: #fff; width: 26px; height: 26px; display: flex; justify-content: center; align-items: center; font-weight: bold; font-family: Arial, Helvetica, sans-serif; font-size: 16px; }
         
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 100; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: var(--card); border-radius: 16px; padding: 20px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
@@ -269,11 +266,6 @@ def generate_index():
     <div id="toastMsg" class="toast-msg"></div>
 
     <div class="manual-fetch-bar">
-        <div class="logo-container">
-            <div class="logo-block">B</div>
-            <div class="logo-block">B</div>
-            <div class="logo-block">C</div>
-        </div>
         <button class="settings-btn" onclick="openSettings()">⚙️</button>
     </div>
 
