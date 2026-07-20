@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lamine Yamal 'completes football' at 19 as Argentina betray Messi</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root { --bg: #f5f5f7; --card: #ffffff; --text: #1d1d1f; --muted: #86868b; --accent: #0066cc; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; text-align: left; font-size: 1.25rem; line-height: 1.7; color: var(--text); background: var(--bg); margin: 0; padding: 0; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card); padding: 40px 25px; min-height: 100vh; box-shadow: 0 4px 24px rgba(0,0,0,0.04); box-sizing: border-box; }
+        h1 { font-size: 1.8rem; margin-top: 0; padding-bottom: 15px; border-bottom: 1px solid #e5e5ea; line-height: 1.3; }
+        h2 { font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; color: #1d1d1f; }
+        .meta { font-size: 0.9rem; color: var(--muted); margin-bottom: 30px; display: flex; flex-wrap: nowrap; gap: 10px; align-items: center; white-space: nowrap; overflow-x: auto; scrollbar-width: none; }
+        .meta::-webkit-scrollbar { display: none; }
+        .meta span, .meta a { flex-shrink: 0; }
+        .meta a { color: var(--accent); text-decoration: none; background: #f0f7ff; padding: 6px 10px; border-radius: 8px; font-weight: 500; transition: background 0.2s; }
+        .meta a:hover { background: #e1efff; }
+
+        /* 状态按钮样式 */
+        .sync-status { margin-left: auto; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem; font-weight: bold; display: none; color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+
+        /* 段落与批注核心样式 */
+        .para-wrap { margin-bottom: 22px; position: relative; }
+        .para-wrap p { margin-bottom: 0; }
+        .anno-toggle { display: inline-flex; margin-left: 6px; cursor: pointer; opacity: 0.2; font-size: 0.8rem; vertical-align: middle; transition: all 0.2s; user-select: none; }
+        .anno-toggle:hover { opacity: 0.8; transform: scale(1.1); }
+        .anno-toggle.has-anno { opacity: 1; }
+        .anno-toggle::after { content: "🔴"; }
+
+        .anno-box { display: none; margin-top: 10px; background: #f8f6ff; border-left: 4px solid #8e7cc3; padding: 12px 16px; border-radius: 0 6px 6px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        .anno-view { font-size: 1.05rem; line-height: 1.6; color: #4a4a4a; min-height: 24px; }
+        .anno-edit { width: 100%; min-height: 120px; padding: 10px; font-family: monospace; font-size: 1rem; border: 1px dashed #8e7cc3; border-radius: 6px; box-sizing: border-box; resize: vertical; display: none; background: #fff; color: #333; outline: none; }
+        .anno-edit:focus { border: 1px solid #8e7cc3; box-shadow: 0 0 0 3px rgba(142,124,195,0.1); }
+
+        /* 迷你 Markdown 渲染器优化 */
+        .markdown-body p { margin-top: 0; margin-bottom: 8px; }
+        .markdown-body p:last-child { margin-bottom: 0; }
+        .markdown-body p:empty { display: none; }
+        .markdown-body h1, .markdown-body h2, .markdown-body h3 { color: #8e7cc3; font-size: 1.15rem; margin: 10px 0 8px 0; border-bottom: 1px dashed #e0d8f0; padding-bottom: 4px; }
+        .markdown-body ul, .markdown-body ol { margin: 0 0 8px 0; padding-left: 20px; }
+        .markdown-body blockquote { margin: 0 0 10px 0; padding: 10px 15px; background: rgba(142,124,195,0.1); border-left: 4px solid #8e7cc3; color: #555; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lamine Yamal 'completes football' at 19 as Argentina betray Messi</h1>
+        <div class="meta">
+            <span>📅 2026-07-21 01:30</span>
+            <a href="https://www.bbc.com/sport/football/articles/c0m7zx38v43o" target="_blank">🔗 阅读原文</a>
+            <a href="../../index.html">🔙 返回日历</a>
+            <span class="sync-status" id="sync-status">📡 同步中...</span>
+        </div>
+        <div class="content">
+            
+            <div class="para-wrap">
+                <p>When brilliant Spain teenager Lamine Yamal embraced a tearful Lionel Messi at the end of the World Cup final, it looked and felt symbolic. A passing of the torch.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Messi, at 39, gazed long and hard at Argentina's fans packed around the New York New Jersey Stadium as they sang his name after what may be the last time he graces the game's biggest stage.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>And, with the world watching, it was Lamine Yamal who offered the great Argentina icon consolation before they fell into each other's arms.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Barcelona's number 10 embracing their most legendary number 10.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>A different image to the amazing photo of a 20-year-old Messi bathing a six-month-old Lamine Yamal in September 2007 as part of a charity calendar raffle that went viral once more in the build-up to this game.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>The baby boy is now a man, and Messi may be at the end of his World Cup journey.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Lamine Yamal - two decades younger and still in the infancy of his career - has effectively completed international football by lifting the World Cup two years after he came to wider prominence by winning the Euros when Spain beat England.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>He, like Messi a product of Barcelona, came into the tournament troubled by a hamstring injury, but ended it as the youngest player - at 19 years and six days - to win both the World Cup and Euros.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>And one of the key storylines contained within this disappointing World Cup final was how Lamine Yamal's influence was assisted by the purist strategies of his Spain team-mates - while Messi was betrayed by Argentina's provocative approach.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>It yielded nothing, which was what it deserved.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Spain and Lamine Yamal have grown through the tournament to leave him with the world at his feet and football's two greatest prizes in his pocket.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>As well as having glorious natural gifts, he is also Spain's lucky charm. They completed their domination of the international stage with Ferran Torres' decisive 106th-minute strike in extra time.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Lamine Yamal has yet to lose for his country in the 28 competitive matches he has played. He has started 13 games at major tournaments and won all of them - the longest 100% win rate of any European player across major tournaments when starting.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>He also became - along with 19-year-old Spain team-mate Pau Cubarsi - just the fourth and fifth teenagers to start a World Cup final and win, after Pele for Brazil in 1958, Italy defender Giuseppe Bergomi in 1982 and Kylian Mbappe with France in 2018.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Spain coach Luis de la Fuente spoke afterwards of his "sincere gratitude" to Lamine Yamal.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>"He has played great football that will help him to mature and be even a greater footballer than he already is," he said.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>"He really sacrificed for the collective good. This is very important in my squad. In my opinion he played a great World Cup."<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>And this is not simply a special talent, it is a special talent with a special temperament.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>He shrugged off Argentina's obvious attempts to intimidate him as he regularly came into close contact with Nicolas Tagliafico in particular.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Former England goalkeeper and BBC Sport pundit Joe Hart summed it up well.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>"Not only did Lamine Yamal not react," he said. "He stood up to it. He was not rattled and he did not back down. He had the entire team trying to smash him.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>"He just stayed real cool. It was real standout performance from him.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>"Lamine Yamal is 19 years old. What a beautiful day for him. He's 19 and has completed football."<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>With virtually his whole career in front of him, and taking in the experience and influence of Spain team-mates such as his captain and player of the tournament Rodri, there is every chance Lamine Yamal will add more successes like this before he is done.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Sixteen titles in five years - why Spain are a dominant force<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Spain's 'victory for football' over 'embarrassing' Argentina<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Trump, Bieber and Shakira - a World Cup final like never before<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <h2>Argentina spoilers wreck Messi's World Cup hopes</h2>
+            
+            <div class="para-wrap">
+                <p>The joy of Lamine Yamal was the sharpest of contrasts to Messi, who looked heartbroken as he stared into those massed ranks of Argentina supporters, the realisation perhaps dawning that this would be the final time he would take such adoration at the World Cup.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Argentina coach Lionel Scaloni, like Messi trying to win a second successive World Cup, became highly emotional when asked whether this was the legendary attacker's final game in the tournament - while also reflecting on his own future with his contract due to expire in December.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Scaloni said he had not spoken to Messi, before bursting into tears himself then leaving the news conference.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Messi's cause was not helped here by Argentina's confrontational approach from virtually the first whistle, which left their inspiration and leader effectively a passenger for most of the game.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Spain's victory was a victory for football because Argentina appeared to be focused on anything but that from early on, when Slovenian referee Slavko Vincic exercised the sort of leniency that has infuriated opponents throughout the World Cup.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Alexis Mac Allister's poor challenge on Dani Olmo received nothing more than a brief admonishment, prompting Spain fans to ironically chant the name of Fifa president Gianni Infantino. It was another nod to the conspiracy theorists who claim Argentina's road to the final has been smoothed out by officialdom.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>It was 40 minutes before Argentina defender Lisandro Martinez received the game's first yellow card for a foul on Mikel Oyarzabal - greeted with heavy sarcasm by many inside this vast bowl of a stadium.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>To see Argentina's obvious talent, which they displayed by overpowering England in the semi-final, reduced to such spoiling tactics was a dismal sight, hardly designed to aid Messi's genius and influence.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Messi even got in the act by suggesting the referee should send off Spain's Marc Cucurella for talking with his hand over his mouth - punishable by a red card if employed in a confrontational manner at this World Cup.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>It came after the low point of Argentina's performance, Enzo Fernandez's senseless charge at Cubarsi just before the game went into extra time. The Chelsea midfielder was not even looking at the ball when he flattened his opponent. A second yellow card was fully deserved.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Argentina were the first team in the tournament's history not to have a shot in 90 minutes of a World Cup final. When it did come, in the 117th minute and with desperation mounting, Messi fired off target.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Spain had 12 shots on target, Argentina had none in the entire game.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>In a shocking first half, Argentina committed more fouls than passes in the final third of the pitch. Nine as opposed to eight. It summed up their approach.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Argentina's players joined Messi in shedding tears after the final whistle, though even that ended in an undignified scrum between players and officials from either side.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Leandro Paredes - as he was too often after coming on as substitute for the second half - was the aggressor, grabbing Eric Garcia by the throat. He was also involved as Spain's Gavi was thrown to the ground.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>This outstanding World Cup should not be remembered for such an unsavoury finale.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Spain may not have been at their best in the final, but they have developed throughout the World Cup, from the shock of being held to a draw in their opening game by Cape Verde to ultimate glory.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>The World Cup got the winners it deserved, and in Lamine Yamal it has a star of future tournaments.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            
+            <div class="para-wrap">
+                <p>Messi's unforgettable World Cup era may be over - but the Lamine Yamal years could go on for a long time to come.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script id="matrix-engine">
+        const GH_OWNER = localStorage.getItem('GH_OWNER_EXT') || localStorage.getItem('GH_OWNER_UPI') || localStorage.getItem('GH_OWNER_BBC') || "moodHappy";
+        const GH_REPO = localStorage.getItem('GH_REPO_EXT') || localStorage.getItem('GH_REPO_UPI') || localStorage.getItem('GH_REPO_BBC') || "Web-Notes-Matrix";
+
+        function escapeHTML(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        // 防抖队列机制，避免高频触发 API 限流和 SHA 指纹冲突
+        let syncTimeout = null;
+        function scheduleSync() {
+            const statusMsg = document.getElementById('sync-status');
+            statusMsg.style.display = 'inline-block';
+            statusMsg.style.backgroundColor = '#f39c12';
+            statusMsg.innerText = '⏳ 更改已记录，5秒后自动同步...';
+            statusMsg.style.cursor = 'default';
+            statusMsg.onclick = null;
+
+            if (syncTimeout) clearTimeout(syncTimeout);
+            syncTimeout = setTimeout(() => {
+                syncToGitHub();
+            }, 5000);
+        }
+
+        function initAnnotations() {
+            document.querySelectorAll('.para-wrap').forEach(wrap => {
+                const view = wrap.querySelector('.anno-view');
+                const edit = wrap.querySelector('.anno-edit');
+                const toggle = wrap.querySelector('.anno-toggle');
+                const box = wrap.querySelector('.anno-box');
+
+                const rawText = edit.value.trim();
+                if (rawText) {
+                    toggle.classList.add('has-anno');
+                    if (typeof marked !== 'undefined') view.innerHTML = marked.parse(rawText);
+                }
+
+                toggle.onclick = () => {
+                    if (box.style.display === 'block') {
+                        box.style.display = 'none';
+                        wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        box.style.display = 'block';
+                        if (!edit.value.trim()) {
+                            view.style.display = 'none';
+                            edit.style.display = 'block';
+                            edit.focus();
+                        } else {
+                            view.style.display = 'block';
+                            edit.style.display = 'none';
+                        }
+                    }
+                };
+
+                const triggerEdit = () => {
+                    view.style.display = 'none';
+                    edit.style.display = 'block';
+                    edit.value = edit.value;
+                    edit.focus();
+                };
+
+                view.addEventListener('dblclick', () => {
+                    box.style.display = 'none';
+                    wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+
+                let lastTap = 0;
+                view.addEventListener('touchstart', e => {
+                    if (e.touches.length === 2) {
+                        triggerEdit();
+                    } else if (e.touches.length === 1) {
+                        const currentTime = new Date().getTime();
+                        const tapLength = currentTime - lastTap;
+                        if (tapLength < 500 && tapLength > 0) {
+                            box.style.display = 'none';
+                            wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                        lastTap = currentTime;
+                    }
+                }, {passive: true});
+
+                edit.onblur = async () => {
+                    const newVal = edit.value.trim();
+                    try { view.innerHTML = newVal ? marked.parse(newVal) : ''; } catch(e){}
+                    edit.style.display = 'none';
+
+                    if (newVal) {
+                        view.style.display = 'block';
+                        toggle.classList.add('has-anno');
+                    } else {
+                        view.style.display = 'none';
+                        box.style.display = 'none';
+                        toggle.classList.remove('has-anno');
+                    }
+
+                    if (edit.getAttribute('data-old-val') !== newVal) {
+                        edit.setAttribute('data-old-val', newVal);
+                        scheduleSync();
+                    }
+                };
+                edit.setAttribute('data-old-val', rawText);
+            });
+        }
+        window.onload = initAnnotations;
+
+        function reconstructSelfHTML() {
+            const titleStr = document.querySelector('h1').innerText;
+            const metaStr = document.querySelector('.meta').innerHTML.replace(/<span class="sync-status".*?<\/span>/, '<span class="sync-status" id="sync-status">📡 同步中...</span>');
+
+            let contentHTML = '';
+            document.querySelectorAll('.content > *').forEach(node => {
+                if (node.classList.contains('para-wrap')) {
+                    const pNode = node.querySelector('p').cloneNode(true);
+                    const toggle = pNode.querySelector('.anno-toggle');
+                    if (toggle) toggle.remove();
+
+                    const rawMarkdown = node.querySelector('.anno-edit').value || '';
+                    const safeMarkdown = escapeHTML(rawMarkdown);
+
+                    contentHTML += '\n            <div class="para-wrap">\n                <p>' + pNode.innerHTML + '<span class="anno-toggle"></span></p>\n                <div class="anno-box" style="display:none;">\n                    <div class="anno-view markdown-body"></div>\n                    <textarea class="anno-edit" style="display:none;">' + safeMarkdown + '</textarea>\n                </div>\n            </div>';
+                } else if (node.tagName === 'H2' || node.tagName === 'H3') {
+                    contentHTML += '\n            <' + node.tagName.toLowerCase() + '>' + node.innerHTML + '</' + node.tagName.toLowerCase() + '>';
+                }
+            });
+
+            const styleBlock = document.querySelector('style').textContent;
+            const scriptBlock = document.getElementById('matrix-engine').textContent;
+
+            return '<!DOCTYPE html>\n<html lang="zh-CN">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>' + titleStr + '</title>\n    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"><\/script>\n    <style>' + styleBlock + '</style>\n</head>\n<body>\n    <div class="container">\n        <h1>' + titleStr + '</h1>\n        <div class="meta">\n            ' + metaStr + '\n        </div>\n        <div class="content">' + contentHTML + '\n        </div>\n    </div>\n    <script id="matrix-engine">' + scriptBlock + '<\/script>\n</body>\n</html>';
+        }
+
+        async function syncToGitHub() {
+            const token = localStorage.getItem('GH_TOKEN_EXT') || localStorage.getItem('GH_TOKEN_UPI') || localStorage.getItem('GH_TOKEN_BBC') || localStorage.getItem('GH_TOKEN') || null;
+            if(!token) return alert('缺少 GitHub Token，无法同步批注！请先在日历页配置。');
+
+            const statusMsg = document.getElementById('sync-status');
+            statusMsg.style.display = 'inline-block';
+            statusMsg.style.backgroundColor = '#2ea44f';
+            statusMsg.innerText = '📡 同步中...';
+
+            const pureHtml = reconstructSelfHTML();
+            const path = window.location.pathname;
+            const fileRelPath = path.substring(path.indexOf('docs/'));
+
+            try {
+                // 安全处理长文章 Base64
+                const base64Html = btoa(unescape(encodeURIComponent(pureHtml)));
+
+                const getRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${fileRelPath}?t=${Date.now()}`, {
+                    headers: { 'Authorization': `token ${token}` },
+                    cache: 'no-store'
+                });
+
+                if (!getRes.ok) throw new Error('API Rate limit or File not found');
+                const fileData = await getRes.json();
+
+                const putRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${fileRelPath}`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: `Auto-save annotation`, content: base64Html, sha: fileData.sha })
+                });
+
+                if(putRes.ok) {
+                    statusMsg.style.backgroundColor = '#2ea44f';
+                    statusMsg.innerText = '✅ 云端已同步';
+                    setTimeout(() => {
+                        if (statusMsg.innerText === '✅ 云端已同步') {
+                            statusMsg.style.display = 'none';
+                        }
+                    }, 3000);
+                } else {
+                    throw new Error('Put failed');
+                }
+            } catch(e) {
+                console.error(e);
+                statusMsg.style.backgroundColor = '#e74c3c';
+                statusMsg.innerText = '❌ 同步失败 (点击重试)';
+                statusMsg.style.cursor = 'pointer';
+                statusMsg.onclick = () => {
+                    statusMsg.onclick = null;
+                    statusMsg.style.cursor = 'default';
+                    syncToGitHub();
+                };
+            }
+        }
+        </script>
+</body>
+</html>
