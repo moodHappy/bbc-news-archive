@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN"><head>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>German police ID Berlin Pride event suspect as Islamic State supporter</title>
@@ -40,100 +41,781 @@
         .markdown-body ul, .markdown-body ol { margin: 0 0 8px 0; padding-left: 20px; }
         .markdown-body blockquote { margin: 0 0 10px 0; padding: 10px 15px; background: rgba(142,124,195,0.1); border-left: 4px solid #8e7cc3; color: #555; }
     </style>
-<style id="nexus-translation-style">
+    <style id="nexus-translation-style">
                 p.zh-para-auto .anno-toggle, p.zh-para .anno-toggle, .zh-para-auto + .anno-toggle, .zh-para + .anno-toggle { display: none !important; opacity: 0 !important; pointer-events: none !important; }
-            </style><style id="nexus-translation-blur-style">
+            </style>
+    <style id="nexus-translation-blur-style">
                 .zh-para-auto { filter: blur(5px); transition: filter 0.3s ease; cursor: pointer; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
                 .zh-para-auto.unblurred { filter: none !important; -webkit-user-select: auto; user-select: auto; }
-            </style></head>
+            </style>
+    <style>
+        @keyframes elegantPopIn {
+            0% { opacity: 0; transform: translateX(-50%) translateY(15px) scale(0.9); }
+            100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+        }
+        .fancy-copy-btn {
+            position: fixed;
+            bottom: 12%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-family: system-ui, -apple-system, sans-serif;
+            font-weight: 600;
+            z-index: 2147483647;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.5), 0 8px 10px -6px rgba(168, 85, 247, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            pointer-events: auto;
+            user-select: none;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fancy-copy-btn.show-btn {
+            display: flex;
+            animation: elegantPopIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .fancy-copy-btn:hover {
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 20px 25px -5px rgba(168, 85, 247, 0.6), 0 8px 10px -6px rgba(168, 85, 247, 0.4);
+            background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+        }
+        .fancy-copy-btn:active {
+            transform: translateX(-50%) translateY(1px);
+            box-shadow: 0 5px 10px -3px rgba(168, 85, 247, 0.5);
+        }
+        .fancy-copy-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+    </style>
+    <style id="_goober"> @keyframes go2264125279{from{transform:scale(0) rotate(45deg);opacity:0;}to{transform:scale(1) rotate(45deg);opacity:1;}}@keyframes go3020080000{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}@keyframes go463499852{from{transform:scale(0) rotate(90deg);opacity:0;}to{transform:scale(1) rotate(90deg);opacity:1;}}@keyframes go1268368563{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}@keyframes go1310225428{from{transform:scale(0) rotate(45deg);opacity:0;}to{transform:scale(1) rotate(45deg);opacity:1;}}@keyframes go651618207{0%{height:0;width:0;opacity:0;}40%{height:0;width:6px;opacity:1;}100%{opacity:1;height:10px;}}@keyframes go901347462{from{transform:scale(0.6);opacity:0.4;}to{transform:scale(1);opacity:1;}}.go4109123758{z-index:9999;}.go4109123758 > *{pointer-events:auto;}</style>
+    <style id="VMst0.06732396893731385">
+        #tm-dashboard {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 90%; max-width: 420px; max-height: 90vh;
+            background: #fff; border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+            z-index: 99999; display: flex; flex-direction: column;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            opacity: 0; pointer-events: none; transition: opacity 0.2s;
+        }
+        #tm-dashboard.open { opacity: 1; pointer-events: auto; }
+        .tm-header { padding: 15px; border-bottom: 1px solid #eee; background: #f8f9fa; display: flex; justify-content: space-between; align-items: center; border-radius: 16px 16px 0 0; }
+        .tm-title { font-weight: 700; font-size: 16px; color: #333; }
+        .tm-close { cursor: pointer; padding: 5px 10px; font-size: 20px; color: #666; }
+        .tm-back { cursor: pointer; padding: 5px 10px; font-size: 18px; color: #007bff; display: none; }
+        .tm-body { flex: 1; overflow-y: auto; padding: 15px; background: #fff; border-radius: 0 0 16px 16px; }
+        
+        /* Grid 布局 */
+        .tm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; user-select: none; }
+        
+        /* 卡片样式 */
+        .tm-card {
+            background: #f1f3f5; border-radius: 10px; padding: 12px;
+            text-align: center; cursor: pointer; transition: transform 0.1s, background 0.2s;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 80px; 
+            touch-action: none;
+        }
+        .tm-card:active { transform: scale(0.95); }
+        .tm-card-icon { font-size: 22px; margin-bottom: 6px; pointer-events: none; }
+        .tm-card-text { font-size: 13px; font-weight: 500; color: #495057; pointer-events: none; line-height: 1.2; }
+        .tm-card.primary { background: #e7f5ff; color: #004085; }
+        .tm-card.full { grid-column: span 2; }
+        
+        /* 拖拽时的样式 */
+        .sortable-ghost { opacity: 0.4; background: #cce5ff; border: 2px dashed #007bff; }
+        .sortable-drag { cursor: grabbing; opacity: 1; background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: scale(1.05); }
+
+        .tm-list-item { padding: 10px; border-bottom: 1px solid #eee; position: relative; }
+        .tm-list-title { font-weight: 600; font-size: 14px; color: #007bff; text-decoration: none; display:block; padding-right: 30px; }
+        .tm-list-meta { font-size: 11px; color: #999; margin-top: 2px; }
+        .tm-list-del { position: absolute; right: 5px; top: 10px; cursor: pointer; color: #dc3545; font-size: 16px; padding: 0 5px; opacity: 0.6; }
+        .tm-list-del:hover { opacity: 1; }
+
+        .tm-btn { width: 100%; padding: 10px; border: none; border-radius: 8px; background: #007bff; color: white; margin-top: 10px; cursor: pointer; transition: background 0.2s; }
+        .tm-btn:hover { background: #0056b3; }
+        .tm-input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px; box-sizing: border-box; }
+        .tm-select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px; background: #fff; }
+        .tm-range-group { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .tm-range { flex: 1; margin: 0 10px; }
+        .tm-label { font-size: 13px; font-weight: 600; color: #555; margin-bottom: 5px; display: block; }
+        
+        .tm-footer { padding: 8px; font-size: 10px; color: #adb5bd; text-align: center; border-top: 1px solid #eee; }
+        #tm-toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.85); color: white; padding: 10px 20px;
+            border-radius: 20px; font-size: 13px; z-index: 100000;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s; white-space: nowrap;
+        }
+        
+        /* 日历样式 */
+        .tm-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .tm-cal-nav { cursor: pointer; user-select: none; padding: 5px 12px; background: #f1f3f5; border-radius: 6px; font-weight: bold; color:#555; }
+        .tm-cal-controls { display: flex; gap: 5px; }
+        .tm-cal-select { border: 1px solid #eee; background: #fff; font-size: 14px; padding: 4px; border-radius: 4px; font-weight: 500; color: #333; }
+        .tm-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .tm-cal-head { text-align: center; font-size: 11px; color: #999; padding-bottom: 5px; }
+        .tm-cal-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border: 1px solid #eee; border-radius: 6px; font-size: 12px; position: relative; background: #fff; }
+        .tm-cal-cell.has { background: #e7f5ff; border-color: #d0ebff; font-weight: bold; cursor: pointer; color: #004085; }
+        .tm-cal-badge { position: absolute; bottom: 1px; right: 2px; font-size: 8px; color: #007bff; opacity: 0.8; }
+    </style>
+    <style id="tm-custom-font-style"></style>
+    <style id="relin-highlight">relin-hc relin-highlight[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="68f65b6976aa0ba4dad39330"] relin-origin {
+          color: #d3cf15!important;
+          opacity: 0.85;
+          transition: all 0.3s ease;
+          text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+        }
+        relin-hc relin-highlight.relingo-underline[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="68f65b6976aa0ba4dad39330"] relin-origin {
+          color: inherit !important;
+          border-bottom: 1.5px dashed #d3cf15!important;
+          transition: all 0.2s ease;
+          padding-bottom: 1px;
+        }
+        relin-hc relin-highlight.relingo-underline-annotated[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="68f65b6976aa0ba4dad39330"] relin-origin {
+          color: inherit !important;
+          background: linear-gradient(to bottom, transparent 60%, #d3cf1540 30%);
+          border-bottom: none !important;
+          transition: all 0.2s ease;
+        }
+        
+relin-hc relin-highlight[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="664f0e1bc53fae9411326fa1"] relin-origin {
+          color: #f4493f!important;
+          opacity: 0.85;
+          transition: all 0.3s ease;
+          text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+        }
+        relin-hc relin-highlight.relingo-underline[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="664f0e1bc53fae9411326fa1"] relin-origin {
+          color: inherit !important;
+          border-bottom: 1.5px dashed #f4493f!important;
+          transition: all 0.2s ease;
+          padding-bottom: 1px;
+        }
+        relin-hc relin-highlight.relingo-underline-annotated[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="664f0e1bc53fae9411326fa1"] relin-origin {
+          color: inherit !important;
+          background: linear-gradient(to bottom, transparent 60%, #f4493f40 30%);
+          border-bottom: none !important;
+          transition: all 0.2s ease;
+        }
+        
+relin-hc relin-highlight[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="6679c0ee12643b3f0e27a3b6"] relin-origin {
+          color: #0085cf!important;
+          opacity: 0.85;
+          transition: all 0.3s ease;
+          text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+        }
+        relin-hc relin-highlight.relingo-underline[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="6679c0ee12643b3f0e27a3b6"] relin-origin {
+          color: inherit !important;
+          border-bottom: 1.5px dashed #0085cf!important;
+          transition: all 0.2s ease;
+          padding-bottom: 1px;
+        }
+        relin-hc relin-highlight.relingo-underline-annotated[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="6679c0ee12643b3f0e27a3b6"] relin-origin {
+          color: inherit !important;
+          background: linear-gradient(to bottom, transparent 60%, #0085cf40 30%);
+          border-bottom: none !important;
+          transition: all 0.2s ease;
+        }
+        relin-highlight relin-origin ruby rt {
+        font-size: 12px;
+      }
+    .relin-ftt-target[data-mode="dual"] {
+      opacity: 1!important;
+    }
+    relin-hc relin-highlight relin-target {
+      opacity: 1!important;
+    }
+  
+    .relin-ftt-target .relin-ftt-target-inner {
+      font-size: 90%;
+    }
+  relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-highlight relin-origin {
+          color: #f33076!important;
+          opacity: 0.85;
+          transition: all 0.2s ease;
+          text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+        }
+        relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, #f3307640 30%);
+          border-bottom: none !important;
+          transition: all 0.2s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-mark {
+          position: relative;
+        }
+        relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-mark relin-origin {
+          border-bottom: none !important;
+          background: linear-gradient(120deg,
+            rgba(243, 48, 118, 0) 0%,
+            rgba(243, 48, 118, 0.03) 10%,
+            rgba(243, 48, 118, 0.10) 20%,
+            rgba(243, 48, 118, 0.14) 30%,
+            rgba(243, 48, 118, 0.14) 70%,
+            rgba(243, 48, 118, 0.10) 80%,
+            rgba(243, 48, 118, 0.03) 90%,
+            rgba(243, 48, 118, 0) 100%) !important;
+          box-shadow: 0 0 1px rgba(243, 48, 118, 0.05);
+          transition: all 0.3s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-mark::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: inherit;
+          z-index: -1;
+          transform: skewX(-3deg);
+          transition: inherit;
+        }
+        relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-mark:hover relin-origin {
+          background: linear-gradient(120deg,
+            rgba(243, 48, 118, 0) 0%,
+            rgba(243, 48, 118, 0.06) 10%,
+            rgba(243, 48, 118, 0.15) 20%,
+            rgba(243, 48, 118, 0.20) 30%,
+            rgba(243, 48, 118, 0.20) 70%,
+            rgba(243, 48, 118, 0.15) 80%,
+            rgba(243, 48, 118, 0.06) 90%,
+            rgba(243, 48, 118, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-mark relin-origin {
+          background: linear-gradient(120deg,
+            rgba(243, 48, 118, 0) 0%,
+            rgba(243, 48, 118, 0.40) 10%,
+            rgba(243, 48, 118, 0.50) 20%,
+            rgba(243, 48, 118, 0.60) 30%,
+            rgba(243, 48, 118, 0.60) 70%,
+            rgba(243, 48, 118, 0.50) 80%,
+            rgba(243, 48, 118, 0.40) 90%,
+            rgba(243, 48, 118, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, rgba(243, 48, 118, 0.8) 75%);
+        }
+        relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-highlight relin-origin {
+          color: #7555ce!important;
+          opacity: 0.85;
+          transition: all 0.2s ease;
+          text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+        }
+        relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, #7555ce40 30%);
+          border-bottom: none !important;
+          transition: all 0.2s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-mark {
+          position: relative;
+        }
+        relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-mark relin-origin {
+          border-bottom: none !important;
+          background: linear-gradient(120deg,
+            rgba(117, 85, 206, 0) 0%,
+            rgba(117, 85, 206, 0.03) 10%,
+            rgba(117, 85, 206, 0.10) 20%,
+            rgba(117, 85, 206, 0.14) 30%,
+            rgba(117, 85, 206, 0.14) 70%,
+            rgba(117, 85, 206, 0.10) 80%,
+            rgba(117, 85, 206, 0.03) 90%,
+            rgba(117, 85, 206, 0) 100%) !important;
+          box-shadow: 0 0 1px rgba(117, 85, 206, 0.05);
+          transition: all 0.3s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-mark::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: inherit;
+          z-index: -1;
+          transform: skewX(-3deg);
+          transition: inherit;
+        }
+        relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-mark:hover relin-origin {
+          background: linear-gradient(120deg,
+            rgba(117, 85, 206, 0) 0%,
+            rgba(117, 85, 206, 0.06) 10%,
+            rgba(117, 85, 206, 0.15) 20%,
+            rgba(117, 85, 206, 0.20) 30%,
+            rgba(117, 85, 206, 0.20) 70%,
+            rgba(117, 85, 206, 0.15) 80%,
+            rgba(117, 85, 206, 0.06) 90%,
+            rgba(117, 85, 206, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-mark relin-origin {
+          background: linear-gradient(120deg,
+            rgba(117, 85, 206, 0) 0%,
+            rgba(117, 85, 206, 0.40) 10%,
+            rgba(117, 85, 206, 0.50) 20%,
+            rgba(117, 85, 206, 0.60) 30%,
+            rgba(117, 85, 206, 0.60) 70%,
+            rgba(117, 85, 206, 0.50) 80%,
+            rgba(117, 85, 206, 0.40) 90%,
+            rgba(117, 85, 206, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, rgba(117, 85, 206, 0.8) 75%);
+        }
+        relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-highlight relin-origin {
+          color: #34a4ab!important;
+          opacity: 0.85;
+          transition: all 0.2s ease;
+          text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+        }
+        relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, #34a4ab40 30%);
+          border-bottom: none !important;
+          transition: all 0.2s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-mark {
+          position: relative;
+        }
+        relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-mark relin-origin {
+          border-bottom: none !important;
+          background: linear-gradient(120deg,
+            rgba(52, 164, 171, 0) 0%,
+            rgba(52, 164, 171, 0.03) 10%,
+            rgba(52, 164, 171, 0.10) 20%,
+            rgba(52, 164, 171, 0.14) 30%,
+            rgba(52, 164, 171, 0.14) 70%,
+            rgba(52, 164, 171, 0.10) 80%,
+            rgba(52, 164, 171, 0.03) 90%,
+            rgba(52, 164, 171, 0) 100%) !important;
+          box-shadow: 0 0 1px rgba(52, 164, 171, 0.05);
+          transition: all 0.3s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-mark::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: inherit;
+          z-index: -1;
+          transform: skewX(-3deg);
+          transition: inherit;
+        }
+        relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-mark:hover relin-origin {
+          background: linear-gradient(120deg,
+            rgba(52, 164, 171, 0) 0%,
+            rgba(52, 164, 171, 0.06) 10%,
+            rgba(52, 164, 171, 0.15) 20%,
+            rgba(52, 164, 171, 0.20) 30%,
+            rgba(52, 164, 171, 0.20) 70%,
+            rgba(52, 164, 171, 0.15) 80%,
+            rgba(52, 164, 171, 0.06) 90%,
+            rgba(52, 164, 171, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-mark relin-origin {
+          background: linear-gradient(120deg,
+            rgba(52, 164, 171, 0) 0%,
+            rgba(52, 164, 171, 0.40) 10%,
+            rgba(52, 164, 171, 0.50) 20%,
+            rgba(52, 164, 171, 0.60) 30%,
+            rgba(52, 164, 171, 0.60) 70%,
+            rgba(52, 164, 171, 0.50) 80%,
+            rgba(52, 164, 171, 0.40) 90%,
+            rgba(52, 164, 171, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, rgba(52, 164, 171, 0.8) 75%);
+        }
+        relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-highlight relin-origin {
+          color: #5cb206!important;
+          opacity: 0.85;
+          transition: all 0.2s ease;
+          text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+        }
+        relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, #5cb20640 30%);
+          border-bottom: none !important;
+          transition: all 0.2s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-mark {
+          position: relative;
+        }
+        relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-mark relin-origin {
+          border-bottom: none !important;
+          background: linear-gradient(120deg,
+            rgba(92, 178, 6, 0) 0%,
+            rgba(92, 178, 6, 0.03) 10%,
+            rgba(92, 178, 6, 0.10) 20%,
+            rgba(92, 178, 6, 0.14) 30%,
+            rgba(92, 178, 6, 0.14) 70%,
+            rgba(92, 178, 6, 0.10) 80%,
+            rgba(92, 178, 6, 0.03) 90%,
+            rgba(92, 178, 6, 0) 100%) !important;
+          box-shadow: 0 0 1px rgba(92, 178, 6, 0.05);
+          transition: all 0.3s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-mark::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: inherit;
+          z-index: -1;
+          transform: skewX(-3deg);
+          transition: inherit;
+        }
+        relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-mark:hover relin-origin {
+          background: linear-gradient(120deg,
+            rgba(92, 178, 6, 0) 0%,
+            rgba(92, 178, 6, 0.06) 10%,
+            rgba(92, 178, 6, 0.15) 20%,
+            rgba(92, 178, 6, 0.20) 30%,
+            rgba(92, 178, 6, 0.20) 70%,
+            rgba(92, 178, 6, 0.15) 80%,
+            rgba(92, 178, 6, 0.06) 90%,
+            rgba(92, 178, 6, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-mark relin-origin {
+          background: linear-gradient(120deg,
+            rgba(92, 178, 6, 0) 0%,
+            rgba(92, 178, 6, 0.40) 10%,
+            rgba(92, 178, 6, 0.50) 20%,
+            rgba(92, 178, 6, 0.60) 30%,
+            rgba(92, 178, 6, 0.60) 70%,
+            rgba(92, 178, 6, 0.50) 80%,
+            rgba(92, 178, 6, 0.40) 90%,
+            rgba(92, 178, 6, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, rgba(92, 178, 6, 0.8) 75%);
+        }
+        </style>
+    
+</head>
 <body>
     <div class="container">
         <h1>German police ID Berlin Pride event suspect as Islamic State supporter</h1>
         <div class="meta">
-            <span>📅 2026-07-27 00:52</span>
-            <a href="https://www.upi.com/Top_News/World-News/2026/07/26/germany-berlin-pride-attack/5411785076924/" target="_blank">🔗 阅读原文</a>
-            <a href="../../index.html">🔙 返回日历</a>
+            
+            <span data-relingo-block="true" data-relin-paragraph="2">📅 2026-07-27 00:52</span>
+            <a href="https://www.upi.com/Top_News/World-News/2026/07/26/germany-berlin-pride-attack/5411785076924/" target="_blank" data-relingo-block="true" data-relin-paragraph="3">🔗 阅读原文</a>
+            <a href="../../index.html" data-relingo-block="true" data-relin-paragraph="4">🔙 返回日历</a>
             <span class="sync-status" id="sync-status">📡 同步中...</span>
+        
         </div>
         <div class="content">
-            
             <div class="para-wrap">
-                <p>July 26 (UPI) -- German Interior Minister Alexander Dobrindt on Sunday identified the suspect accused of driving a car through a Pride event as Abdul Ballout, an alleged supporter of the Islamic State militant group.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">7 月 26 日（UPI）——德国内政部长亚历山大·多布林特 (Alexander Dobrindt) 周日确认，被指控驾驶汽车参加骄傲活动的嫌疑人是阿卜杜勒·巴鲁特 (Abdul Ballout)，据称是伊斯兰国激进组织的支持者。</p>
+                <p><relin-hc data-id="1"><relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>July</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>26</relin-origin></relin-highlight> (<relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>UPI</relin-origin></relin-highlight>) -- <relin-highlight data-relin-meta="starred-1" data-relin-vocabularies="68f65b6976aa0ba4dad39330" class="relingo-highlight"><relin-origin>German</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>Interior</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>Minister</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Alexander</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Dobrindt</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>on</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Sunday</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>identified</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>suspect</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>accused</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>of</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>driving</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>a</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>car</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>through</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>a</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>Pride</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>event</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>as</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Abdul</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Ballout</relin-origin></relin-highlight>, <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>an</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>alleged</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-3" data-relin-vocabularies=""><relin-origin>supporter</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>of</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies="68f65b6976aa0ba4dad39330"><relin-origin>Islamic</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>State</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-3" data-relin-vocabularies=""><relin-origin>militant</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>group</relin-origin></relin-highlight>.</relin-hc><span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">7 月 26 日（UPI）——德国内政部长亚历山大·多布林特 (Alexander Dobrindt) 周日确认，被指控驾驶汽车参加骄傲活动的嫌疑人是阿卜杜勒·巴鲁特 (Abdul Ballout)，据称是伊斯兰国激进组织的支持者。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Dobrindt described the deadly assault as an "Islamist terrorist attack" during a news conference near the site of the incident in Tiergarten Park in Berlin, The New York Times reported.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">据《纽约时报》报道，多布林特在柏林蒂尔加滕公园事发地点附近举行的新闻发布会上将这起致命袭击描述为“伊斯兰恐怖袭击”。</p>
+                <p><relin-hc data-id="2"><relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Dobrindt</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>described</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>deadly</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>assault</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>as</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>an</relin-origin></relin-highlight> "<relin-highlight data-relin-meta="starred-0" data-relin-vocabularies="68f65b6976aa0ba4dad39330" class="relingo-highlight"><relin-origin>Islamist</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>terrorist</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>attack</relin-origin></relin-highlight>" <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>during</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>a</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies=""><relin-origin>news</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>conference</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>near</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>site</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>of</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>incident</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>in</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Tiergarten</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>Park</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>in</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Berlin</relin-origin></relin-highlight>, <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>The</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>New</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>York</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies=""><relin-origin>Times</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>reported</relin-origin></relin-highlight>.</relin-hc><span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">据《纽约时报》报道，多布林特在柏林蒂尔加滕公园事发地点附近举行的新闻发布会上将这起致命袭击描述为“伊斯兰恐怖袭击”。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>"Everything we have seen so far indicates that we are dealing with an Islamist terrorist attack," he said. "We know that the suspect, Abdul Ballout, is on the run.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">他说：“到目前为止，我们所看到的一切都表明我们正在应对伊斯兰恐怖袭击。” “我们知道嫌疑人阿卜杜勒·巴劳特正在逃。</p>
+                <p><relin-hc data-id="3">"<relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>Everything</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>we</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>have</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>seen</relin-origin></relin-highlight> <relin-highlight data-phrase="so far" data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin><relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>so</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>far</relin-origin></relin-highlight></relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>indicates</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>that</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>we</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>are</relin-origin></relin-highlight> <relin-highlight data-phrase="deal with" data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin><relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>dealing</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>with</relin-origin></relin-highlight></relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>an</relin-origin></relin-highlight> <relin-highlight data-relin-meta="starred-0" data-relin-vocabularies="68f65b6976aa0ba4dad39330" class="relingo-highlight"><relin-origin>Islamist</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>terrorist</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>attack</relin-origin></relin-highlight>," <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>he</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>said</relin-origin></relin-highlight>. "<relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>We</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>know</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>that</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>suspect</relin-origin></relin-highlight>, <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Abdul</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Ballout</relin-origin></relin-highlight>, <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>is</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>on</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>run</relin-origin></relin-highlight>.</relin-hc><span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">他说：“到目前为止，我们所看到的一切都表明我们正在应对伊斯兰恐怖袭击。” “我们知道嫌疑人阿卜杜勒·巴劳特正在逃。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"># 📌 完整翻译
+
+“到目前为止，我们所看到的一切都表明，我们正在处理的是一起伊斯兰主义恐怖袭击事件。”他说。“我们知道，嫌疑人阿卜杜勒·巴卢特（Abdul Ballout）目前正在逃亡。”
+
+---
+
+# 📌 Key Expressions
+
+- everything we have seen so far —— 到目前为止我们所看到的一切
+
+结构：
+
+&gt; everything + 主语 + have/has + 过去分词
+
+这里：
+
+&gt; everything we have seen
+
+= 我们已经看到的一切。
+
+---
+
+- so far —— 到目前为止；目前为止
+
+常用于现在完成时。
+
+例如：
+
+- So far, no one has been arrested.
+
+到目前为止，还没有人被逮捕。
+
+---
+
+- indicate that... —— 表明……
+
+正式新闻表达。
+
+例如：
+
+- Evidence indicates that he was involved.
+
+证据表明他参与其中。
+
+---
+
+- we are dealing with... —— 我们正在处理……
+
+结构：
+
+&gt; deal with + 名词
+
+表示：
+
+处理；应对；面对。
+
+例如：
+
+- We are dealing with a serious problem.
+
+我们正在处理一个严重的问题。
+
+---
+
+- Islamist terrorist attack —— 伊斯兰主义恐怖袭击
+
+- Islamist  
+  伊斯兰主义的
+
+- terrorist  
+  恐怖分子的；恐怖主义的
+
+- attack  
+  袭击
+
+注意：
+
+新闻语境中：
+
+&gt; Islamist
+
+通常指政治意识形态意义上的伊斯兰主义，而不是普通宗教身份。
+
+---
+
+- suspect —— 嫌疑人
+
+例如：
+
+- The suspect was arrested.
+
+嫌疑人被逮捕。
+
+---
+
+- be on the run —— 在逃；逃亡中
+
+固定表达：
+
+&gt; on the run
+
+表示：
+
+逃避警方追捕。
+
+例如：
+
+- The criminal has been on the run for weeks.
+
+这名罪犯已经逃亡数周。
+
+---
+
+- know that... —— 知道……
+
+结构：
+
+&gt; know + 宾语从句
+
+例如：
+
+- We know that he is innocent.
+
+我们知道他是无辜的。
+
+---
+
+# 📌 Sentence Structure
+
+第一句：
+
+&gt; Everything we have seen so far indicates that we are dealing with an Islamist terrorist attack.
+
+主语：
+
+&gt; Everything we have seen so far
+
+到目前为止我们看到的一切。
+
+↓
+
+谓语：
+
+&gt; indicates
+
+表明。
+
+↓
+
+宾语从句：
+
+&gt; we are dealing with an Islamist terrorist attack
+
+我们正在处理一起伊斯兰主义恐怖袭击。
+
+---
+
+第二句：
+
+&gt; We know that the suspect, Abdul Ballout, is on the run.
+
+主干：
+
+&gt; We know that...
+
+我们知道……
+
+↓
+
+宾语从句：
+
+&gt; the suspect is on the run
+
+嫌疑人正在逃亡。
+
+其中：
+
+&gt; Abdul Ballout
+
+是同位语，说明：
+
+&gt; the suspect
+
+就是 Abdul Ballout。
+
+---
+
+# 📌 Language Note
+
+新闻报道中：
+
+&gt; indicate
+
+比：
+
+&gt; prove
+
+更加谨慎。
+
+区别：
+
+- indicate  
+  表明、显示（有证据支持，但未必最终确认）
+
+- prove  
+  证明（更加确定）
+
+因此：
+
+&gt; Everything indicates that...
+
+表示：
+
+“目前证据都指向……”
+
+但最终法律认定仍需要调查和司法程序。
+
+而：
+
+&gt; on the run
+
+是新闻中描述警方追捕嫌疑人的常用表达。</textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>"This is a crucial point, because it means all police forces are engaged in a major manhunt."<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">“这是至关重要的一点，因为这意味着所有警察部队都将参与大规模搜捕行动。”</p>
+                <p><relin-hc data-id="4">"<relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>This</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>is</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>a</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>crucial</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>point</relin-origin></relin-highlight>, <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>because</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>it</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>means</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>all</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>police</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies=""><relin-origin>forces</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>are</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>engaged</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>in</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>a</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>major</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>manhunt</relin-origin></relin-highlight>."</relin-hc><span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">“这是至关重要的一点，因为这意味着所有警察部队都将参与大规模搜捕行动。”</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Ballout, 21, is accused of driving a vehicle into a crowd at Berlin's Pride festival on Saturday, killing one person and injuring at least 16 people. Police said one or more people appeared to have exited the vehicle after it rammed into the crowd.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">21 岁的巴鲁特被指控周六在柏林骄傲节上驾驶车辆冲撞人群，造成 1 人死亡、至少 16 人受伤。警方表示，车辆撞向人群后，似乎有一名或多人从车里下来。</p>
+                <p><relin-hc data-id="5"><relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Ballout</relin-origin></relin-highlight>, <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>21</relin-origin></relin-highlight>, <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>is</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>accused</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>of</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>driving</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>a</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>vehicle</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>into</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>a</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>crowd</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>at</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Berlin</relin-origin></relin-highlight><relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>'s</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>Pride</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>festival</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>on</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Saturday</relin-origin></relin-highlight>, <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>killing</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>one</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>person</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>and</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies=""><relin-origin>injuring</relin-origin></relin-highlight> <relin-highlight data-phrase="at least" data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin><relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>at</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>least</relin-origin></relin-highlight></relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>16</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>people</relin-origin></relin-highlight>. <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>Police</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>said</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>one</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>or</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>more</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>people</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>appeared</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>to</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>have</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies=""><relin-origin>exited</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>vehicle</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>after</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>it</relin-origin></relin-highlight> <relin-highlight data-relin-meta="starred-0" data-relin-vocabularies="" class="relingo-highlight"><relin-origin>rammed</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>into</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>crowd</relin-origin></relin-highlight>.</relin-hc><span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">21 岁的巴鲁特被指控周六在柏林骄傲节上驾驶车辆冲撞人群，造成 1 人死亡、至少 16 人受伤。警方表示，车辆撞向人群后，似乎有一名或多人从车里下来。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Multiple people also sustained stabbing injuries.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">多人还被刺伤。</p>
+                <p><relin-hc data-id="6"><relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>Multiple</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>people</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>also</relin-origin></relin-highlight> <relin-highlight data-relin-meta="starred-0" data-relin-vocabularies="" class="relingo-highlight"><relin-origin>sustained</relin-origin></relin-highlight> <relin-highlight data-relin-meta="starred-0" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6" class="relingo-highlight"><relin-origin>stabbing</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>injuries</relin-origin></relin-highlight>.</relin-hc><span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">多人还被刺伤。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Dobrindt said there was evidence Ballout supported the Islamic State -- also known as ISIS -- and had a criminal conviction in May, The Guardian reported. Police called for help in tracking down Ballout, a German citizen, but asked members of the public not to approach or have direct contact with him because he may be armed and dangerous.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">据《卫报》报道，多布林特表示，有证据表明巴鲁特支持伊斯兰国（又称 ISIS），并于 5 月被定罪。警方呼吁帮助追捕德国公民巴鲁特，但要求公众不要接近或直接接触他，因为他可能携带武器并且很危险。</p>
+                <p><relin-hc data-id="7"><relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Dobrindt</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>said</relin-origin></relin-highlight> <relin-highlight data-phrase="there are" data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin><relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>there</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-1" data-relin-vocabularies=""><relin-origin>was</relin-origin></relin-highlight></relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>evidence</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Ballout</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies=""><relin-origin>supported</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies="68f65b6976aa0ba4dad39330"><relin-origin>Islamic</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>State</relin-origin></relin-highlight> -- <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>also</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>known</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>as</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>ISIS</relin-origin></relin-highlight> -- <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>and</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>had</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>a</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>criminal</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>conviction</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>in</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>May</relin-origin></relin-highlight>, <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>The</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>Guardian</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>reported</relin-origin></relin-highlight>. <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>Police</relin-origin></relin-highlight> <relin-highlight data-phrase="call for" data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin><relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>called</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>for</relin-origin></relin-highlight></relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>help</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>in</relin-origin></relin-highlight> <relin-highlight data-phrase="track down" data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin><relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies=""><relin-origin>tracking</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>down</relin-origin></relin-highlight></relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Ballout</relin-origin></relin-highlight>, <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>a</relin-origin></relin-highlight> <relin-highlight data-relin-meta="starred-1" data-relin-vocabularies="68f65b6976aa0ba4dad39330" class="relingo-highlight"><relin-origin>German</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>citizen</relin-origin></relin-highlight>, <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>but</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>asked</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>members</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>of</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>public</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>not</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>to</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>approach</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>or</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>have</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>direct</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>contact</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>with</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>him</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>because</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>he</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>may</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>be</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies=""><relin-origin>armed</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>and</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>dangerous</relin-origin></relin-highlight>.</relin-hc><span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">据《卫报》报道，多布林特表示，有证据表明巴鲁特支持伊斯兰国（又称 ISIS），并于 5 月被定罪。警方呼吁帮助追捕德国公民巴鲁特，但要求公众不要接近或直接接触他，因为他可能携带武器并且很危险。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>"We are dealing here with a suspected perpetrator, who had previously drawn attention to himself through a high volume of criminal offenses, radicalization and affiliation with the Islamist scene," he said.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">他说：“我们正在处理一名犯罪嫌疑人，他此前曾因大量刑事犯罪、激进化和与伊斯兰势力的联系而引起人们的关注。”</p>
+                <p>"We are dealing here with a suspected perpetrator, who had previously drawn attention to himself through a high volume of criminal offenses, radicalization and affiliation with the Islamist scene," he said.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">他说：“我们正在处理一名犯罪嫌疑人，他此前曾因大量刑事犯罪、激进化和与伊斯兰势力的联系而引起人们的关注。”</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Police representative Florian Nath said the search was "proceeding at full speed."<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">警方代表弗洛里安·纳斯表示，搜查工作正在“全速进行”。</p>
+                <p>Police representative Florian Nath said the search was "proceeding at full speed."<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">警方代表弗洛里安·纳斯表示，搜查工作正在“全速进行”。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>"We still have no information whatsoever regarding his specific motives, the exact sequence of events or his role in the crime itself."<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">“我们仍然没有关于他的具体动机、事件的确切顺序或他在犯罪本身中所扮演的角色的任何信息。”</p>
+                <p>"We still have no information whatsoever regarding his specific motives, the exact sequence of events or his role in the crime itself."<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">“我们仍然没有关于他的具体动机、事件的确切顺序或他在犯罪本身中所扮演的角色的任何信息。”</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
         </div>
@@ -336,5 +1018,5 @@
             }
         }
         </script>
-
-</body></html>
+</body>
+</html>
