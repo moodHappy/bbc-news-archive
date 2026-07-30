@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
+<html lang="zh-CN"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Singapore fines French teen $465 for viral straw-licking stunt</title>
@@ -41,7 +40,25 @@
         .markdown-body ul, .markdown-body ol { margin: 0 0 8px 0; padding-left: 20px; }
         .markdown-body blockquote { margin: 0 0 10px 0; padding: 10px 15px; background: rgba(142,124,195,0.1); border-left: 4px solid #8e7cc3; color: #555; }
     </style>
-</head>
+<style id="nexus-global-styles">
+            /* 1. 防干扰样式：消除翻译段落的批注红点 */
+            p.zh-para-auto .anno-toggle,
+            p.zh-para .anno-toggle,
+            .zh-para-auto + .anno-toggle,
+            .zh-para + .anno-toggle {
+                display: none !important; opacity: 0 !important; pointer-events: none !important;
+            }
+
+            /* 2. 翻译段落默认模糊状态 */
+            .zh-para-auto {
+                filter: blur(5px); transition: filter 0.3s ease; cursor: pointer;
+                -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent;
+            }
+            .zh-para-auto.unblurred {
+                filter: none !important; -webkit-user-select: auto; user-select: auto;
+            }
+
+            </style></head>
 <body>
     <div class="container">
         <h1>Singapore fines French teen $465 for viral straw-licking stunt</h1>
@@ -54,7 +71,7 @@
         <div class="content">
             
             <div class="para-wrap">
-                <p>A Singapore court has fined a French student S$600 ($465; £348) for licking a straw from an orange juice vending machine and putting it back into its dispenser.<span class="anno-toggle"></span></p>
+                <p>A Singapore court has fined a French student S$600 ($465; £348) for licking a straw from an orange juice vending machine and putting it back into its dispenser.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">新加坡一家法院对一名法国学生处以600新加坡元（约合465美元；348英镑）的罚款，原因是他舔了一根橙汁自动售货机的吸管并将其放回了分发盒中。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
@@ -62,7 +79,7 @@
             </div>
             
             <div class="para-wrap">
-                <p>Didier Gaspard Owen Maximilien, 19, pleaded guilty to one count of public nuisance.<span class="anno-toggle"></span></p>
+                <p>Didier Gaspard Owen Maximilien, 19, pleaded guilty to one count of public nuisance.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">现年19岁的迪迪埃·加斯帕尔·欧文·马克西米利安对一项妨害公众罪表示认罪。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
@@ -253,16 +270,28 @@
                     const rawMarkdown = node.querySelector('.anno-edit').value || '';
                     const safeMarkdown = escapeHTML(rawMarkdown);
 
-                    contentHTML += '\n            <div class="para-wrap">\n                <p>' + pNode.innerHTML + '<span class="anno-toggle"></span></p>\n                <div class="anno-box" style="display:none;">\n                    <div class="anno-view markdown-body"></div>\n                    <textarea class="anno-edit" style="display:none;">' + safeMarkdown + '</textarea>\n                </div>\n            </div>';
+                    const zhNode = node.querySelector('.zh-para-auto');
+                    let zhHTML = '';
+                    if (zhNode) {
+                        const cloneZh = zhNode.cloneNode(true);
+                        cloneZh.querySelectorAll('.anno-toggle').forEach(n => n.remove());
+                        let zhClasses = cloneZh.className.replace(/\bunblurred\b/g, '').replace(/\s+/g, ' ').trim();
+                        if (!zhClasses) zhClasses = 'zh-para-auto';
+                        const zhStyle = cloneZh.getAttribute('style') ? cloneZh.getAttribute('style').replace(/"/g, '&quot;') : '';
+                        const zhOnclick = "this.classList.toggle('unblurred')";
+                        zhHTML = '\n                <p class="' + zhClasses + '" style="' + zhStyle + '" onclick="' + zhOnclick + '">' + cloneZh.innerHTML + '</p>';
+                    }
+                    contentHTML += '\n            <div class="para-wrap">\n                <p>' + pNode.innerHTML + '<span class="anno-toggle"></span></p>' + zhHTML + '\n                <div class="anno-box" style="display:none;">\n                    <div class="anno-view markdown-body"></div>\n                    <textarea class="anno-edit" style="display:none;">' + safeMarkdown + '</textarea>\n                </div>\n            </div>';
                 } else if (node.tagName === 'H2' || node.tagName === 'H3') {
                     contentHTML += '\n            <' + node.tagName.toLowerCase() + '>' + node.innerHTML + '</' + node.tagName.toLowerCase() + '>';
                 }
             });
 
-            const styleBlock = document.querySelector('style').textContent;
+            let stylesHTML = '';
+            document.querySelectorAll('style').forEach(s => { stylesHTML += s.outerHTML + '\n    '; });
             const scriptBlock = document.getElementById('matrix-engine').textContent;
 
-            return '<!DOCTYPE html>\n<html lang="zh-CN">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>' + titleStr + '</title>\n    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"><\/script>\n    <style>' + styleBlock + '</style>\n</head>\n<body>\n    <div class="container">\n        <h1>' + titleStr + '</h1>\n        <div class="meta">\n            ' + metaStr + '\n        </div>\n        <div class="content">' + contentHTML + '\n        </div>\n    </div>\n    <script id="matrix-engine">' + scriptBlock + '<\/script>\n</body>\n</html>';
+            return '<!DOCTYPE html>\n<html lang="zh-CN">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>' + titleStr + '</title>\n    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"><\/script>\n    ' + stylesHTML + '\n</head>\n<body>\n    <div class="container">\n        <h1>' + titleStr + '</h1>\n        <div class="meta">\n            ' + metaStr + '\n        </div>\n        <div class="content">' + contentHTML + '\n        </div>\n    </div>\n    <script id="matrix-engine">' + scriptBlock + '<\/script>\n</body>\n</html>';
         }
 
         async function syncToGitHub() {
@@ -320,5 +349,5 @@
             }
         }
         </script>
-</body>
-</html>
+
+</body></html>
