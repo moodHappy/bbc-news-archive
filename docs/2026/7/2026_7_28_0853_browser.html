@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN"><head>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>US singer D4vd to go on trial for murder in death of 14-year-old</title>
@@ -40,276 +41,792 @@
         .markdown-body ul, .markdown-body ol { margin: 0 0 8px 0; padding-left: 20px; }
         .markdown-body blockquote { margin: 0 0 10px 0; padding: 10px 15px; background: rgba(142,124,195,0.1); border-left: 4px solid #8e7cc3; color: #555; }
     </style>
-<style id="nexus-translation-style">
+    <style id="nexus-translation-style">
                 p.zh-para-auto .anno-toggle, p.zh-para .anno-toggle, .zh-para-auto + .anno-toggle, .zh-para + .anno-toggle { display: none !important; opacity: 0 !important; pointer-events: none !important; }
-            </style><style id="nexus-translation-blur-style">
+            </style>
+    <style id="nexus-translation-blur-style">
                 .zh-para-auto { filter: blur(5px); transition: filter 0.3s ease; cursor: pointer; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
                 .zh-para-auto.unblurred { filter: none !important; -webkit-user-select: auto; user-select: auto; }
-            </style></head>
+            </style>
+    <style>
+        @keyframes elegantPopIn {
+            0% { opacity: 0; transform: translateX(-50%) translateY(15px) scale(0.9); }
+            100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+        }
+        .fancy-copy-btn {
+            position: fixed;
+            bottom: 12%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-family: system-ui, -apple-system, sans-serif;
+            font-weight: 600;
+            z-index: 2147483647;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.5), 0 8px 10px -6px rgba(168, 85, 247, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            pointer-events: auto;
+            user-select: none;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fancy-copy-btn.show-btn {
+            display: flex;
+            animation: elegantPopIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .fancy-copy-btn:hover {
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 20px 25px -5px rgba(168, 85, 247, 0.6), 0 8px 10px -6px rgba(168, 85, 247, 0.4);
+            background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+        }
+        .fancy-copy-btn:active {
+            transform: translateX(-50%) translateY(1px);
+            box-shadow: 0 5px 10px -3px rgba(168, 85, 247, 0.5);
+        }
+        .fancy-copy-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+    </style>
+    <style id="_goober"> @keyframes go2264125279{from{transform:scale(0) rotate(45deg);opacity:0;}to{transform:scale(1) rotate(45deg);opacity:1;}}@keyframes go3020080000{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}@keyframes go463499852{from{transform:scale(0) rotate(90deg);opacity:0;}to{transform:scale(1) rotate(90deg);opacity:1;}}@keyframes go1268368563{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}@keyframes go1310225428{from{transform:scale(0) rotate(45deg);opacity:0;}to{transform:scale(1) rotate(45deg);opacity:1;}}@keyframes go651618207{0%{height:0;width:0;opacity:0;}40%{height:0;width:6px;opacity:1;}100%{opacity:1;height:10px;}}@keyframes go901347462{from{transform:scale(0.6);opacity:0.4;}to{transform:scale(1);opacity:1;}}.go4109123758{z-index:9999;}.go4109123758 > *{pointer-events:auto;}</style>
+    <style id="VMst1fyVPbAX1vyNluzd">
+        #tm-dashboard {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 90%; max-width: 420px; max-height: 90vh;
+            background: #fff; border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+            z-index: 99999; display: flex; flex-direction: column;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            opacity: 0; pointer-events: none; transition: opacity 0.2s;
+        }
+        #tm-dashboard.open { opacity: 1; pointer-events: auto; }
+        .tm-header { padding: 15px; border-bottom: 1px solid #eee; background: #f8f9fa; display: flex; justify-content: space-between; align-items: center; border-radius: 16px 16px 0 0; }
+        .tm-title { font-weight: 700; font-size: 16px; color: #333; }
+        .tm-close { cursor: pointer; padding: 5px 10px; font-size: 20px; color: #666; }
+        .tm-back { cursor: pointer; padding: 5px 10px; font-size: 18px; color: #007bff; display: none; }
+        .tm-body { flex: 1; overflow-y: auto; padding: 15px; background: #fff; border-radius: 0 0 16px 16px; }
+        
+        /* Grid 布局 */
+        .tm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; user-select: none; }
+        
+        /* 卡片样式 */
+        .tm-card {
+            background: #f1f3f5; border-radius: 10px; padding: 12px;
+            text-align: center; cursor: pointer; transition: transform 0.1s, background 0.2s;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 80px; 
+            touch-action: none;
+        }
+        .tm-card:active { transform: scale(0.95); }
+        .tm-card-icon { font-size: 22px; margin-bottom: 6px; pointer-events: none; }
+        .tm-card-text { font-size: 13px; font-weight: 500; color: #495057; pointer-events: none; line-height: 1.2; }
+        .tm-card.primary { background: #e7f5ff; color: #004085; }
+        .tm-card.full { grid-column: span 2; }
+        
+        /* 拖拽时的样式 */
+        .sortable-ghost { opacity: 0.4; background: #cce5ff; border: 2px dashed #007bff; }
+        .sortable-drag { cursor: grabbing; opacity: 1; background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: scale(1.05); }
+
+        .tm-list-item { padding: 10px; border-bottom: 1px solid #eee; position: relative; }
+        .tm-list-title { font-weight: 600; font-size: 14px; color: #007bff; text-decoration: none; display:block; padding-right: 30px; }
+        .tm-list-meta { font-size: 11px; color: #999; margin-top: 2px; }
+        .tm-list-del { position: absolute; right: 5px; top: 10px; cursor: pointer; color: #dc3545; font-size: 16px; padding: 0 5px; opacity: 0.6; }
+        .tm-list-del:hover { opacity: 1; }
+
+        .tm-btn { width: 100%; padding: 10px; border: none; border-radius: 8px; background: #007bff; color: white; margin-top: 10px; cursor: pointer; transition: background 0.2s; }
+        .tm-btn:hover { background: #0056b3; }
+        .tm-input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px; box-sizing: border-box; }
+        .tm-select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 10px; background: #fff; }
+        .tm-range-group { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .tm-range { flex: 1; margin: 0 10px; }
+        .tm-label { font-size: 13px; font-weight: 600; color: #555; margin-bottom: 5px; display: block; }
+        
+        .tm-footer { padding: 8px; font-size: 10px; color: #adb5bd; text-align: center; border-top: 1px solid #eee; }
+        #tm-toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.85); color: white; padding: 10px 20px;
+            border-radius: 20px; font-size: 13px; z-index: 100000;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s; white-space: nowrap;
+        }
+        
+        /* 日历样式 */
+        .tm-cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .tm-cal-nav { cursor: pointer; user-select: none; padding: 5px 12px; background: #f1f3f5; border-radius: 6px; font-weight: bold; color:#555; }
+        .tm-cal-controls { display: flex; gap: 5px; }
+        .tm-cal-select { border: 1px solid #eee; background: #fff; font-size: 14px; padding: 4px; border-radius: 4px; font-weight: 500; color: #333; }
+        .tm-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .tm-cal-head { text-align: center; font-size: 11px; color: #999; padding-bottom: 5px; }
+        .tm-cal-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border: 1px solid #eee; border-radius: 6px; font-size: 12px; position: relative; background: #fff; }
+        .tm-cal-cell.has { background: #e7f5ff; border-color: #d0ebff; font-weight: bold; cursor: pointer; color: #004085; }
+        .tm-cal-badge { position: absolute; bottom: 1px; right: 2px; font-size: 8px; color: #007bff; opacity: 0.8; }
+    </style>
+    <style id="tm-custom-font-style"></style>
+    <style id="relin-highlight">relin-hc relin-highlight[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="68f65b6976aa0ba4dad39330"] relin-origin {
+          color: #d3cf15!important;
+          opacity: 0.85;
+          transition: all 0.3s ease;
+          text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+        }
+        relin-hc relin-highlight.relingo-underline[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="68f65b6976aa0ba4dad39330"] relin-origin {
+          color: inherit !important;
+          border-bottom: 1.5px dashed #d3cf15!important;
+          transition: all 0.2s ease;
+          padding-bottom: 1px;
+        }
+        relin-hc relin-highlight.relingo-underline-annotated[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="68f65b6976aa0ba4dad39330"] relin-origin {
+          color: inherit !important;
+          background: linear-gradient(to bottom, transparent 60%, #d3cf1540 30%);
+          border-bottom: none !important;
+          transition: all 0.2s ease;
+        }
+        
+relin-hc relin-highlight[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="664f0e1bc53fae9411326fa1"] relin-origin {
+          color: #f4493f!important;
+          opacity: 0.85;
+          transition: all 0.3s ease;
+          text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+        }
+        relin-hc relin-highlight.relingo-underline[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="664f0e1bc53fae9411326fa1"] relin-origin {
+          color: inherit !important;
+          border-bottom: 1.5px dashed #f4493f!important;
+          transition: all 0.2s ease;
+          padding-bottom: 1px;
+        }
+        relin-hc relin-highlight.relingo-underline-annotated[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="664f0e1bc53fae9411326fa1"] relin-origin {
+          color: inherit !important;
+          background: linear-gradient(to bottom, transparent 60%, #f4493f40 30%);
+          border-bottom: none !important;
+          transition: all 0.2s ease;
+        }
+        
+relin-hc relin-highlight[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="6679c0ee12643b3f0e27a3b6"] relin-origin {
+          color: #0085cf!important;
+          opacity: 0.85;
+          transition: all 0.3s ease;
+          text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+        }
+        relin-hc relin-highlight.relingo-underline[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="6679c0ee12643b3f0e27a3b6"] relin-origin {
+          color: inherit !important;
+          border-bottom: 1.5px dashed #0085cf!important;
+          transition: all 0.2s ease;
+          padding-bottom: 1px;
+        }
+        relin-hc relin-highlight.relingo-underline-annotated[data-relin-meta^="starred"]:not([data-relin-mastered])[data-relin-vocabularies*="6679c0ee12643b3f0e27a3b6"] relin-origin {
+          color: inherit !important;
+          background: linear-gradient(to bottom, transparent 60%, #0085cf40 30%);
+          border-bottom: none !important;
+          transition: all 0.2s ease;
+        }
+        relin-highlight relin-origin ruby rt {
+        font-size: 12px;
+      }
+    .relin-ftt-target[data-mode="dual"] {
+      opacity: 1!important;
+    }
+    relin-hc relin-highlight relin-target {
+      opacity: 1!important;
+    }
+  
+    .relin-ftt-target .relin-ftt-target-inner {
+      font-size: 90%;
+    }
+  relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-highlight relin-origin {
+          color: #f33076!important;
+          opacity: 0.85;
+          transition: all 0.2s ease;
+          text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+        }
+        relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, #f3307640 30%);
+          border-bottom: none !important;
+          transition: all 0.2s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-mark {
+          position: relative;
+        }
+        relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-mark relin-origin {
+          border-bottom: none !important;
+          background: linear-gradient(120deg,
+            rgba(243, 48, 118, 0) 0%,
+            rgba(243, 48, 118, 0.03) 10%,
+            rgba(243, 48, 118, 0.10) 20%,
+            rgba(243, 48, 118, 0.14) 30%,
+            rgba(243, 48, 118, 0.14) 70%,
+            rgba(243, 48, 118, 0.10) 80%,
+            rgba(243, 48, 118, 0.03) 90%,
+            rgba(243, 48, 118, 0) 100%) !important;
+          box-shadow: 0 0 1px rgba(243, 48, 118, 0.05);
+          transition: all 0.3s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-mark::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: inherit;
+          z-index: -1;
+          transform: skewX(-3deg);
+          transition: inherit;
+        }
+        relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-mark:hover relin-origin {
+          background: linear-gradient(120deg,
+            rgba(243, 48, 118, 0) 0%,
+            rgba(243, 48, 118, 0.06) 10%,
+            rgba(243, 48, 118, 0.15) 20%,
+            rgba(243, 48, 118, 0.20) 30%,
+            rgba(243, 48, 118, 0.20) 70%,
+            rgba(243, 48, 118, 0.15) 80%,
+            rgba(243, 48, 118, 0.06) 90%,
+            rgba(243, 48, 118, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-mark relin-origin {
+          background: linear-gradient(120deg,
+            rgba(243, 48, 118, 0) 0%,
+            rgba(243, 48, 118, 0.40) 10%,
+            rgba(243, 48, 118, 0.50) 20%,
+            rgba(243, 48, 118, 0.60) 30%,
+            rgba(243, 48, 118, 0.60) 70%,
+            rgba(243, 48, 118, 0.50) 80%,
+            rgba(243, 48, 118, 0.40) 90%,
+            rgba(243, 48, 118, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-NOUN.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, rgba(243, 48, 118, 0.8) 75%);
+        }
+        relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-highlight relin-origin {
+          color: #7555ce!important;
+          opacity: 0.85;
+          transition: all 0.2s ease;
+          text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+        }
+        relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, #7555ce40 30%);
+          border-bottom: none !important;
+          transition: all 0.2s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-mark {
+          position: relative;
+        }
+        relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-mark relin-origin {
+          border-bottom: none !important;
+          background: linear-gradient(120deg,
+            rgba(117, 85, 206, 0) 0%,
+            rgba(117, 85, 206, 0.03) 10%,
+            rgba(117, 85, 206, 0.10) 20%,
+            rgba(117, 85, 206, 0.14) 30%,
+            rgba(117, 85, 206, 0.14) 70%,
+            rgba(117, 85, 206, 0.10) 80%,
+            rgba(117, 85, 206, 0.03) 90%,
+            rgba(117, 85, 206, 0) 100%) !important;
+          box-shadow: 0 0 1px rgba(117, 85, 206, 0.05);
+          transition: all 0.3s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-mark::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: inherit;
+          z-index: -1;
+          transform: skewX(-3deg);
+          transition: inherit;
+        }
+        relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-mark:hover relin-origin {
+          background: linear-gradient(120deg,
+            rgba(117, 85, 206, 0) 0%,
+            rgba(117, 85, 206, 0.06) 10%,
+            rgba(117, 85, 206, 0.15) 20%,
+            rgba(117, 85, 206, 0.20) 30%,
+            rgba(117, 85, 206, 0.20) 70%,
+            rgba(117, 85, 206, 0.15) 80%,
+            rgba(117, 85, 206, 0.06) 90%,
+            rgba(117, 85, 206, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-mark relin-origin {
+          background: linear-gradient(120deg,
+            rgba(117, 85, 206, 0) 0%,
+            rgba(117, 85, 206, 0.40) 10%,
+            rgba(117, 85, 206, 0.50) 20%,
+            rgba(117, 85, 206, 0.60) 30%,
+            rgba(117, 85, 206, 0.60) 70%,
+            rgba(117, 85, 206, 0.50) 80%,
+            rgba(117, 85, 206, 0.40) 90%,
+            rgba(117, 85, 206, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-VERB.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, rgba(117, 85, 206, 0.8) 75%);
+        }
+        relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-highlight relin-origin {
+          color: #34a4ab!important;
+          opacity: 0.85;
+          transition: all 0.2s ease;
+          text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+        }
+        relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, #34a4ab40 30%);
+          border-bottom: none !important;
+          transition: all 0.2s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-mark {
+          position: relative;
+        }
+        relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-mark relin-origin {
+          border-bottom: none !important;
+          background: linear-gradient(120deg,
+            rgba(52, 164, 171, 0) 0%,
+            rgba(52, 164, 171, 0.03) 10%,
+            rgba(52, 164, 171, 0.10) 20%,
+            rgba(52, 164, 171, 0.14) 30%,
+            rgba(52, 164, 171, 0.14) 70%,
+            rgba(52, 164, 171, 0.10) 80%,
+            rgba(52, 164, 171, 0.03) 90%,
+            rgba(52, 164, 171, 0) 100%) !important;
+          box-shadow: 0 0 1px rgba(52, 164, 171, 0.05);
+          transition: all 0.3s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-mark::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: inherit;
+          z-index: -1;
+          transform: skewX(-3deg);
+          transition: inherit;
+        }
+        relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-mark:hover relin-origin {
+          background: linear-gradient(120deg,
+            rgba(52, 164, 171, 0) 0%,
+            rgba(52, 164, 171, 0.06) 10%,
+            rgba(52, 164, 171, 0.15) 20%,
+            rgba(52, 164, 171, 0.20) 30%,
+            rgba(52, 164, 171, 0.20) 70%,
+            rgba(52, 164, 171, 0.15) 80%,
+            rgba(52, 164, 171, 0.06) 90%,
+            rgba(52, 164, 171, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-mark relin-origin {
+          background: linear-gradient(120deg,
+            rgba(52, 164, 171, 0) 0%,
+            rgba(52, 164, 171, 0.40) 10%,
+            rgba(52, 164, 171, 0.50) 20%,
+            rgba(52, 164, 171, 0.60) 30%,
+            rgba(52, 164, 171, 0.60) 70%,
+            rgba(52, 164, 171, 0.50) 80%,
+            rgba(52, 164, 171, 0.40) 90%,
+            rgba(52, 164, 171, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-ADJ.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, rgba(52, 164, 171, 0.8) 75%);
+        }
+        relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-highlight relin-origin {
+          color: #5cb206!important;
+          opacity: 0.85;
+          transition: all 0.2s ease;
+          text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+        }
+        relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, #5cb20640 30%);
+          border-bottom: none !important;
+          transition: all 0.2s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-mark {
+          position: relative;
+        }
+        relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-mark relin-origin {
+          border-bottom: none !important;
+          background: linear-gradient(120deg,
+            rgba(92, 178, 6, 0) 0%,
+            rgba(92, 178, 6, 0.03) 10%,
+            rgba(92, 178, 6, 0.10) 20%,
+            rgba(92, 178, 6, 0.14) 30%,
+            rgba(92, 178, 6, 0.14) 70%,
+            rgba(92, 178, 6, 0.10) 80%,
+            rgba(92, 178, 6, 0.03) 90%,
+            rgba(92, 178, 6, 0) 100%) !important;
+          box-shadow: 0 0 1px rgba(92, 178, 6, 0.05);
+          transition: all 0.3s ease;
+        }
+        relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-mark::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: inherit;
+          z-index: -1;
+          transform: skewX(-3deg);
+          transition: inherit;
+        }
+        relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-mark:hover relin-origin {
+          background: linear-gradient(120deg,
+            rgba(92, 178, 6, 0) 0%,
+            rgba(92, 178, 6, 0.06) 10%,
+            rgba(92, 178, 6, 0.15) 20%,
+            rgba(92, 178, 6, 0.20) 30%,
+            rgba(92, 178, 6, 0.20) 70%,
+            rgba(92, 178, 6, 0.15) 80%,
+            rgba(92, 178, 6, 0.06) 90%,
+            rgba(92, 178, 6, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-mark relin-origin {
+          background: linear-gradient(120deg,
+            rgba(92, 178, 6, 0) 0%,
+            rgba(92, 178, 6, 0.40) 10%,
+            rgba(92, 178, 6, 0.50) 20%,
+            rgba(92, 178, 6, 0.60) 30%,
+            rgba(92, 178, 6, 0.60) 70%,
+            rgba(92, 178, 6, 0.50) 80%,
+            rgba(92, 178, 6, 0.40) 90%,
+            rgba(92, 178, 6, 0) 100%) !important;
+        }
+        .relingo-caption relin-hc relin-highlight.relingo-pos-ADV.relingo-pos-underline relin-origin {
+          background: linear-gradient(to bottom, transparent 60%, rgba(92, 178, 6, 0.8) 75%);
+        }
+        </style>
+    
+</head>
 <body>
     <div class="container">
         <h1>US singer D4vd to go on trial for murder in death of 14-year-old</h1>
         <div class="meta">
-            <span>📅 2026-07-29 16:23</span>
-            <a href="https://www.bbc.com/news/articles/c70gkg62w0ro" target="_blank">🔗 阅读原文</a>
-            <a href="../../index.html">🔙 返回日历</a>
+            
+            <span data-relingo-block="true" data-relin-paragraph="2">📅 2026-07-29 16:23</span>
+            <a href="https://www.bbc.com/news/articles/c70gkg62w0ro" target="_blank" data-relingo-block="true" data-relin-paragraph="3">🔗 阅读原文</a>
+            <a href="../../index.html" data-relingo-block="true" data-relin-paragraph="4">🔙 返回日历</a>
             <span class="sync-status" id="sync-status">📡 同步中...</span>
+        
         </div>
         <div class="content">
-            
             <div class="para-wrap">
-                <p>A judge has ruled that US musician D4vd will go on trial for murder over the death of a teenage girl.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">法官裁定美国音乐家 D4vd 因谋杀一名少女而受审。</p>
+                <p>A judge has ruled that US musician D4vd will go on trial for murder over the death of a teenage girl.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">法官裁定美国音乐家 D4vd 因谋杀一名少女而受审。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>The decision came after a five-day preliminary hearing, in which Los Angeles prosecutors questioned a dozen witnesses and displayed graphic photographic evidence as 14-year-old Celeste Rivas Hernandez's family watched on.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">这一决定是在为期五天的初步听证会后做出的，在听证会上，洛杉矶检察官询问了十几名证人，并在 14 岁的塞莱斯特·里瓦斯·埃尔南德斯 (Celeste Rivas Hernandez) 的家人旁观下展示了图片证据。</p>
+                <p>The decision came after a five-day preliminary hearing, in which Los Angeles prosecutors questioned a dozen witnesses and displayed graphic photographic evidence as 14-year-old Celeste Rivas Hernandez's family watched on.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">这一决定是在为期五天的初步听证会后做出的，在听证会上，洛杉矶检察官询问了十几名证人，并在 14 岁的塞莱斯特·里瓦斯·埃尔南德斯 (Celeste Rivas Hernandez) 的家人旁观下展示了图片证据。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>The star, whose legal name is David Anthony Burke, is accused of killing the girl, whose remains were found last September in a Tesla registered to his address.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">这位明星的法定姓名是大卫·安东尼·伯克，他被指控杀害了这名女孩，去年 9 月在登记在他地址的一辆特斯拉汽车中发现了女孩的遗体。</p>
+                <p>The star, whose legal name is David Anthony Burke, is accused of killing the girl, whose remains were found last September in a Tesla registered to his address.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">这位明星的法定姓名是大卫·安东尼·伯克，他被指控杀害了这名女孩，去年 9 月在登记在他地址的一辆特斯拉汽车中发现了女孩的遗体。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Burke, 21, has pleaded not guilty to charges of murdering and sexually abusing her.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">21 岁的伯克对谋杀和性虐待她的指控表示不认罪。</p>
+                <p>Burke, 21, has pleaded not guilty to charges of murdering and sexually abusing her.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">21 岁的伯克对谋杀和性虐待她的指控表示不认罪。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Burke is scheduled to be in court next on 31 August to have the charges against him formally read. The trial is to start within 90 days of that date.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">伯克定于 8 月 31 日出庭，正式宣读对他的指控。审判将于该日期后 90 天内开始。</p>
+                <p>Burke is scheduled to be in court next on 31 August to have the charges against him formally read. The trial is to start within 90 days of that date.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">伯克定于 8 月 31 日出庭，正式宣读对他的指控。审判将于该日期后 90 天内开始。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>The charges include first-degree murder, mutilation of human remains and child sexual abuse. The murder charges include special circumstances linked to financial gain that could make Burke potentially liable for the death sentence.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">这些指控包括一级谋杀、残害人体遗骸和儿童性虐待。谋杀指控包括与经济利益相关的特殊情况，可能使伯克可能被判处死刑。</p>
+                <p>The charges include first-degree murder, mutilation of human remains and child sexual abuse. The murder charges include special circumstances linked to financial gain that could make Burke potentially liable for the death sentence.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">这些指控包括一级谋杀、残害人体遗骸和儿童性虐待。谋杀指控包括与经济利益相关的特殊情况，可能使伯克可能被判处死刑。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Prosecutors have alleged Burke stabbed the teen before dismembering her body after years of sexual abuse.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">检察官指控伯克在多年性虐待后刺伤了这名少女，然后肢解了她的尸体。</p>
+                <p>Prosecutors have alleged Burke stabbed the teen before dismembering her body after years of sexual abuse.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">检察官指控伯克在多年性虐待后刺伤了这名少女，然后肢解了她的尸体。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>The accusation of murder ​for financial gain is among the special circumstances included ​in the charges making Burke potentially liable for ⁠the death sentence.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">为了经济利益而谋杀的指控是指控中包含的特殊情况之一，使伯克可能被判处死刑。</p>
+                <p>The accusation of murder ​for financial gain is among the special circumstances included ​in the charges making Burke potentially liable for ⁠the death sentence.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">为了经济利益而谋杀的指控是指控中包含的特殊情况之一，使伯克可能被判处死刑。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>They allege he killed her because the teen had threatened to reveal his relationship with a minor and destroy his multi-million dollar music career.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">他们声称他杀了她，因为这名青少年威胁要揭露他与一名未成年人的关系，并毁掉他价值数百万美元的音乐事业。</p>
+                <p>They allege he killed her because the teen had threatened to reveal his relationship with a minor and destroy his multi-million dollar music career.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">他们声称他杀了她，因为这名青少年威胁要揭露他与一名未成年人的关系，并毁掉他价值数百万美元的音乐事业。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Evidence read in court on Monday showed threats Hernandez made to Burke on 22 April 2025, stemming from arguments about his friendship with another girl.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">周一在法庭上宣读的证据显示，埃尔南德斯于 2025 年 4 月 22 日对伯克发出威胁，原因是他与另一名女孩的友谊发生争执。</p>
+                <p>Evidence read in court on Monday showed threats Hernandez made to Burke on 22 April 2025, stemming from arguments about his friendship with another girl.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">周一在法庭上宣读的证据显示，埃尔南德斯于 2025 年 4 月 22 日对伯克发出威胁，原因是他与另一名女孩的友谊发生争执。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>"I swear to GOD I will kill u", one expletive-laden text said, followed by a threat to strangle him and tell her dad lies about him. "i will end ur career and ur life I will damage anything," the text went on.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">一条充满咒骂的短信写道：“我向上帝发誓，我会杀了你。”随后威胁要勒死他，并告诉她父亲关于他的谎言。 “我会结束你的职业生涯和你的生活，我会破坏任何东西，”短信继续说道。</p>
+                <p>"I swear to GOD I will kill u", one expletive-laden text said, followed by a threat to strangle him and tell her dad lies about him. "i will end ur career and ur life I will damage anything," the text went on.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">一条充满咒骂的短信写道：“我向上帝发誓，我会杀了你。”随后威胁要勒死他，并告诉她父亲关于他的谎言。 “我会结束你的职业生涯和你的生活，我会破坏任何东西，”短信继续说道。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>The following day, Hernandez went to Burke's Hollywood home in an Uber he had sent to pick her up.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">第二天，埃尔南德斯乘坐伯克派来接她的优步前往伯克在好莱坞的家。</p>
+                <p>The following day, Hernandez went to Burke's Hollywood home in an Uber he had sent to pick her up.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">第二天，埃尔南德斯乘坐伯克派来接她的优步前往伯克在好莱坞的家。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Prosecutors alleged that Burke stabbed her once she arrived.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">检察官声称，伯克在她到达后就刺伤了她。</p>
+                <p>Prosecutors alleged that Burke stabbed her once she arrived.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">检察官声称，伯克在她到达后就刺伤了她。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>During questioning at the hearing on Monday, Detective Corey Farrell of the Los Angeles Police Department said text messages indicated that the defendant and the girl had attended church with her family.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">洛杉矶警察局警探科里·法雷尔在周一的听证会上接受质询时表示，短信显示被告和女孩曾与家人一起去教堂。</p>
+                <p>During questioning at the hearing on Monday, Detective Corey Farrell of the Los Angeles Police Department said text messages indicated that the defendant and the girl had attended church with her family.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">洛杉矶警察局警探科里·法雷尔在周一的听证会上接受质询时表示，短信显示被告和女孩曾与家人一起去教堂。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>In response to the defence, the detective said he was aware the teen had misrepresented her age to the defendant, telling him she was 16 and 18 at different times.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">在回应辩方时，侦探表示，他知道这名青少年向被告谎报了自己的年龄，告诉他她在不同时期分别为 16 岁和 18 岁。</p>
+                <p>In response to the defence, the detective said he was aware the teen had misrepresented her age to the defendant, telling him she was 16 and 18 at different times.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">在回应辩方时，侦探表示，他知道这名青少年向被告谎报了自己的年龄，告诉他她在不同时期分别为 16 岁和 18 岁。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Burke's defence lawyers argued there was not sufficient evidence that he had committed the crime.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">伯克的辩护律师辩称，没有足够的证据表明他犯下了罪行。</p>
+                <p>Burke's defence lawyers argued there was not sufficient evidence that he had committed the crime.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">伯克的辩护律师辩称，没有足够的证据表明他犯下了罪行。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>They said her parents were aware of what was going on between them and had even given written consent for her to travel to London with Burke for a week.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">他们说，她的父母知道他们之间发生的事情，甚至书面同意她和伯克一起去伦敦旅行一周。</p>
+                <p>They said her parents were aware of what was going on between them and had even given written consent for her to travel to London with Burke for a week.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">他们说，她的父母知道他们之间发生的事情，甚至书面同意她和伯克一起去伦敦旅行一周。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>The defence highlighted texts on the 22nd and the 23rd of April that suggested Celeste had insisted on going to Burke's Hollywood Hills home and that he had argued against her coming before agreeing to send her an Uber on the night of the 23rd.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">辩方强调了 4 月 22 日和 23 日的短信，这些短信表明塞莱斯特坚持要去伯克位于好莱坞山的家，伯克曾反对她去，然后才同意在 23 日晚上给她送一辆 Uber。</p>
+                <p>The defence highlighted texts on the 22nd and the 23rd of April that suggested Celeste had insisted on going to Burke's Hollywood Hills home and that he had argued against her coming before agreeing to send her an Uber on the night of the 23rd.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">辩方强调了 4 月 22 日和 23 日的短信，这些短信表明塞莱斯特坚持要去伯克位于好莱坞山的家，伯克曾反对她去，然后才同意在 23 日晚上给她送一辆 Uber。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>He "repeatedly expressed love and care for Ms Hernandez after they broke up", defence attorney Marilyn Bednarski said in court.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">辩护律师玛丽莲·贝德纳尔斯基在法庭上表示，他“在分手后多次表达了对埃尔南德斯女士的爱和关心”。</p>
+                <p>He "repeatedly expressed love and care for Ms Hernandez after they broke up", defence attorney Marilyn Bednarski said in court.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">辩护律师玛丽莲·贝德纳尔斯基在法庭上表示，他“在分手后多次表达了对埃尔南德斯女士的爱和关心”。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>The medical examiner's inability to prove how the two penetrating wounds found in the girl occurred and the lack of surveillance video capturing Burke being home on the night of 23 April showed a lack of evidence, the defence argued.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">辩方辩称，法医无法证明女孩身上发现的两处穿透伤是如何发生的，而且缺乏捕捉伯克 4 月 23 日晚上在家的监控录像，这表明证据不足。</p>
+                <p>The medical examiner's inability to prove how the two penetrating wounds found in the girl occurred and the lack of surveillance video capturing Burke being home on the night of 23 April showed a lack of evidence, the defence argued.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">辩方辩称，法医无法证明女孩身上发现的两处穿透伤是如何发生的，而且缺乏捕捉伯克 4 月 23 日晚上在家的监控录像，这表明证据不足。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Los Angeles County Superior Court Judge Charlaine Olmedo ruled that evidence presented during the preliminary hearing provided probable cause for a trial.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">洛杉矶县高等法院法官查琳·奥尔梅多裁定，初步听证会上提供的证据为审判提供了可能的理由。</p>
+                <p>Los Angeles County Superior Court Judge Charlaine Olmedo ruled that evidence presented during the preliminary hearing provided probable cause for a trial.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">洛杉矶县高等法院法官查琳·奥尔梅多裁定，初步听证会上提供的证据为审判提供了可能的理由。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Burke is charged with murder, continuous sexual abuse of a child under 14, and unlawful mutilation of human remains.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">伯克被指控谋杀、持续性虐待 14 岁以下儿童以及非法残害人体遗骸。</p>
+                <p>Burke is charged with murder, continuous sexual abuse of a child under 14, and unlawful mutilation of human remains.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">伯克被指控谋杀、持续性虐待 14 岁以下儿童以及非法残害人体遗骸。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>"The people have met their burden on all counts," Judge Olmedo said.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">奥尔梅多法官说：“人民在所有方面都履行了他们的负担。”</p>
+                <p>"The people have met their burden on all counts," Judge Olmedo said.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">奥尔梅多法官说：“人民在所有方面都履行了他们的负担。”</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>She found that prosecutors met the threshold for the charge of murder with special circumstances, including lying in wait, motive for financial gain and eliminating a witness.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">她发现，检察官在特殊情况下达到了谋杀指控的门槛，包括埋伏、经济利益动机和消灭证人。</p>
+                <p>She found that prosecutors met the threshold for the charge of murder with special circumstances, including lying in wait, motive for financial gain and eliminating a witness.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">她发现，检察官在特殊情况下达到了谋杀指控的门槛，包括埋伏、经济利益动机和消灭证人。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Following the hearing, Los Angeles County District Attorney Nathan Hochman said his office only presented a fraction of the evidence it had against Burke, and that it would present everything in the coming trial.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">听证会结束后，洛杉矶县地方检察官内森·霍克曼表示，他的办公室只提供了针对伯克的证据的一小部分，并将在即将到来的审判中提供所有证据。</p>
+                <p>Following the hearing, Los Angeles County District Attorney Nathan Hochman said his office only presented a fraction of the evidence it had against Burke, and that it would present everything in the coming trial.<span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">听证会结束后，洛杉矶县地方检察官内森·霍克曼表示，他的办公室只提供了针对伯克的证据的一小部分，并将在即将到来的审判中提供所有证据。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Hochman also said his office had not yet determined if it would pursue the death penalty against Burke.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">霍赫曼还表示，他的办公室尚未决定是否对伯克判处死刑。</p>
+                <p><relin-hc data-id="1"><relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Hochman</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>also</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>said</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>his</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>office</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>had</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>not</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>yet</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>determined</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>if</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>it</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>would</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>pursue</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>death</relin-origin></relin-highlight> <relin-highlight data-relin-meta="starred-4" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6" class="relingo-highlight"><relin-origin>penalty</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>against</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Burke</relin-origin></relin-highlight>.</relin-hc><span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">霍赫曼还表示，他的办公室尚未决定是否对伯克判处死刑。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Listen to the BBC's Fame Under Fire podcast which brings you the latest from inside the Los Angeles courtroom at the D4vd preliminary hearing.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">收听 BBC 的 Fame Under Fire 播客，该播客为您带来 D4vd 初步听证会洛杉矶法庭的最新消息。</p>
+                <p><relin-hc data-id="2"><relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>Listen</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>to</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>BBC</relin-origin></relin-highlight><relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>'s</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>Fame</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>Under</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>Fire</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>podcast</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>which</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>brings</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>you</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>latest</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>from</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>inside</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Los</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Angeles</relin-origin></relin-highlight> <relin-highlight data-relin-meta="starred-3" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6" class="relingo-highlight"><relin-origin>courtroom</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>at</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> D4vd <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>preliminary</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>hearing</relin-origin></relin-highlight>.</relin-hc><span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">收听 BBC 的 Fame Under Fire 播客，该播客为您带来 D4vd 初步听证会洛杉矶法庭的最新消息。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Gruesome images of the girl's dismembered corpse were shown in court during the preliminary hearing.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">在初步听证会上，法庭上展示了女孩被肢解的可怕照片。</p>
+                <p><relin-hc data-id="3"><relin-highlight data-relin-meta="starred-2" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6" class="relingo-highlight"><relin-origin>Gruesome</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>images</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>of</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>girl</relin-origin></relin-highlight><relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>'s</relin-origin></relin-highlight> <relin-highlight data-relin-meta="starred-0" data-relin-vocabularies="" class="relingo-highlight"><relin-origin>dismembered</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>corpse</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>were</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies=""><relin-origin>shown</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>in</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>court</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>during</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>preliminary</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>hearing</relin-origin></relin-highlight>.</relin-hc><span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">在初步听证会上，法庭上展示了女孩被肢解的可怕照片。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>A homicide detective testified that Burke had ordered a body bag, chainsaws, an inflatable pool and a shovel online in the days after Celeste's death.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">一名凶杀案侦探作证称，塞莱斯特死后几天，伯克在网上订购了裹尸袋、电锯、充气泳池和铲子。</p>
+                <p><relin-hc data-id="4"><relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>A</relin-origin></relin-highlight> <relin-highlight data-relin-meta="starred-3" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6" class="relingo-highlight"><relin-origin>homicide</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>detective</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>testified</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>that</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Burke</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>had</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>ordered</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>a</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>body</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-4" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>bag</relin-origin></relin-highlight>, <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>chainsaws</relin-origin></relin-highlight>, <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>an</relin-origin></relin-highlight> <relin-highlight data-relin-meta="starred-1" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6" class="relingo-highlight"><relin-origin>inflatable</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>pool</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>and</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>a</relin-origin></relin-highlight> <relin-highlight data-relin-meta="starred-3" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6" class="relingo-highlight"><relin-origin>shovel</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-4" data-relin-vocabularies="68f65b6976aa0ba4dad39330"><relin-origin>online</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>in</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies=""><relin-origin>days</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>after</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Celeste</relin-origin></relin-highlight><relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>'s</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>death</relin-origin></relin-highlight>.</relin-hc><span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">一名凶杀案侦探作证称，塞莱斯特死后几天，伯克在网上订购了裹尸袋、电锯、充气泳池和铲子。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>Prosecutors highlighted records that revealed Burke ordered chainsaws and a shovel to his residence after April 23. They allege he used a chainsaw to dismember Hernadez's body.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">检察官强调了记录，显示伯克在 4 月 23 日之后向他的住所订购了电锯和铲子。他们指控他使用电锯肢解了埃尔纳德斯的尸体。</p>
+                <p><relin-hc data-id="5"><relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Prosecutors</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>highlighted</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>records</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>that</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>revealed</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Burke</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>ordered</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>chainsaws</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>and</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>a</relin-origin></relin-highlight> <relin-highlight data-relin-meta="starred-3" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6" class="relingo-highlight"><relin-origin>shovel</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>to</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>his</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>residence</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>after</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>April</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>23</relin-origin></relin-highlight>. <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>They</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>allege</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>he</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>used</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>a</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>chainsaw</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>to</relin-origin></relin-highlight> <relin-highlight data-relin-meta="starred-1" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6" class="relingo-highlight"><relin-origin>dismember</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Hernadez</relin-origin></relin-highlight><relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>'s</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>body</relin-origin></relin-highlight>.</relin-hc><span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">检察官强调了记录，显示伯克在 4 月 23 日之后向他的住所订购了电锯和铲子。他们指控他使用电锯肢解了埃尔纳德斯的尸体。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;">📌 完整翻译
+
+检察官指出了一些记录，这些记录显示伯克在4月23日之后订购了电锯和一把铲子，并送往他的住所。他们指控伯克使用电锯肢解了埃尔南德斯的尸体。
+
+
+📌 Key Expressions
+
+- **prosecutors**
+  = 检察官
+
+- **highlight records**
+  = 强调记录；指出相关记录
+
+- **records that revealed...**
+  = 显示……的记录
+
+- **reveal**
+  = 揭示；显示；透露
+
+- **order sth**
+  = 订购某物
+
+- **chainsaw**
+  = 电锯
+
+- **shovel**
+  = 铲子
+
+- **to his residence**
+  = 送往他的住所
+
+- **residence**
+  = 住所；居住地  
+  （比 home 更正式）
+
+- **after April 23**
+  = 在4月23日之后
+
+- **allege**
+  = 指控；声称（尚未被证实）
+
+- **allege that...**
+  = 指控……
+
+- **use sth to do sth**
+  = 使用某物做某事
+
+- **dismember**
+  = 肢解；切断身体部位
+
+- **body**
+  = 尸体；身体  
+  （根据上下文，此处指尸体）
+
+- **They allege he used...**
+  = 他们指控他使用……
+  （新闻报道中常用，表示这是检方观点，而非法院已确认的事实）</textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>However, Los Angeles Police Department criminalist Lauren Wallace testified that the chainsaws found in his garage tested negative for the presence of blood and were not tested for DNA thereafter, a point the defence highlighted in their attempt to prove the evidence presented was inconclusive.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">然而，洛杉矶警察局犯罪学家劳伦·华莱士作证说，在他的车库里发现的电锯的血迹检测呈阴性，此后也没有进行 DNA 检测，辩方在试图证明所提供的证据时强调的这一点是不确定的。</p>
+                <p><relin-hc data-id="6"><relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>However</relin-origin></relin-highlight>, <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Los</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Angeles</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>Police</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>Department</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>criminalist</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Lauren</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Wallace</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>testified</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>that</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>chainsaws</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>found</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>in</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>his</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>garage</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies=""><relin-origin>tested</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>negative</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>for</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>presence</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>of</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>blood</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>and</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>were</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>not</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies=""><relin-origin>tested</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>for</relin-origin></relin-highlight> <relin-highlight data-relin-meta="starred-1" data-relin-vocabularies="68f65b6976aa0ba4dad39330" class="relingo-highlight"><relin-origin>DNA</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>thereafter</relin-origin></relin-highlight>, <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>a</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>point</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-4" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>defence</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>highlighted</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>in</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>their</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>attempt</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>to</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>prove</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>the</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>evidence</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>presented</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-1" data-relin-vocabularies=""><relin-origin>was</relin-origin></relin-highlight> <relin-highlight data-relin-meta="starred-3" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6" class="relingo-highlight"><relin-origin>inconclusive</relin-origin></relin-highlight>.</relin-hc><span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">然而，洛杉矶警察局犯罪学家劳伦·华莱士作证说，在他的车库里发现的电锯的血迹检测呈阴性，此后也没有进行 DNA 检测，辩方在试图证明所提供的证据时强调的这一点是不确定的。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
-            
             <div class="para-wrap">
-                <p>However, investigators were unable to locate a third, 10-inch Makita chainsaw, which prosecutors claim Burke also ordered following Hernandez's death.<span class="anno-toggle"></span></p><p class="zh-para-auto" onclick="this.classList.toggle('unblurred')" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;">然而，调查人员无法找到第三把 10 英寸的牧田电锯，检察官称伯克在埃尔南德斯死后也订购了这把电锯。</p>
+                <p><relin-hc data-id="7"><relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>However</relin-origin></relin-highlight>, <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>investigators</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>were</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>unable</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>to</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>locate</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>a</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>third</relin-origin></relin-highlight>, <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>10</relin-origin></relin-highlight>-<relin-highlight data-relin-mastered="" data-relin-meta="unstarred-4" data-relin-vocabularies=""><relin-origin>inch</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Makita</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>chainsaw</relin-origin></relin-highlight>, <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>which</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>prosecutors</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>claim</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Burke</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-5" data-relin-vocabularies=""><relin-origin>also</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="unstarred-0" data-relin-vocabularies=""><relin-origin>ordered</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-0" data-relin-vocabularies=""><relin-origin>following</relin-origin></relin-highlight> <relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>Hernandez</relin-origin></relin-highlight><relin-highlight data-relin-meta="unstarred-undefined" data-relin-vocabularies=""><relin-origin>'s</relin-origin></relin-highlight> <relin-highlight data-relin-mastered="" data-relin-meta="starred-5" data-relin-vocabularies="6679c0ee12643b3f0e27a3b6"><relin-origin>death</relin-origin></relin-highlight>.</relin-hc><span class="anno-toggle"></span></p>
+                <p class="zh-para-auto" style="color: rgb(0, 0, 0); font-size: 0.95em; margin-top: 0.2em; margin-bottom: 1.5em; text-indent: 2em; text-align: justify; font-weight: bold; font-family: SimHei, &quot;Microsoft YaHei&quot;, &quot;PingFang SC&quot;, sans-serif;" onclick="this.classList.toggle('unblurred')">然而，调查人员无法找到第三把 10 英寸的牧田电锯，检察官称伯克在埃尔南德斯死后也订购了这把电锯。</p>
                 <div class="anno-box" style="display:none;">
                     <div class="anno-view markdown-body"></div>
-                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                    <textarea class="anno-edit" style="display:none;"></textarea>
                 </div>
             </div>
         </div>
@@ -512,5 +1029,5 @@
             }
         }
         </script>
-
-</body></html>
+</body>
+</html>
