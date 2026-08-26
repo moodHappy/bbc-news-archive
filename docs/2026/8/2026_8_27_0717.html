@@ -23,7 +23,10 @@
         .para-wrap { margin-bottom: 24px; position: relative; }
         .para-wrap p { margin-top: 0; margin-bottom: 0; color: #2b2b2b; }
 
-        .zh-para { color: #555; margin-bottom: 24px; font-size: 1.15rem; line-height: 1.6; }
+        /* 恢复中文段落模糊特效与交互 */
+        .zh-para { color: #000; margin-bottom: 24px; font-size: 1.15rem; line-height: 1.6; filter: blur(6px); opacity: 0.8; cursor: pointer; transition: all 0.3s ease; user-select: none; }
+        .zh-para:hover { opacity: 1; }
+        .zh-para.revealed { filter: blur(0); opacity: 1; user-select: auto; }
 
         .anno-toggle { display: inline-flex; margin-left: 6px; cursor: pointer; opacity: 0.2; font-size: 0.8rem; vertical-align: middle; transition: all 0.2s; user-select: none; }
         .anno-toggle:hover { opacity: 0.8; transform: scale(1.1); }
@@ -45,7 +48,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>At least 157 dead, hundreds missing in Nepal in flash flooding</h1>
+        <h1>At least 157 dead, hundreds missing in Nepal in flash flooding<br>尼泊尔突发洪水，至少157人死亡，数百人失踪</h1>
         <div class="meta">
             <span>📅 2026-08-27 07:17</span>
             <a href="https://www.upi.com/Top_News/World-News/2026/08/26/nepal-flash-flood-95-dead/9161787760648/" target="_blank">🔗 阅读原文</a>
@@ -53,7 +56,7 @@
             <span class="sync-status" id="sync-status">📡 同步中...</span>
         </div>
         <div class="content">
-            
+
             <div class="para-wrap">
                 <p>Aug. 26 (UPI) -- At least 157 people are dead and hundreds more missing, including 47 Americans, after a devastating flash flood hit Nepal on Wednesday.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -61,7 +64,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">8月26日（合众国际社）—— 周三，一场毁灭性的突发洪水袭击了尼泊尔，目前已造成至少157人死亡，另有包括47名美国人在内的数百人失踪。</p>
+
             <div class="para-wrap">
                 <p>The U.S. Embassy in Nepal hasn't released any information about missing Americans.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -69,7 +73,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">美国驻尼泊尔大使馆尚未发布任何关于失踪美国人的信息。</p>
+
             <div class="para-wrap">
                 <p>"Department of State staff in Washington, D.C., and Kathmandu are monitoring the situation and are in touch with the Government of Nepal," it said. "The United States stands ready to provide assistance."<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -77,7 +82,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">“美国国务院在华盛顿特区和加德满都的工作人员正在密切关注局势，并与尼泊尔政府保持联系，”声明称。“美国已准备好提供援助。”</p>
+
             <div class="para-wrap">
                 <p>The flash flooding hit an area on the border of Nepal and Chinese-controlled Tibet. Around 341 foreign nationals were missing, including Americans, Nepalese authorities have said. China reported three dead but about 200 missing. The death toll rose as rescuers work to find survivors.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -85,7 +91,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">此次突发洪水袭击了尼泊尔与中国西藏自治区交界地区。尼泊尔当局表示，约有341名外籍人士失踪，其中包括美国人。中方报告称有3人死亡，约200人失踪。随着救援人员奋力搜救幸存者，死亡人数还在不断上升。</p>
+
             <div class="para-wrap">
                 <p>Some of the missing include: 133 Indians on a pilgrimage to Mount Kailash in Tibet; at least 90 Italians; nine South Koreans; four Russians; two Portuguese; one Ukrainian, and possibly a second with whom the foreign ministry has lost contact.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -93,7 +100,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">部分失踪人员包括：133名前往西藏冈仁波齐峰朝圣的印度人；至少90名意大利人；9名韩国人；4名俄罗斯人；2名葡萄牙人；1名乌克兰人，以及可能还有另一名与外交部失去联系的乌克兰人。</p>
+
             <div class="para-wrap">
                 <p>Videos posted on social media from surveillance cameras show massive waves of muddy water engulfing people as they run for their lives, along with cars, buses, bridges and buildings.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -101,7 +109,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">社交媒体上发布的监控录像显示，巨大的泥水浪潮吞噬了正在逃生的人们，连同汽车、公交车、桥梁和建筑物一并淹没。</p>
+
             <div class="para-wrap">
                 <p>The International Federation of Red Cross and Red Crescent Societies also said it will send $1.2 million in emergency funding to the Nepal Red Cross.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -109,7 +118,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">红十字会与红新月会国际联合会（IFRC）也表示，将向尼泊尔红十字会提供120万美元的紧急资金。</p>
+
             <div class="para-wrap">
                 <p>"The release of emergency funding means the Nepal Red Cross can act immediately while assessments continue," said David Fisher, the IFRC head of delegation for Nepal. "We are closely monitoring the situation and are ready to provide additional support if needs increase. We will not forget support for their long-term recovery either, since entire villages and market areas have been wiped out."<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -117,7 +127,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">“紧急资金的下拨意味着尼泊尔红十字会可以在灾情评估进行的同时立即采取行动，”IFRC驻尼泊尔代表团团长大卫·费希尔（David Fisher）说。“我们正在密切监测局势，并准备在需求增加时提供额外的支持。由于整个村庄和集市区域都被摧毁了，我们也不会忘记为他们的长期恢复提供支持。”</p>
+
             <div class="para-wrap">
                 <p>A post shared by IFRC (@ifrc)<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -125,7 +136,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">（IFRC @ifrc 分享的帖子）</p>
+
             <div class="para-wrap">
                 <p>The World Health Organization in Nepal said it sent emergency medical supplies to affected communities, including medicines and tents, CNN reported.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -133,7 +145,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">据美国有线电视新闻网（CNN）报道，世界卫生组织驻尼泊尔办事处表示，已向受灾社区发送了紧急医疗物资，包括药品和帐篷。</p>
+
             <div class="para-wrap">
                 <p>"My greatest respect and gratitude for the selfless first responders doing the search and rescue and providing care during this difficult time," WHO Director-General Dr. Tedros Adhanom Ghebreyesus posted on X.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -141,7 +154,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">世卫组织总干事谭德塞博士在X平台上发文称：“我对在这个困难时期进行搜救和提供护理的无私的急救人员表示最崇高的敬意和感谢。”</p>
+
             <div class="para-wrap">
                 <p>India plans to send about 22,000 pounds of humanitarian aid and medication to Nepal, India's External Affairs Minister Subrahmanyam Jaishankar said in a post on X.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -149,7 +163,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">印度外交部长苏杰生（Subrahmanyam Jaishankar）在X平台上发文称，印度计划向尼泊尔运送约2.2万磅的人道主义援助物资和药品。</p>
+
             <div class="para-wrap">
                 <p>"Our thoughts are with the bereaved families and all those affected," Jaishankar wrote. "In face of this challenge, India stands with Nepal and its people."<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -157,7 +172,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">“我们与痛失亲人的家庭以及所有受影响的人同在，”苏杰生写道。“面对这一挑战，印度与尼泊尔及其人民站在一起。”</p>
+
             <div class="para-wrap">
                 <p>The staff at four Nepali Police posts and customs officials at the Chinese border were missing, said Abi Narayan Kafle, a representative for the Nepal Police. Security forces led by the Nepali army said 114 people were flown to safety.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -165,7 +181,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">尼泊尔警察代表阿比·纳拉扬·卡夫莱（Abi Narayan Kafle）表示，四个尼泊尔警察哨所的工作人员和中国边境的海关官员失踪。由尼泊尔军队领导的安全部队称，已有114人被空运至安全地带。</p>
+
             <div class="para-wrap">
                 <p>The army mobilized 12 helicopters, created a temporary hospital in the flood zone and evacuated at least 25 seriously injured people to the capital Kathmandu.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -173,7 +190,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">军方出动了12架直升机，在洪灾区建立了一所临时医院，并将至少25名重伤员疏散至首都加德满都。</p>
+
             <div class="para-wrap">
                 <p>At least 19 automobile bridges and about 25 miles of roads were swept away. Mud is more than 5 feet deep in some places.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -181,7 +199,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">至少19座公路桥和约25英里的道路被冲毁。部分地区的淤泥深度超过5英尺。</p>
+
             <div class="para-wrap">
                 <p>Chinese President Xi Jinping ordered local authorities to "make every effort" to search for missing residents.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -189,7 +208,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">中国国家主席习近平指示地方当局“全力以赴”搜救失联人员。</p>
+
             <div class="para-wrap">
                 <p>The cause of the flash flood isn't clear, but Nepali Foreign Minister Shisir Khanal said the government had preliminary information that there was an avalanche Wednesday morning in the region. Scientists studying the disaster said their initial assessment was that an ice avalanche was triggered by a large chunk of ice that broke off from a glacier.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -197,7 +217,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">此次突发洪水的起因尚不清楚，但尼泊尔外交部长希希尔·卡纳尔（Shisir Khanal）表示，政府掌握的初步信息显示，该地区周三上午发生了一场雪崩。研究此次灾难的科学家们表示，他们的初步评估是，一大块冰从冰川上断裂引发了冰崩。</p>
+
             <div class="para-wrap">
                 <p>Other reports said there was an earthquake that triggered a landslide that blocked the river, causing the flash flooding.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -205,7 +226,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">其他报道称，发生了一场地地震引发了山体滑坡并堵塞了河道，从而导致了突发洪水。</p>
+
             <div class="para-wrap">
                 <p>The U.S. Geological Survey initially registered a 4.4-magnitude earthquake Wednesday morning, but later determined that the shaking was caused by the avalanche itself, adding that the landslide recorded a magnitude of 5.2.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -213,7 +235,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">美国地质调查局最初在周三上午记录到了一次4.4级的地震，但后来确定震动是由雪崩本身引起的，并补充说滑坡记录到的震级为5.2级。</p>
+
             <div class="para-wrap">
                 <p>"There was no rain in Nepal, so we were not expecting anything like this," said Narendra Pariyar, chief district officer of Rasuwa, one of the areas affected by the floods.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -221,7 +244,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">“尼泊尔没有下雨，所以我们没料到会发生这样的事，”受洪水影响的地区之一、拉苏瓦（Rasuwa）的首席地区官员纳伦德拉·帕里亚尔（Narendra Pariyar）说。</p>
+
             <div class="para-wrap">
                 <p>An Indian spiritual guru and entrepreneur known as Sadhguru, whose foundation organizes pilgrimage tours to Mount Kailash, said 77 of its tourists were at the immigration center of the Nepal-Tibet border when the flood hit, The New York Times reported.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -229,7 +253,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">据《纽约时报》报道，一位名为萨古鲁（Sadhguru）的印度精神大师和企业家（其基金会组织前往冈仁波齐峰的朝圣之旅）表示，洪水爆发时，该机构有77名游客正在尼泊尔-西藏边境的移民中心。</p>
+
             <div class="para-wrap">
                 <p>"There has been no official information on the whereabouts of any of the people who were at the immigration office," he wrote in a post on X. "We are working with the authorities to see if we can get to the location and stand ready to be part of the rescue efforts."<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -237,7 +262,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">他在X平台上发帖称：“目前还没有关于当时在移民局内任何人员下落的官方信息。我们正在与当局合作，看是否能前往该地点，并准备好随时参与救援工作。”</p>
+
             <div class="para-wrap">
                 <p>Chinese responders worked to clear roads in Gyirong county in Tibet to get to victims, a local military official told Chinese state broadcaster CCTV. Ongoing rain complicated that effort.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -245,7 +271,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">当地一名军方官员告诉中国中央电视台（CCTV），中国救援人员正努力清理西藏吉隆县的道路以接近受害者。持续的降雨使这项工作变得更加复杂。</p>
+
             <div class="para-wrap">
                 <p>"Right now, the various loaders and excavators are being used to clear a path," Chen Xi, of the Gyirong Border Defense Company of Tibet's Shigatse Military sub-command, told CCTV Wednesday evening. Chen noted some units were waiting at a command center due to the risk of more landslides.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -253,7 +280,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            
+            <p class="zh-para" title="点击查看中文翻译">“目前，正在使用各种装载机和挖掘机清理道路，”西藏日喀则军分区吉隆边防连的陈喜（音译）周三晚间告诉央视。他指出，由于存在更多山体滑坡的风险，一些部队正在指挥中心待命。</p>
+
             <div class="para-wrap">
                 <p>"The mountain slopes around us could collapse at any time, because the road runs along steep cliffs, and ... there may also be a risk of another mudslide," Chen said.<span class="anno-toggle"></span></p>
                 <div class="anno-box" style="display:none;">
@@ -261,7 +289,8 @@
                     <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
                 </div>
             </div>
-            <h2>Historic August moments through the years</h2>
+            <p class="zh-para" title="点击查看中文翻译">“我们周围的山坡随时可能坍塌，因为道路沿着陡峭的悬崖延伸，而且……也可能存在再次发生泥石流的风险，”陈说。</p>
+
         </div>
     </div>
     <script id="matrix-engine">
@@ -344,7 +373,18 @@
                 edit.setAttribute('data-old-val', rawText);
             });
         }
-        window.onload = initAnnotations;
+        
+        // 恢复：初始化中文段落的点击切换模糊状态
+        function initBlurToggle() {
+            document.querySelectorAll('.zh-para').forEach(para => {
+                para.onclick = () => para.classList.toggle('revealed');
+            });
+        }
+
+        window.onload = () => {
+            initAnnotations();
+            initBlurToggle();
+        };
 
         function reconstructSelfHTML() {
             const titleText = document.title;
@@ -363,7 +403,9 @@
                 } else if (node.tagName === 'H2' || node.tagName === 'H3') {
                     contentHTML += '\n            <' + node.tagName.toLowerCase() + '>' + node.innerHTML + '</' + node.tagName.toLowerCase() + '>';
                 } else if (node.tagName === 'P' && node.classList.contains('zh-para')) {
-                    contentHTML += '\n            <p class="zh-para">' + node.innerHTML + '</p>';
+                    // 保存时去掉了 .revealed class，确保下次打开依然是模糊的
+                    let cleanHTML = node.innerHTML;
+                    contentHTML += '\n            <p class="zh-para" title="点击查看中文翻译">' + cleanHTML + '</p>';
                 }
             });
 
@@ -436,6 +478,6 @@
                 };
             }
         }
-        </script>
+    </script>
 </body>
 </html>
