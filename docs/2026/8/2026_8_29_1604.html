@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footage of Tibet floods isn't being shown in China - and we know little about victims there</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root { --bg: #f8f9fa; --card: #ffffff; --text: #212529; --muted: #6c757d; --accent: #0066cc; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; font-size: 1.25rem; line-height: 1.8; color: var(--text); background: var(--bg); margin: 0; padding: 0; }
+        .container { max-width: 760px; margin: 0 auto; background: var(--card); padding: 50px 30px; min-height: 100vh; box-shadow: 0 1px 3px rgba(0,0,0,0.05); box-sizing: border-box; }
+        h1 { font-size: 2.1rem; font-weight: 700; margin-top: 0; margin-bottom: 20px; line-height: 1.3; color: #111; letter-spacing: -0.02em; }
+        h2 { font-size: 1.45rem; font-weight: 600; margin-top: 36px; margin-bottom: 16px; color: #111; letter-spacing: -0.01em; }
+        .meta { font-size: 0.88rem; color: var(--muted); margin-bottom: 35px; padding-bottom: 15px; border-bottom: 1px solid #e9ecef; display: flex; flex-wrap: nowrap; gap: 12px; align-items: center; white-space: nowrap; overflow-x: auto; scrollbar-width: none; }
+        .meta::-webkit-scrollbar { display: none; }
+        .meta span, .meta a { flex-shrink: 0; }
+        .meta a { color: var(--accent); text-decoration: none; background: #f0f7ff; padding: 5px 10px; border-radius: 6px; font-weight: 500; transition: background 0.2s; }
+        .meta a:hover { background: #e1efff; }
+
+        .sync-status { margin-left: auto; padding: 4px 12px; border-radius: 12px; font-size: 0.85rem; font-weight: bold; display: none; color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+
+        .content { font-size: 1.2rem; word-break: break-word; }
+        .para-wrap { margin-bottom: 24px; position: relative; }
+        .para-wrap p { margin-top: 0; margin-bottom: 0; color: #2b2b2b; }
+
+        /* 恢复中文段落模糊特效与交互 */
+        .zh-para { color: #000; margin-bottom: 24px; font-size: 1.15rem; line-height: 1.6; filter: blur(6px); opacity: 0.8; cursor: pointer; transition: all 0.3s ease; user-select: none; }
+        .zh-para:hover { opacity: 1; }
+        .zh-para.revealed { filter: blur(0); opacity: 1; user-select: auto; }
+
+        .anno-toggle { display: inline-flex; margin-left: 6px; cursor: pointer; opacity: 0.2; font-size: 0.8rem; vertical-align: middle; transition: all 0.2s; user-select: none; }
+        .anno-toggle:hover { opacity: 0.8; transform: scale(1.1); }
+        .anno-toggle.has-anno { opacity: 1; }
+        .anno-toggle::after { content: "🔴"; }
+
+        .anno-box { display: none; margin-top: 12px; background: #f8f6ff; border-left: 4px solid #8e7cc3; padding: 12px 16px; border-radius: 0 6px 6px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        .anno-view { font-size: 1.05rem; line-height: 1.6; color: #4a4a4a; min-height: 24px; }
+        .anno-edit { width: 100%; min-height: 120px; padding: 10px; font-family: monospace; font-size: 1rem; border: 1px dashed #8e7cc3; border-radius: 6px; box-sizing: border-box; resize: vertical; display: none; background: #fff; color: #333; outline: none; }
+        .anno-edit:focus { border: 1px solid #8e7cc3; box-shadow: 0 0 0 3px rgba(142,124,195,0.1); }
+
+        .markdown-body p { margin-top: 0; margin-bottom: 8px; }
+        .markdown-body p:last-child { margin-bottom: 0; }
+        .markdown-body p:empty { display: none; }
+        .markdown-body h1, .markdown-body h2, .markdown-body h3 { color: #8e7cc3; font-size: 1.15rem; margin: 10px 0 8px 0; border-bottom: 1px dashed #e0d8f0; padding-bottom: 4px; }
+        .markdown-body ul, .markdown-body ol { margin: 0 0 8px 0; padding-left: 20px; }
+        .markdown-body blockquote { margin: 0 0 10px 0; padding: 10px 15px; background: rgba(142,124,195,0.1); border-left: 4px solid #8e7cc3; color: #555; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Footage of Tibet floods isn't being shown in China - and we know little about victims there<br>西藏洪灾画面未在中国播出——我们对当地受害者知之甚少</h1>
+        <div class="meta">
+            <span>📅 2026-08-29 16:01</span>
+            <a href="https://www.bbc.com/news/articles/cx2z415w2gpo" target="_blank">🔗 阅读原文</a>
+            <a href="../../index.html">🔙 返回日历</a>
+            <span class="sync-status" id="sync-status">📡 同步中...</span>
+        </div>
+        <div class="content">
+            
+            <div class="para-wrap">
+                <p>The dramatic footage was almost impossible to miss. A torrent of water tearing through Gyirong Port, one of the main border crossings between Nepal and Tibet, sweeping away all in its path as hundreds of people fled for their lives.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">那些惊心动魄的画面几乎让人无法忽视。湍急的水流冲破了尼泊尔与西藏之间的主要边境口岸之一——吉隆口岸，冲走沿途的一切，数百人拼命逃生。</p>
+            
+            <div class="para-wrap">
+                <p>The scenes, captured by CCTV cameras, quickly spread on social media and onto screens around the world.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">这些由监控摄像头拍下的画面，迅速在社交媒体上和世界各地的屏幕上流传开来。</p>
+            
+            <div class="para-wrap">
+                <p>Except here, in China.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">除了这里，在中国。</p>
+            
+            <div class="para-wrap">
+                <p>Only a single still-frame shot has been broadcast so far by the country's state-run flagship news bulletin.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">迄今为止，该国的官方旗舰新闻栏目只播出了一张静态定格画面。</p>
+            
+            <div class="para-wrap">
+                <p>It has also been difficult to find the video on China's heavily censored internet. It is just as hard to even find posts describing the flash flooding that has claimed hundreds of lives, with just as many still unaccounted for since Wednesday.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">在中国受到严格审查的互联网上，也很难找到这段视频。甚至连描述这场突发洪水的帖子都很难找到；自周三以来，这场洪水已夺去数百人的生命，还有同样多的人下落不明。</p>
+            
+            <div class="para-wrap">
+                <p>Beijing has launched a massive rescue operation involving hundreds of emergency workers, which is continuing, and President Xi Jinping chaired an emergency meeting with officials to co-ordinate efforts.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">北京方面发起了一场涉及数百名急救人员的大规模救援行动，目前仍在继续，国家主席习近平主持了与官员的紧急会议以协调救援工作。</p>
+            
+            <div class="para-wrap">
+                <p>But when you compare the country's internet content to what much of the world has been seeing online these past few days, China's firewall becomes more visible than ever.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">但如果将该国的互联网内容与过去几天世界大部分地区在网上看到的内容进行比较，中国的防火墙就变得比以往任何时候都更加明显。</p>
+            
+            <div class="para-wrap">
+                <p>Tibet, which Beijing annexed in the 1950s, had long resisted rule by the Chinese Communist Party.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">在20世纪50年代被北京吞并的西藏，长期以来一直抵制中国共产党的统治。</p>
+            
+            <div class="para-wrap">
+                <p>China has quashed protests over the years, sometimes violently, and has been accused of grave rights violations in the Buddhist region. It has labelled the exiled spiritual leader, the Dalai Lama, a separatist.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">多年来，中国镇压了多起抗议活动，有时甚至是暴力的，并被指控在这一佛教地区严重侵犯人权。它还将流亡的精神领袖达赖喇嘛贴上了分裂分子的标签。</p>
+            
+            <div class="para-wrap">
+                <p>That history means the very name Tibet draws China's censors. Beijing's sensitivities are especially apparent at times likes this.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">这段历史意味着“西藏”这个名字本身就会引来中国的审查机构。北京的敏感在这样的时候表现得尤为明显。</p>
+            
+            <div class="para-wrap">
+                <p>There have been daily updates on the missing and the dead, and Beijing has also been posting updates on the rescue operations, as well as the dangers posed by a barrier lake that has been at risk of overflowing.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">官方每天都会更新失踪和死亡人数，北京方面也一直在发布救援行动的最新进展，以及一个面临溢出风险的堰塞湖所带来的危险。</p>
+            
+            <div class="para-wrap">
+                <p>On Saturday, new footage from Chinese state media showed rescue teams wandering in a wasteland of mud and rock while calling out to anyone trapped.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">周六，中国官方媒体播出的新画面显示，救援队伍在泥石流废墟中跋涉，同时向任何被困者呼喊。</p>
+            
+            <div class="para-wrap">
+                <p>But there is little detail beyond that. There are no accounts from survivors in Tibet, and almost no user-generated footage showing the deadly moments or their aftermath.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">但除此之外鲜有细节。没有来自西藏幸存者的描述，也几乎没有用户生成的视频展示那致命的时刻或其后果。</p>
+            
+            <div class="para-wrap">
+                <p>We are yet to hear from anxious families of those missing. Trying to contact people there is near-impossible during regular times.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">我们还没有听到失踪者焦急家属的声音。即使在平时，想要联系那里的人也几乎是不可能的。</p>
+            
+            <div class="para-wrap">
+                <p>As a journalist who has covered North Korea, it has often been easier for me to contact interviewees in Pyongyang than it is in the Tibetan capital, Lhasa.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">作为一个报道过朝鲜的记者，我通常觉得联系平壤的采访对象比联系西藏首府拉萨的还要容易。</p>
+            
+            <div class="para-wrap">
+                <p>On Thursday night, as global headlines led on the devastation in a Himalayan valley, China's state broadcaster opened its main bulletin with the launch of Xi's new book, a selection of his "most important and fundamental works".<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">周四晚上，当全球头条新闻都在报道喜马拉雅山谷的这场灾难时，中国国家电视台的主要新闻节目却以习近平新书的发布开场，这是一部他“最重要和最基础的著作”的选集。</p>
+            
+            <div class="para-wrap">
+                <p>Foreign journalists cannot travel to Tibet without government permission. We have just a few hours to get as much information as we can on huge stories like this before videos are scrubbed and voices stifled.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">没有政府的许可，外国记者不能前往西藏。在像这样的重大新闻事件中，我们只有几个小时的时间尽可能多地获取信息，随后视频就会被清除，声音也会被压制。</p>
+            
+            <div class="para-wrap">
+                <p>Instead, we have to rely on state media, which has so far focused on incredibly dramatic rescue efforts.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">相反，我们不得不依赖官方媒体，而迄今为止，官媒主要聚焦于极具戏剧性的救援行动。</p>
+            
+            <div class="para-wrap">
+                <p>Specialist search teams scaling mountains and cliff faces, or crossing raging rivers to try to get to the worst-affected areas. We don't yet know what happened afterwards, or who they were able to save.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">专业的搜救队伍攀登高山和悬崖，或者横渡波涛汹涌的河流，试图到达受灾最严重的地区。我们目前还不知道之后发生了什么，或者他们能够救出谁。</p>
+            
+            <div class="para-wrap">
+                <p>This is not to say that Beijing is unconcerned. Rather, they are very concerned.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">这并不是说北京不关心。相反，他们非常关心。</p>
+            
+            <div class="para-wrap">
+                <p>China's Premier Li Qiang was quickly despatched to the region, where he was seen inspecting debris removal - a rare visit by the country's second-most important leader so soon after a major disaster.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">中国国务院总理李强很快被派往该地区，人们看到他在视察残骸清理工作——在该国第二号领导人身上，在重大灾难发生后如此迅速的访问实属罕见。</p>
+            
+            <div class="para-wrap">
+                <p>The reason for what the world might see as a muted response is to preserve the one thing Xi covets for his country: stability.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">外界可能认为这种反应过于低调，其原因是为了维护习近平为他的国家所渴求的一样东西：稳定。</p>
+            
+            <div class="para-wrap">
+                <p>The Communist Party will fear that such a disaster could fuel discontent, either with the response or the lack of foresight to prevent it.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">共产党会担心，这样一场灾难可能会引发不满情绪，无论是对救援反应的不满，还是对缺乏预防远见的不满。</p>
+            
+            <div class="para-wrap">
+                <p>It may also fear the impact of a tragedy like this and its potential to be a rallying factor, especially in a community where faith has long played a central role.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">它可能还担心此类悲剧的影响及其成为聚集因素的潜力，特别是在一个信仰长期发挥核心作用的社区中。</p>
+            
+            <div class="para-wrap">
+                <p>Although the region has not seen protests in a long time, Tibetan groups abroad have expressed concern over increasing Chinese control, such as new education laws that they say aim to weaken the role of monasteries and the Buddhist faith.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">尽管该地区很长一段时间没有发生抗议活动，但海外藏人团体对中国日益加强的控制表示担忧，例如他们认为旨在削弱寺庙和佛教信仰作用的新教育法。</p>
+            
+            <div class="para-wrap">
+                <p>Just hours after the disaster struck, the Communist Party machine tried to rally its grassroots to stem any signs of discontent of its handling of the landslide.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">就在灾难发生几小时后，共产党机器试图召集其基层人员，以遏制对其处理山体滑坡方式不满的任何迹象。</p>
+            
+            <div class="para-wrap">
+                <p>A notice came from the local party office urging members to step up and help in disaster relief efforts in their area and provide emotional guidance or psychological support to affected residents.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">当地党委办公室发布通知，敦促党员挺身而出，帮助当地的救灾工作，并为受灾居民提供情感引导或心理支持。</p>
+            
+            <div class="para-wrap">
+                <p>The key line instructs them to "make every effort to maintain social order and ensure stability and public confidence in the disaster areas". Those who perform well would be rewarded - and those who do badly "would be held accountable".<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">关键的指示要求他们“全力以赴维护社会秩序，确保灾区稳定和公众信心”。表现好的人将获得奖励——而表现差的人“将被追究责任”。</p>
+            
+            <div class="para-wrap">
+                <p>It is a warning that will not be taken lightly. Tibetans in the region can be detained or arrested for speaking to journalists or posting anything online that is seen as contrary to the government narrative, according to rights activists.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">这是一个不会被轻视的警告。据维权人士称，该地区的藏人如果向记者发表讲话，或在网上发布任何被视为与政府叙事相悖的内容，都有可能遭到拘留或逮捕。</p>
+            
+            <div class="para-wrap">
+                <p>That is making it difficult for Tibetans outside the region to find out what has happened to their relatives.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">这使得该地区以外的藏人很难查明他们的亲人遭遇了什么。</p>
+            
+            <div class="para-wrap">
+                <p>The International Campaign for Tibet, while praising the work of first responders in the area, said Beijing had been removing videos and other first-hand information from social media. It called on Chinese authorities to "disclose complete and verifiable information about the damage and casualties".<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">国际声援西藏运动（International Campaign for Tibet）在赞扬当地急救人员工作的同时表示，北京方面一直在从社交媒体上删除视频和其他第一手信息。它呼吁中国当局“披露关于破坏和伤亡的完整且可核实的信息”。</p>
+            
+            <div class="para-wrap">
+                <p>To try to understand what life is like for Tibetans, the BBC travelled to a town that sits on the edge of the Himalayan plateau last year - just outside what China calls the Tibetan Autonomous region.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">为了试图了解藏人的生活状况，BBC去年走访了位于喜马拉雅高原边缘的一个小镇——就在中国所谓的西藏自治区边界之外。</p>
+            
+            <div class="para-wrap">
+                <p>There, we spoke to monks at the Kirti monastery in Aba, or Ngaba in Tibetan, which was once at the heart of its resistance to Beijing. "We Tibetans are denied basic human rights," one monk told us.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">在那里，我们与阿坝（藏语称Ngaba）格尔登寺的僧侣进行了交谈，该寺曾是抵抗北京的核心地带。“我们藏人被剥夺了基本人权，”一位僧人告诉我们。</p>
+            
+            <div class="para-wrap">
+                <p>They said they lived under constant surveillance and claimed the Chinese government oppressed and persecuted Tibetans. The conversations were brief because we could not be seen speaking to anyone for long.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">他们说自己生活在持续的监视之下，并声称中国政府压迫和迫害藏人。由于我们不能被看到与任何人交谈太久，因此谈话很简短。</p>
+            
+            <div class="para-wrap">
+                <p>Beijing denies it is violating Tibetans' rights, and points to the heavy investments it has made in the region to boost tourism and integrate it with the rest of the country.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">北京否认侵犯了藏人的权利，并指出其在该地区进行了大量投资，以促进旅游业并将其与全国其他地区融合。</p>
+            
+            <div class="para-wrap">
+                <p>Nevertheless, people in China will not know very much about what is happening in Tibet right now.<span class="anno-toggle"></span></p>
+                <div class="anno-box" style="display:none;">
+                    <div class="anno-view markdown-body"></div>
+                    <textarea class="anno-edit" style="display:none;" placeholder="输入 Markdown 批注..."></textarea>
+                </div>
+            </div>
+            <p class="zh-para" title="点击查看中文翻译">尽管如此，中国民众对西藏目前发生的事情仍然知之甚少。</p>
+            
+        </div>
+    </div>
+    <script id="matrix-engine">
+        const GH_OWNER = localStorage.getItem('GH_OWNER') || "moodHappy";
+        const GH_REPO = "bbc-news-archive";
+
+        function toBase64(str) {
+            const bytes = new TextEncoder().encode(str);
+            let bin = '';
+            const chunkSize = 0x8000;
+            for (let i = 0; i < bytes.length; i += chunkSize) {
+                bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
+            }
+            return btoa(bin);
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        let syncTimeout = null;
+        function scheduleSync() {
+            const statusMsg = document.getElementById('sync-status');
+            statusMsg.style.display = 'inline-block';
+            statusMsg.style.backgroundColor = '#f39c12';
+            statusMsg.innerText = '⏳ 更改已记录，5秒后自动同步...';
+            statusMsg.style.cursor = 'default';
+            statusMsg.onclick = null;
+
+            if (syncTimeout) clearTimeout(syncTimeout);
+            syncTimeout = setTimeout(() => { syncToGitHub(); }, 5000);
+        }
+
+        function initAnnotations() {
+            document.querySelectorAll('.para-wrap').forEach(wrap => {
+                const view = wrap.querySelector('.anno-view');
+                const edit = wrap.querySelector('.anno-edit');
+                const toggle = wrap.querySelector('.anno-toggle');
+                const box = wrap.querySelector('.anno-box');
+
+                if(!edit || !toggle) return;
+
+                const rawText = edit.value.trim();
+                if (rawText) {
+                    toggle.classList.add('has-anno');
+                    if (typeof marked !== 'undefined') { view.innerHTML = marked.parse(rawText); }
+                }
+
+                toggle.onclick = () => {
+                    if (box.style.display === 'block') {
+                        box.style.display = 'none'; wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        box.style.display = 'block';
+                        if (!edit.value.trim()) { view.style.display = 'none'; edit.style.display = 'block'; edit.focus(); }
+                        else { view.style.display = 'block'; edit.style.display = 'none'; }
+                    }
+                };
+
+                const triggerEdit = () => { view.style.display = 'none'; edit.style.display = 'block'; edit.value = edit.value; edit.focus(); };
+                view.addEventListener('dblclick', () => { box.style.display = 'none'; wrap.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+
+                let lastTap = 0;
+                view.addEventListener('touchstart', e => {
+                    if (e.touches.length === 2) { triggerEdit(); }
+                    else if (e.touches.length === 1) {
+                        const currentTime = new Date().getTime(), tapLength = currentTime - lastTap;
+                        if (tapLength < 500 && tapLength > 0) { box.style.display = 'none'; wrap.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+                        lastTap = currentTime;
+                    }
+                }, {passive: true});
+
+                edit.onblur = async () => {
+                    const newVal = edit.value.trim();
+                    try { view.innerHTML = newVal ? marked.parse(newVal) : ''; } catch(e){}
+                    edit.style.display = 'none';
+                    if (newVal) { view.style.display = 'block'; toggle.classList.add('has-anno'); }
+                    else { view.style.display = 'none'; box.style.display = 'none'; toggle.classList.remove('has-anno'); }
+                    if (edit.getAttribute('data-old-val') !== newVal) { edit.setAttribute('data-old-val', newVal); scheduleSync(); }
+                };
+                edit.setAttribute('data-old-val', rawText);
+            });
+        }
+        
+        // 恢复：初始化中文段落的点击切换模糊状态
+        function initBlurToggle() {
+            document.querySelectorAll('.zh-para').forEach(para => {
+                para.onclick = () => para.classList.toggle('revealed');
+            });
+        }
+
+        window.onload = () => {
+            initAnnotations();
+            initBlurToggle();
+        };
+
+        function reconstructSelfHTML() {
+            const titleText = document.title;
+            const h1HTML = document.querySelector('h1').innerHTML;
+            const metaStr = document.querySelector('.meta').innerHTML.replace(/<span class="sync-status".*?<\/span>/, '<span class="sync-status" id="sync-status">📡 同步中...</span>');
+
+            let contentHTML = '';
+            document.querySelectorAll('.content > *').forEach(node => {
+                if (node.classList.contains('para-wrap')) {
+                    const pNode = node.querySelector('p').cloneNode(true);
+                    const toggle = pNode.querySelector('.anno-toggle');
+                    if (toggle) toggle.remove();
+                    const rawMarkdown = node.querySelector('.anno-edit').value || '';
+                    const safeMarkdown = escapeHTML(rawMarkdown);
+                    contentHTML += '\n            <div class="para-wrap">\n                <p>' + pNode.innerHTML + '<span class="anno-toggle"></span></p>\n                <div class="anno-box" style="display:none;">\n                    <div class="anno-view markdown-body"></div>\n                    <textarea class="anno-edit" style="display:none;">' + safeMarkdown + '</textarea>\n                </div>\n            </div>';
+                } else if (node.tagName === 'H2' || node.tagName === 'H3') {
+                    contentHTML += '\n            <' + node.tagName.toLowerCase() + '>' + node.innerHTML + '</' + node.tagName.toLowerCase() + '>';
+                } else if (node.tagName === 'P' && node.classList.contains('zh-para')) {
+                    // 保存时去掉了 .revealed class，确保下次打开依然是模糊的
+                    let cleanHTML = node.innerHTML;
+                    contentHTML += '\n            <p class="zh-para" title="点击查看中文翻译">' + cleanHTML + '</p>';
+                }
+            });
+
+            const styleBlock = document.querySelector('style').textContent;
+            const scriptBlock = document.getElementById('matrix-engine').textContent;
+
+            return '<!DOCTYPE html>\n<html lang="zh-CN">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>' + titleText + '</title>\n    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"><\/script>\n    <style>' + styleBlock + '</style>\n</head>\n<body>\n    <div class="container">\n        <h1>' + h1HTML + '</h1>\n        <div class="meta">\n            ' + metaStr + '\n        </div>\n        <div class="content">' + contentHTML + '\n        </div>\n    </div>\n    <script id="matrix-engine">' + scriptBlock + '<\/script>\n</body>\n</html>';
+        }
+
+        async function syncToGitHub() {
+            const token = localStorage.getItem('GH_TOKEN') || localStorage.getItem('EXT_GH_TOKEN') || localStorage.getItem('NYT_GH_TOKEN');
+
+            if(!token) {
+                alert('缺少 GitHub Token，无法同步批注！\n\n👉 请返回【日历中心首页】，点击右上角 ⚙️ 齿轮图标重新配置 Token。');
+                return;
+            }
+
+            const statusMsg = document.getElementById('sync-status');
+            statusMsg.style.display = 'inline-block';
+            statusMsg.style.backgroundColor = '#2ea44f';
+            statusMsg.innerText = '📡 同步中...';
+
+            const pureHtml = reconstructSelfHTML();
+            const path = window.location.pathname;
+            const fileRelPath = path.substring(path.indexOf('docs/'));
+
+            try {
+                const base64Html = toBase64(pureHtml);
+                const apiUrl = 'https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + fileRelPath;
+
+                const getRes = await fetch(apiUrl + '?t=' + Date.now(), {
+                    headers: { 'Authorization': 'token ' + token },
+                    cache: 'no-store'
+                });
+
+                if (!getRes.ok) throw new Error('API Rate limit or File not found');
+                const fileData = await getRes.json();
+
+                const putRes = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': 'token ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: 'Auto-save annotation',
+                        content: base64Html,
+                        sha: fileData.sha
+                    })
+                });
+
+                if(putRes.ok) {
+                    statusMsg.style.backgroundColor = '#2ea44f';
+                    statusMsg.innerText = '✅ 云端已同步';
+                    setTimeout(() => {
+                        if (statusMsg.innerText === '✅ 云端已同步') statusMsg.style.display = 'none';
+                    }, 3000);
+                } else {
+                    throw new Error('Put failed');
+                }
+            } catch(e) {
+                console.error(e);
+                statusMsg.style.backgroundColor = '#e74c3c';
+                statusMsg.innerText = '❌ 同步失败 (点击重试)';
+                statusMsg.style.cursor = 'pointer';
+                statusMsg.onclick = () => {
+                    statusMsg.onclick = null;
+                    statusMsg.style.cursor = 'default';
+                    syncToGitHub();
+                };
+            }
+        }
+    </script>
+</body>
+</html>
